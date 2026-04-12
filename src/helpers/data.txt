@@ -1,0 +1,12 @@
+PORT=3000
+DATABASE_URL="postgresql://postgres:123456@localhost:5432/mydb?schema=public"
+jwt_secret="abcdefg"
+refresh_token_secret='abcdefgh'
+expires_in="50d"
+refresh_token_expires_in="30d"
+reset_pass_token="1244jkkkkkk"
+reset_pass_token_expires_in="5m"
+RESET_PASS_LINK='http://localhost:3000/reset-pass'
+EMAIL="rahatchowdhury661@gmail.com"
+APP_PASSWORD="wwje cqlb bwam fpuh"
+CLOUDINARY_API_SECRET='YBC7g1ISjyateAnTE3XtYEY4xXk'
