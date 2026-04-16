@@ -2,11 +2,9 @@ import express from "express";
 import { userRoutes } from "../modules/User/user.routes";
 import { adminRoutes } from "../modules/admin/admin.routes";
 import { authRoutes } from "../modules/auth/auth.routes";
-import { specialtiesRoutes } from "../modules/specialities/specialities.route";
-import { DoctorRoutes } from "../modules/Doctor/doctor.routes";
-import { PatientRoutes } from "../../patient/patient.routes";
-import { ScheduleRoutes } from "../modules/schedule/schedule.routes";
-import { DoctorScheduleRoutes } from "../modules/doctorSchedule/doctorSchedule.route";
+import { ManagerRoutes } from "../modules/manager/manager.routes";
+import { buyerRoutes } from "../modules/buyer/buyer.routes";
+
 
 const router = express.Router();
 
@@ -24,25 +22,13 @@ const moduleRouter = [
     route: authRoutes,
   },
   {
-    path: "/specialties",
-    route: specialtiesRoutes,
+    path: "/manager",
+    route: ManagerRoutes,
   },
   {
-    path: "/doctor",
-    route: DoctorRoutes,
-  },
-  {
-    path: "/patient",
-    route: PatientRoutes,
-  },
-  {
-    path: "/schedule",
-    route: ScheduleRoutes,
-  },
-   {
-    path: "/doctor-schedule",
-    route: DoctorScheduleRoutes,
-  },
+    path: "/buyer",
+    route: buyerRoutes,
+  }
 ];
  
 

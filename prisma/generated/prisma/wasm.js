@@ -115,93 +115,27 @@ exports.Prisma.AdminScalarFieldEnum = {
   email: 'email'
 };
 
-exports.Prisma.DoctorScalarFieldEnum = {
+exports.Prisma.BuyerScalarFieldEnum = {
   id: 'id',
   name: 'name',
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
   address: 'address',
-  registrationNumber: 'registrationNumber',
-  experience: 'experience',
-  gender: 'gender',
-  appointmentFee: 'appointmentFee',
-  qualification: 'qualification',
-  currentWorkPlace: 'currentWorkPlace',
-  designation: 'designation',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   email: 'email'
 };
 
-exports.Prisma.PatientScalarFieldEnum = {
+exports.Prisma.ManagerScalarFieldEnum = {
   id: 'id',
-  email: 'email',
   name: 'name',
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
-  address: 'address',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SpecialtiesScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  icon: 'icon'
-};
-
-exports.Prisma.DoctorSpecialtiesScalarFieldEnum = {
-  specialtiesId: 'specialtiesId',
-  doctorId: 'doctorId'
-};
-
-exports.Prisma.PatientHealthDataScalarFieldEnum = {
-  id: 'id',
-  patientId: 'patientId',
-  gender: 'gender',
-  dateOfBirth: 'dateOfBirth',
-  bloodGroup: 'bloodGroup',
-  hasAllergies: 'hasAllergies',
-  hasDiabetes: 'hasDiabetes',
-  height: 'height',
-  weight: 'weight',
-  smokingStatus: 'smokingStatus',
-  dietaryPreferences: 'dietaryPreferences',
-  pregnancyStatus: 'pregnancyStatus',
-  mentalHealthHistory: 'mentalHealthHistory',
-  immunizationStatus: 'immunizationStatus',
-  hasPastSurgeries: 'hasPastSurgeries',
-  recentAnxiety: 'recentAnxiety',
-  recentDepression: 'recentDepression',
-  maritalStatus: 'maritalStatus',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.MedicalReportScalarFieldEnum = {
-  id: 'id',
-  patientId: 'patientId',
-  reportName: 'reportName',
-  reportLink: 'reportLink',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ScheduleScalarFieldEnum = {
-  id: 'id',
-  startDateTime: 'startDateTime',
-  endDateTime: 'endDateTime',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.DoctorSchedulesScalarFieldEnum = {
-  doctorId: 'doctorId',
-  scheduleId: 'scheduleId',
-  isBooked: 'isBooked',
-  appointmentId: 'appointmentId'
+  updatedAt: 'updatedAt',
+  email: 'email'
 };
 
 exports.Prisma.SortOrder = {
@@ -219,17 +153,10 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.UserRole = exports.$Enums.UserRole = {
-  ADMIN: 'ADMIN',
   SUPER_ADMIN: 'SUPER_ADMIN',
-  DOCTOR: 'DOCTOR',
-  NURSE: 'NURSE',
-  RECEPTIONIST: 'RECEPTIONIST',
-  PATIENT: 'PATIENT'
-};
-
-exports.Gender = exports.$Enums.Gender = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE'
+  ADMIN: 'ADMIN',
+  BUYER: 'BUYER',
+  MANAGER: 'MANAGER'
 };
 
 exports.UserStatus = exports.$Enums.UserStatus = {
@@ -238,33 +165,11 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   DELETED: 'DELETED'
 };
 
-exports.BloodGroup = exports.$Enums.BloodGroup = {
-  A_POSITIVE: 'A_POSITIVE',
-  B_POSITIVE: 'B_POSITIVE',
-  O_POSITIVE: 'O_POSITIVE',
-  AB_POSITIVE: 'AB_POSITIVE',
-  A_NEGATIVE: 'A_NEGATIVE',
-  B_NEGATIVE: 'B_NEGATIVE',
-  O_NEGATIVE: 'O_NEGATIVE',
-  AB_NEGATIVE: 'AB_NEGATIVE'
-};
-
-exports.MaritalStatus = exports.$Enums.MaritalStatus = {
-  MARRIED: 'MARRIED',
-  UNMARRIED: 'UNMARRIED'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   Admin: 'Admin',
-  Doctor: 'Doctor',
-  Patient: 'Patient',
-  Specialties: 'Specialties',
-  doctorSpecialties: 'doctorSpecialties',
-  PatientHealthData: 'PatientHealthData',
-  MedicalReport: 'MedicalReport',
-  Schedule: 'Schedule',
-  DoctorSchedules: 'DoctorSchedules'
+  Buyer: 'Buyer',
+  Manager: 'Manager'
 };
 /**
  * Create the Client
@@ -277,7 +182,7 @@ const config = {
       "value": "prisma-client-js"
     },
     "output": {
-      "value": "C:\\Codeeeee\\coding\\health-maagement\\prisma\\generated\\prisma",
+      "value": "C:\\Codeeeee\\techNTrove\\techNTroveBackend\\prisma\\generated\\prisma",
       "fromEnvVar": null
     },
     "config": {
@@ -288,10 +193,14 @@ const config = {
         "fromEnvVar": null,
         "value": "windows",
         "native": true
+      },
+      {
+        "fromEnvVar": null,
+        "value": "debian-openssl-3.0.x"
       }
     ],
     "previewFeatures": [],
-    "sourceFilePath": "C:\\Codeeeee\\coding\\health-maagement\\prisma\\schema.prisma",
+    "sourceFilePath": "C:\\Codeeeee\\techNTrove\\techNTroveBackend\\prisma\\schema.prisma",
     "isCustomOutput": true
   },
   "relativeEnvPaths": {
@@ -305,6 +214,7 @@ const config = {
     "db"
   ],
   "activeProvider": "postgresql",
+  "postinstall": false,
   "inlineDatasources": {
     "db": {
       "url": {
@@ -313,13 +223,13 @@ const config = {
       }
     }
   },
-  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider = \"prisma-client-js\"\n  output   = \"./generated/prisma\"\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 String     @id @default(uuid())\n  email              String     @unique\n  password           String\n  role               UserRole\n  needPasswordChange Boolean    @default(true)\n  status             UserStatus @default(ACTIVE)\n  createdAt          DateTime   @default(now())\n  updatedAt          DateTime   @updatedAt\n  admin              Admin?\n  doctor             Doctor?\n  patient            Patient?\n}\n\nmodel Admin {\n  id            String   @id @default(uuid())\n  name          String\n  profilePhoto  String?\n  contactNumber String\n  isDeleted     Boolean  @default(false)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n  email         String   @unique\n  user          User     @relation(fields: [email], references: [email])\n}\n\nmodel Doctor {\n  id                 String              @id @default(uuid())\n  name               String\n  profilePhoto       String?\n  contactNumber      String\n  address            String?\n  registrationNumber String\n  experience         Int                 @default(0)\n  gender             Gender\n  appointmentFee     Int\n  qualification      String\n  currentWorkPlace   String\n  designation        String\n  isDeleted          Boolean             @default(false)\n  createdAt          DateTime            @default(now())\n  updatedAt          DateTime            @updatedAt\n  email              String              @unique\n  user               User                @relation(fields: [email], references: [email])\n  doctorSpecialties  doctorSpecialties[]\n  doctorSchedules    DoctorSchedules[]\n\n  @@map(\"doctors\")\n}\n\nmodel Patient {\n  id                String             @id @unique @default(uuid())\n  email             String             @unique\n  name              String\n  profilePhoto      String?\n  contactNumber     String?\n  address           String?\n  isDeleted         Boolean            @default(false)\n  createdAt         DateTime           @default(now())\n  updatedAt         DateTime           @updatedAt\n  patientHealthData PatientHealthData?\n  medicalReports    MedicalReport[]\n\n  user User @relation(references: [email], fields: [email])\n}\n\nmodel Specialties {\n  id                String              @id @default(uuid())\n  title             String              @unique\n  icon              String\n  doctorSpecialties doctorSpecialties[]\n\n  @@map(\"specialties\")\n}\n\nmodel doctorSpecialties {\n  specialtiesId String\n  specialties   Specialties @relation(fields: [specialtiesId], references: [id])\n  doctorId      String\n  doctor        Doctor      @relation(fields: [doctorId], references: [id])\n\n  @@id([specialtiesId, doctorId])\n  @@map(\"doctor_specialties\")\n}\n\nenum UserRole {\n  ADMIN\n  SUPER_ADMIN\n  DOCTOR\n  NURSE\n  RECEPTIONIST\n  PATIENT\n}\n\nenum Gender {\n  MALE\n  FEMALE\n}\n\nenum UserStatus {\n  ACTIVE\n  BLOCKED\n  DELETED\n}\n\nmodel PatientHealthData {\n  id                  String        @id @default(uuid())\n  patientId           String        @unique\n  patient             Patient       @relation(fields: [patientId], references: [id])\n  gender              Gender\n  dateOfBirth         String\n  bloodGroup          BloodGroup\n  hasAllergies        Boolean?      @default(false)\n  hasDiabetes         Boolean?      @default(false)\n  height              String\n  weight              String\n  smokingStatus       Boolean?      @default(false)\n  dietaryPreferences  String?\n  pregnancyStatus     Boolean?      @default(false)\n  mentalHealthHistory String?\n  immunizationStatus  String?\n  hasPastSurgeries    Boolean?      @default(false)\n  recentAnxiety       Boolean?      @default(false)\n  recentDepression    Boolean?      @default(false)\n  maritalStatus       MaritalStatus @default(UNMARRIED)\n  createdAt           DateTime      @default(now())\n  updatedAt           DateTime      @updatedAt\n\n  @@map(\"patient_health_datas\")\n}\n\n// enum Gender {\n//   MALE\n//   FEMALE\n// }\nmodel MedicalReport {\n  id         String   @id @default(uuid())\n  patientId  String\n  patient    Patient  @relation(fields: [patientId], references: [id])\n  reportName String\n  reportLink String\n  createdAt  DateTime @default(now())\n  updatedAt  DateTime @updatedAt\n\n  @@map(\"madical_reports\")\n}\n\nenum BloodGroup {\n  A_POSITIVE\n  B_POSITIVE\n  O_POSITIVE\n  AB_POSITIVE\n  A_NEGATIVE\n  B_NEGATIVE\n  O_NEGATIVE\n  AB_NEGATIVE\n}\n\nenum MaritalStatus {\n  MARRIED\n  UNMARRIED\n}\n\nmodel Schedule {\n  id              String            @id @default(uuid())\n  startDateTime   DateTime\n  endDateTime     DateTime\n  createdAt       DateTime          @default(now())\n  updatedAt       DateTime          @updatedAt\n  doctorSchedules DoctorSchedules[]\n\n  @@map(\"schedules\")\n}\n\nmodel DoctorSchedules {\n  doctorId      String\n  doctor        Doctor   @relation(fields: [doctorId], references: [id])\n  scheduleId    String\n  schedule      Schedule @relation(fields: [scheduleId], references: [id])\n  isBooked      Boolean  @default(false)\n  appointmentId String?  @unique\n\n  @@id([doctorId, scheduleId])\n  @@map(\"doctor_schedules\")\n}\n",
-  "inlineSchemaHash": "8269f7c119dc100d49edf403c9e7bd0572ba0c6ab0cf722ff6489f1cfbb3ae6b",
+  "inlineSchema": "// This is your Prisma schema file,\n// learn more about it in the docs: https://pris.ly/d/prisma-schema\n\n// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?\n// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init\n\ngenerator client {\n  provider      = \"prisma-client-js\"\n  output        = \"./generated/prisma\"\n  binaryTargets = [\"native\", \"debian-openssl-3.0.x\"]\n}\n\ndatasource db {\n  provider = \"postgresql\"\n  url      = env(\"DATABASE_URL\")\n}\n\nmodel User {\n  id                 String     @id @default(uuid())\n  email              String     @unique\n  password           String\n  role               UserRole\n  needPasswordChange Boolean    @default(true)\n  status             UserStatus @default(ACTIVE)\n  createdAt          DateTime   @default(now())\n  updatedAt          DateTime   @updatedAt\n  admin              Admin?\n  buyer              Buyer?\n  manager            Manager?\n\n  @@map(\"users\")\n}\n\nmodel Admin {\n  id            String   @id @default(uuid())\n  name          String\n  profilePhoto  String?\n  contactNumber String\n  isDeleted     Boolean  @default(false)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n  email         String   @unique\n  user          User     @relation(fields: [email], references: [email])\n\n  @@map(\"admins\")\n}\n\nmodel Buyer {\n  id            String   @id @default(uuid())\n  name          String\n  profilePhoto  String?\n  contactNumber String\n  address       String?\n  isDeleted     Boolean  @default(false)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n  email         String   @unique\n  user          User     @relation(fields: [email], references: [email])\n\n  @@map(\"buyers\")\n}\n\nmodel Manager {\n  id            String   @id @default(uuid())\n  name          String\n  profilePhoto  String?\n  contactNumber String\n  isDeleted     Boolean  @default(false)\n  createdAt     DateTime @default(now())\n  updatedAt     DateTime @updatedAt\n  email         String   @unique\n  user          User     @relation(fields: [email], references: [email])\n\n  @@map(\"managers\")\n}\n\nenum UserRole {\n  SUPER_ADMIN\n  ADMIN\n  BUYER\n  MANAGER\n}\n\nenum UserStatus {\n  ACTIVE\n  BLOCKED\n  DELETED\n}\n",
+  "inlineSchemaHash": "af5e0b013d44b77d2cef9936cc763b7424767a1f1184643efc8625c17012e482",
   "copyEngine": true
 }
 config.dirname = '/'
 
-config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"needPasswordChange\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"UserStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"Admin\",\"relationName\":\"AdminToUser\"},{\"name\":\"doctor\",\"kind\":\"object\",\"type\":\"Doctor\",\"relationName\":\"DoctorToUser\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"Patient\",\"relationName\":\"PatientToUser\"}],\"dbName\":null},\"Admin\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contactNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AdminToUser\"}],\"dbName\":null},\"Doctor\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contactNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"registrationNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"experience\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"appointmentFee\",\"kind\":\"scalar\",\"type\":\"Int\"},{\"name\":\"qualification\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"currentWorkPlace\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"designation\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"DoctorToUser\"},{\"name\":\"doctorSpecialties\",\"kind\":\"object\",\"type\":\"doctorSpecialties\",\"relationName\":\"DoctorTodoctorSpecialties\"},{\"name\":\"doctorSchedules\",\"kind\":\"object\",\"type\":\"DoctorSchedules\",\"relationName\":\"DoctorToDoctorSchedules\"}],\"dbName\":\"doctors\"},\"Patient\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contactNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"patientHealthData\",\"kind\":\"object\",\"type\":\"PatientHealthData\",\"relationName\":\"PatientToPatientHealthData\"},{\"name\":\"medicalReports\",\"kind\":\"object\",\"type\":\"MedicalReport\",\"relationName\":\"MedicalReportToPatient\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"PatientToUser\"}],\"dbName\":null},\"Specialties\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"title\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"icon\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"doctorSpecialties\",\"kind\":\"object\",\"type\":\"doctorSpecialties\",\"relationName\":\"SpecialtiesTodoctorSpecialties\"}],\"dbName\":\"specialties\"},\"doctorSpecialties\":{\"fields\":[{\"name\":\"specialtiesId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"specialties\",\"kind\":\"object\",\"type\":\"Specialties\",\"relationName\":\"SpecialtiesTodoctorSpecialties\"},{\"name\":\"doctorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"doctor\",\"kind\":\"object\",\"type\":\"Doctor\",\"relationName\":\"DoctorTodoctorSpecialties\"}],\"dbName\":\"doctor_specialties\"},\"PatientHealthData\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"patientId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"Patient\",\"relationName\":\"PatientToPatientHealthData\"},{\"name\":\"gender\",\"kind\":\"enum\",\"type\":\"Gender\"},{\"name\":\"dateOfBirth\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"bloodGroup\",\"kind\":\"enum\",\"type\":\"BloodGroup\"},{\"name\":\"hasAllergies\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"hasDiabetes\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"height\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"weight\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"smokingStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"dietaryPreferences\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"pregnancyStatus\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"mentalHealthHistory\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"immunizationStatus\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"hasPastSurgeries\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"recentAnxiety\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"recentDepression\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"maritalStatus\",\"kind\":\"enum\",\"type\":\"MaritalStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"patient_health_datas\"},\"MedicalReport\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"patientId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"patient\",\"kind\":\"object\",\"type\":\"Patient\",\"relationName\":\"MedicalReportToPatient\"},{\"name\":\"reportName\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"reportLink\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"}],\"dbName\":\"madical_reports\"},\"Schedule\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"startDateTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"endDateTime\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"doctorSchedules\",\"kind\":\"object\",\"type\":\"DoctorSchedules\",\"relationName\":\"DoctorSchedulesToSchedule\"}],\"dbName\":\"schedules\"},\"DoctorSchedules\":{\"fields\":[{\"name\":\"doctorId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"doctor\",\"kind\":\"object\",\"type\":\"Doctor\",\"relationName\":\"DoctorToDoctorSchedules\"},{\"name\":\"scheduleId\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"schedule\",\"kind\":\"object\",\"type\":\"Schedule\",\"relationName\":\"DoctorSchedulesToSchedule\"},{\"name\":\"isBooked\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"appointmentId\",\"kind\":\"scalar\",\"type\":\"String\"}],\"dbName\":\"doctor_schedules\"}},\"enums\":{},\"types\":{}}")
+config.runtimeDataModel = JSON.parse("{\"models\":{\"User\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"password\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"role\",\"kind\":\"enum\",\"type\":\"UserRole\"},{\"name\":\"needPasswordChange\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"status\",\"kind\":\"enum\",\"type\":\"UserStatus\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"admin\",\"kind\":\"object\",\"type\":\"Admin\",\"relationName\":\"AdminToUser\"},{\"name\":\"buyer\",\"kind\":\"object\",\"type\":\"Buyer\",\"relationName\":\"BuyerToUser\"},{\"name\":\"manager\",\"kind\":\"object\",\"type\":\"Manager\",\"relationName\":\"ManagerToUser\"}],\"dbName\":\"users\"},\"Admin\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contactNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"AdminToUser\"}],\"dbName\":\"admins\"},\"Buyer\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contactNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"address\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"BuyerToUser\"}],\"dbName\":\"buyers\"},\"Manager\":{\"fields\":[{\"name\":\"id\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"name\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"profilePhoto\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"contactNumber\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"isDeleted\",\"kind\":\"scalar\",\"type\":\"Boolean\"},{\"name\":\"createdAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"updatedAt\",\"kind\":\"scalar\",\"type\":\"DateTime\"},{\"name\":\"email\",\"kind\":\"scalar\",\"type\":\"String\"},{\"name\":\"user\",\"kind\":\"object\",\"type\":\"User\",\"relationName\":\"ManagerToUser\"}],\"dbName\":\"managers\"}},\"enums\":{},\"types\":{}}")
 defineDmmfProperty(exports.Prisma, config.runtimeDataModel)
 config.engineWasm = {
   getRuntime: async () => require('./query_engine_bg.js'),

@@ -8,6 +8,7 @@ import status from "http-status";
 
 const createAdminUser = async (req: Request, res: Response) => {
   try {
+
     const result = await UserServices.createAdmin(req);
     res.status(200).json({
       success: true,
@@ -22,34 +23,34 @@ const createAdminUser = async (req: Request, res: Response) => {
     });
   }
 };
-const createDoctor = async (req: Request, res: Response) => {
+const createManager = async (req: Request, res: Response) => {
   try {
-    const result = await UserServices.createDoctorIntoDB(req);
+    const result = await UserServices.createManagerIntoDB(req);
     res.status(200).json({
       success: true,
-      message: "Doctor created successfully",
+      message: "Manager created successfully",
       data: result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to create Doctor",
+      message: "Failed to create Manager",
       error: error,
     });
   }
 };
-const createPatient = async (req: Request, res: Response) => {
+const createBuyer = async (req: Request, res: Response) => {
   try {
-    const result = await UserServices.createPatientIntoDB(req);
+    const result = await UserServices.createBuyerIntoDB(req);
     res.status(200).json({
       success: true,
-      message: "Patient created successfully",
+      message: "Buyer created successfully",
       data: result,
     });
   } catch (error) {
     res.status(500).json({
       success: false,
-      message: "Failed to create Patient",
+      message: "Failed to create Buyer",
       error: error,
     });
   }
@@ -110,8 +111,8 @@ const updateMyProfile = catchAsync(async (req, res) => {
 
 export const UserController = {
   createAdminUser,
-  createDoctor,
-  createPatient,
+  createManager,
+  createBuyer,
   getAllUser,
   changeProfileStatus,
   getMyProfile,

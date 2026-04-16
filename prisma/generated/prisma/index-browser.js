@@ -143,93 +143,27 @@ exports.Prisma.AdminScalarFieldEnum = {
   email: 'email'
 };
 
-exports.Prisma.DoctorScalarFieldEnum = {
+exports.Prisma.BuyerScalarFieldEnum = {
   id: 'id',
   name: 'name',
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
   address: 'address',
-  registrationNumber: 'registrationNumber',
-  experience: 'experience',
-  gender: 'gender',
-  appointmentFee: 'appointmentFee',
-  qualification: 'qualification',
-  currentWorkPlace: 'currentWorkPlace',
-  designation: 'designation',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   email: 'email'
 };
 
-exports.Prisma.PatientScalarFieldEnum = {
+exports.Prisma.ManagerScalarFieldEnum = {
   id: 'id',
-  email: 'email',
   name: 'name',
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
-  address: 'address',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.SpecialtiesScalarFieldEnum = {
-  id: 'id',
-  title: 'title',
-  icon: 'icon'
-};
-
-exports.Prisma.DoctorSpecialtiesScalarFieldEnum = {
-  specialtiesId: 'specialtiesId',
-  doctorId: 'doctorId'
-};
-
-exports.Prisma.PatientHealthDataScalarFieldEnum = {
-  id: 'id',
-  patientId: 'patientId',
-  gender: 'gender',
-  dateOfBirth: 'dateOfBirth',
-  bloodGroup: 'bloodGroup',
-  hasAllergies: 'hasAllergies',
-  hasDiabetes: 'hasDiabetes',
-  height: 'height',
-  weight: 'weight',
-  smokingStatus: 'smokingStatus',
-  dietaryPreferences: 'dietaryPreferences',
-  pregnancyStatus: 'pregnancyStatus',
-  mentalHealthHistory: 'mentalHealthHistory',
-  immunizationStatus: 'immunizationStatus',
-  hasPastSurgeries: 'hasPastSurgeries',
-  recentAnxiety: 'recentAnxiety',
-  recentDepression: 'recentDepression',
-  maritalStatus: 'maritalStatus',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.MedicalReportScalarFieldEnum = {
-  id: 'id',
-  patientId: 'patientId',
-  reportName: 'reportName',
-  reportLink: 'reportLink',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.ScheduleScalarFieldEnum = {
-  id: 'id',
-  startDateTime: 'startDateTime',
-  endDateTime: 'endDateTime',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.DoctorSchedulesScalarFieldEnum = {
-  doctorId: 'doctorId',
-  scheduleId: 'scheduleId',
-  isBooked: 'isBooked',
-  appointmentId: 'appointmentId'
+  updatedAt: 'updatedAt',
+  email: 'email'
 };
 
 exports.Prisma.SortOrder = {
@@ -247,12 +181,10 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.UserRole = exports.$Enums.UserRole = {
-  ADMIN: 'ADMIN',
   SUPER_ADMIN: 'SUPER_ADMIN',
-  DOCTOR: 'DOCTOR',
-  NURSE: 'NURSE',
-  RECEPTIONIST: 'RECEPTIONIST',
-  PATIENT: 'PATIENT'
+  ADMIN: 'ADMIN',
+  BUYER: 'BUYER',
+  MANAGER: 'MANAGER'
 };
 
 exports.UserStatus = exports.$Enums.UserStatus = {
@@ -261,38 +193,11 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   DELETED: 'DELETED'
 };
 
-exports.Gender = exports.$Enums.Gender = {
-  MALE: 'MALE',
-  FEMALE: 'FEMALE'
-};
-
-exports.BloodGroup = exports.$Enums.BloodGroup = {
-  A_POSITIVE: 'A_POSITIVE',
-  B_POSITIVE: 'B_POSITIVE',
-  O_POSITIVE: 'O_POSITIVE',
-  AB_POSITIVE: 'AB_POSITIVE',
-  A_NEGATIVE: 'A_NEGATIVE',
-  B_NEGATIVE: 'B_NEGATIVE',
-  O_NEGATIVE: 'O_NEGATIVE',
-  AB_NEGATIVE: 'AB_NEGATIVE'
-};
-
-exports.MaritalStatus = exports.$Enums.MaritalStatus = {
-  MARRIED: 'MARRIED',
-  UNMARRIED: 'UNMARRIED'
-};
-
 exports.Prisma.ModelName = {
   User: 'User',
   Admin: 'Admin',
-  Doctor: 'Doctor',
-  Patient: 'Patient',
-  Specialties: 'Specialties',
-  doctorSpecialties: 'doctorSpecialties',
-  PatientHealthData: 'PatientHealthData',
-  MedicalReport: 'MedicalReport',
-  Schedule: 'Schedule',
-  DoctorSchedules: 'DoctorSchedules'
+  Buyer: 'Buyer',
+  Manager: 'Manager'
 };
 
 /**
