@@ -4,6 +4,7 @@ import { adminRoutes } from "../modules/admin/admin.routes";
 import { authRoutes } from "../modules/auth/auth.routes";
 import { ManagerRoutes } from "../modules/manager/manager.routes";
 import { buyerRoutes } from "../modules/buyer/buyer.routes";
+import { addressRoutes } from "../modules/address/address.routes";
 
 
 const router = express.Router();
@@ -28,6 +29,10 @@ const moduleRouter = [
   {
     path: "/buyer",
     route: buyerRoutes,
+  },
+  {
+    path: "/addresses",
+    route: addressRoutes,
   }
 ];
  

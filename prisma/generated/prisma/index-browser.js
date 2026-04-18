@@ -147,7 +147,6 @@ exports.Prisma.BuyerScalarFieldEnum = {
   name: 'name',
   profilePhoto: 'profilePhoto',
   contactNumber: 'contactNumber',
-  address: 'address',
   isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
@@ -165,6 +164,31 @@ exports.Prisma.ManagerScalarFieldEnum = {
   email: 'email'
 };
 
+exports.Prisma.AddressScalarFieldEnum = {
+  id: 'id',
+  label: 'label',
+  addressType: 'addressType',
+  recipientName: 'recipientName',
+  recipientPhone: 'recipientPhone',
+  alternatePhone: 'alternatePhone',
+  line1: 'line1',
+  line2: 'line2',
+  landmark: 'landmark',
+  city: 'city',
+  state: 'state',
+  postalCode: 'postalCode',
+  country: 'country',
+  latitude: 'latitude',
+  longitude: 'longitude',
+  deliveryInstructions: 'deliveryInstructions',
+  isDefault: 'isDefault',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt',
+  adminId: 'adminId',
+  buyerId: 'buyerId',
+  managerId: 'managerId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -180,10 +204,10 @@ exports.Prisma.NullsOrder = {
   last: 'last'
 };
 exports.UserRole = exports.$Enums.UserRole = {
-  SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   BUYER: 'BUYER',
-  MANAGER: 'MANAGER'
+  MANAGER: 'MANAGER',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
 exports.UserStatus = exports.$Enums.UserStatus = {
@@ -192,11 +216,18 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   DELETED: 'DELETED'
 };
 
+exports.AddressType = exports.$Enums.AddressType = {
+  HOME: 'HOME',
+  OFFICE: 'OFFICE',
+  OTHER: 'OTHER'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Admin: 'Admin',
   Buyer: 'Buyer',
-  Manager: 'Manager'
+  Manager: 'Manager',
+  Address: 'Address'
 };
 
 /**

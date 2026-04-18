@@ -71,7 +71,7 @@ const getAllUser = catchAsync(async (req, res, next) => {
   });
 });
 const changeProfileStatus = catchAsync(async (req, res) => {
-  console.log(req.body);
+
   const result = await UserServices.changeProfileStatus(
     req.params.id as string,
     req.body,

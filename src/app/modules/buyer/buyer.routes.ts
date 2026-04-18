@@ -8,14 +8,14 @@ import { UserRole } from "../../../../prisma/generated/prisma";
 const router = express.Router();
 
 
-router.get("/",auth(UserRole.ADMIN), BuyerController.getAllBuyerFromDB);
-router.get("/:id",auth(UserRole.ADMIN), BuyerController.getSingleBuyer);
+router.get("/",auth(UserRole.ADMIN,UserRole.BUYER), BuyerController.getAllBuyerFromDB);
+router.get("/:id",auth(UserRole.ADMIN,UserRole.BUYER), BuyerController.getSingleBuyer);
 router.patch(
   "/:id",
   validateRequest(BuyerValidation.updateBuyerZodSchema),
   BuyerController.updateBuyerData
 );
-router.delete("/:id", BuyerController.deleteBuyerData);
-router.delete("/soft/:id", BuyerController.softDeleteBuyerData);
+router.delete("/:id",auth(UserRole.ADMIN,UserRole.BUYER), BuyerController.deleteBuyerData);
+router.delete("/soft/:id",auth(UserRole.ADMIN,UserRole.BUYER), BuyerController.softDeleteBuyerData);
 
 export const buyerRoutes = router;

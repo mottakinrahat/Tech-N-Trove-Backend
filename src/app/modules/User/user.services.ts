@@ -17,7 +17,6 @@ const createAdmin = async (req: any) => {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(
       file?.path,
     );
-    console.log(uploadToCloudinary)
     req.body.admin.profilePhoto = uploadToCloudinary?.url;
   }
 
@@ -40,6 +39,7 @@ const createAdmin = async (req: any) => {
   return result;
 };
 const createManagerIntoDB = async (req: any) => {
+
   const file = req.file;
   if (file) {
     const uploadToCloudinary = await fileUploader.uploadToCloudinary(
@@ -95,7 +95,6 @@ const getAllUserFromDB = async (params: any, options: IPaginationOptions) => {
     paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = params;
   const andConditions: Prisma.UserWhereInput[] = [];
-  console.log(filterData);
   if (params?.searchTerm) {
     andConditions.push({
       OR: userSearchableFields.map((field) => ({

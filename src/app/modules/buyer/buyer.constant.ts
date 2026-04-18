@@ -3,7 +3,7 @@ export const buyerFilterableFields = [
   "email",
   "searchTerm",
   "contactNumber",
-  "address",
+ 
 ];
 
-export const buyerSearchableFields = ["name", "email", "address"];//for buyer 
+export const buyerSearchableFields = ["name", "email"];//for buyer 

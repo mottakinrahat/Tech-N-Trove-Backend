@@ -9,7 +9,7 @@ services:
     depends_on:
       - db
     environment:
-      DATABASE_URL: postgresql://postgres:postgres@db:5432/techntrove?schema=public
+      DATABASE_URL: postgresql://postgres:123456@db:5432/techntrove?schema=public
       JWT_SECRET: ${jwt_secret}
     volumes:
       - .:/app
@@ -17,7 +17,7 @@ services:
 
   db:
     image: postgres:15
-    container_name: postgres_db
+    container_name: postgres_db_2
     restart: always
     environment:
       POSTGRES_USER: postgres

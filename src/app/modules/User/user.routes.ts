@@ -9,7 +9,7 @@ const router = express.Router();
 
 router.get(
   "/me",
-  auth(UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
+  auth(UserRole.ADMIN, UserRole.BUYER, UserRole.MANAGER),
   UserController.getMyProfile,
 );
 router.post(
@@ -23,24 +23,22 @@ router.post(
 ); //
 
 router.post(
-  "/create-doctor",
-  // auth(UserRole.ADMIN, UserRole.SUPER_ADMIN),
+  "/create-manager",
+  
   fileUploader.upload.single("file"),
   (req: Request, res: Response, next: NextFunction) => {
-    req.body = UserValidation.createDoctorValidationSchema.parse(
-      JSON.parse(req.body.data),
-    );
-    return UserController.createDoctor(req, res);
+    req.body = JSON.parse(req.body.data)
+    return UserController.createManager(req, res);
   },
 ); //
 router.post(
-  "/create-patient",
+  "/create-buyer",
   fileUploader.upload.single("file"),
   (req: Request, res: Response, next: NextFunction) => {
-    req.body = UserValidation.createPatientValidationSchema.parse(
+    req.body = UserValidation.createBuyerValidationSchema.parse(
       JSON.parse(req.body.data),
     );
-    return UserController.createPatient(req, res); //controller for creating patient
+    return UserController.createBuyer(req, res); //controller for creating patient
   },
 ); //
 router.get(
@@ -56,7 +54,7 @@ router.patch(
 );
 router.patch(
   "/update-my-profile",
-  auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.DOCTOR, UserRole.PATIENT),
+  auth(UserRole.SUPER_ADMIN, UserRole.ADMIN, UserRole.BUYER, UserRole.MANAGER),
   fileUploader.upload.single("file"),
   (req: Request, res: Response, next: NextFunction) => {
     req.body=JSON.parse(req.body.data)

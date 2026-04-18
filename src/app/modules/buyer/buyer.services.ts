@@ -1,13 +1,14 @@
 
 import { Buyer, Prisma, UserStatus } from "../../../../prisma/generated/prisma";
-import { calculatePagination } from "../../../helpers/paginationHelpers";
+import { paginationHelpers } from "../../../helpers/paginationHelpers";
+
 import prisma from "../../../shared/prisma";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { buyerSearchableFields } from "./buyer.constant";
 import { IBuyerFilterRequest } from "./buyer.interface";
 
 const getAllBuyer = async (params: IBuyerFilterRequest, options: IPaginationOptions) => {
-  const { page, limit, sortBy, sortOrder, skip } = calculatePagination(options);
+  const { page, limit, sortBy, sortOrder, skip } = paginationHelpers.calculatePagination(options);
   const { searchTerm, ...filterData } = params;
 
   const andConditions: Prisma.BuyerWhereInput[] = [];
@@ -39,6 +40,11 @@ const getAllBuyer = async (params: IBuyerFilterRequest, options: IPaginationOpti
     take: limit,
     orderBy:
       sortBy && sortOrder ? [{ [sortBy]: sortOrder }] : [{ name: "asc" }], // Fallback to 'name' for sorting if not provided
+    include: {
+      addresses: {
+        orderBy: [{ isDefault: "desc" }, { createdAt: "desc" }],
+      },
+    },
   });
   const total = await prisma.buyer.count({ where: whereConditions });
   return {
@@ -55,6 +61,11 @@ const getSingleBuyerFromDB = async (id: string) => {
   const result = await prisma.buyer.findUnique({
     where: {
       id,
+    },
+    include: {
+      addresses: {
+        orderBy: [{ isDefault: "desc" }, { createdAt: "desc" }],
+      },
     },
   });
   return result;

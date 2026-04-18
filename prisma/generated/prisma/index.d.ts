@@ -33,16 +33,21 @@ export type Buyer = $Result.DefaultSelection<Prisma.$BuyerPayload>
  * 
  */
 export type Manager = $Result.DefaultSelection<Prisma.$ManagerPayload>
+/**
+ * Model Address
+ * 
+ */
+export type Address = $Result.DefaultSelection<Prisma.$AddressPayload>
 
 /**
  * Enums
  */
 export namespace $Enums {
   export const UserRole: {
-  SUPER_ADMIN: 'SUPER_ADMIN',
   ADMIN: 'ADMIN',
   BUYER: 'BUYER',
-  MANAGER: 'MANAGER'
+  MANAGER: 'MANAGER',
+  SUPER_ADMIN: 'SUPER_ADMIN'
 };
 
 export type UserRole = (typeof UserRole)[keyof typeof UserRole]
@@ -56,6 +61,15 @@ export const UserStatus: {
 
 export type UserStatus = (typeof UserStatus)[keyof typeof UserStatus]
 
+
+export const AddressType: {
+  HOME: 'HOME',
+  OFFICE: 'OFFICE',
+  OTHER: 'OTHER'
+};
+
+export type AddressType = (typeof AddressType)[keyof typeof AddressType]
+
 }
 
 export type UserRole = $Enums.UserRole
@@ -65,6 +79,10 @@ export const UserRole: typeof $Enums.UserRole
 export type UserStatus = $Enums.UserStatus
 
 export const UserStatus: typeof $Enums.UserStatus
+
+export type AddressType = $Enums.AddressType
+
+export const AddressType: typeof $Enums.AddressType
 
 /**
  * ##  Prisma Client ʲˢ
@@ -223,6 +241,16 @@ export class PrismaClient<
     * ```
     */
   get manager(): Prisma.ManagerDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.address`: Exposes CRUD operations for the **Address** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more Addresses
+    * const addresses = await prisma.address.findMany()
+    * ```
+    */
+  get address(): Prisma.AddressDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -666,7 +694,8 @@ export namespace Prisma {
     User: 'User',
     Admin: 'Admin',
     Buyer: 'Buyer',
-    Manager: 'Manager'
+    Manager: 'Manager',
+    Address: 'Address'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -685,7 +714,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "admin" | "buyer" | "manager"
+      modelProps: "user" | "admin" | "buyer" | "manager" | "address"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -985,6 +1014,80 @@ export namespace Prisma {
           }
         }
       }
+      Address: {
+        payload: Prisma.$AddressPayload<ExtArgs>
+        fields: Prisma.AddressFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.AddressFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.AddressFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>
+          }
+          findFirst: {
+            args: Prisma.AddressFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.AddressFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>
+          }
+          findMany: {
+            args: Prisma.AddressFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>[]
+          }
+          create: {
+            args: Prisma.AddressCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>
+          }
+          createMany: {
+            args: Prisma.AddressCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.AddressCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>[]
+          }
+          delete: {
+            args: Prisma.AddressDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>
+          }
+          update: {
+            args: Prisma.AddressUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>
+          }
+          deleteMany: {
+            args: Prisma.AddressDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.AddressUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.AddressUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>[]
+          }
+          upsert: {
+            args: Prisma.AddressUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$AddressPayload>
+          }
+          aggregate: {
+            args: Prisma.AddressAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateAddress>
+          }
+          groupBy: {
+            args: Prisma.AddressGroupByArgs<ExtArgs>
+            result: $Utils.Optional<AddressGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.AddressCountArgs<ExtArgs>
+            result: $Utils.Optional<AddressCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -1081,6 +1184,7 @@ export namespace Prisma {
     admin?: AdminOmit
     buyer?: BuyerOmit
     manager?: ManagerOmit
+    address?: AddressOmit
   }
 
   /* Types for Logging */
@@ -1155,6 +1259,98 @@ export namespace Prisma {
    * Count Types
    */
 
+
+  /**
+   * Count Type AdminCountOutputType
+   */
+
+  export type AdminCountOutputType = {
+    addresses: number
+  }
+
+  export type AdminCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    addresses?: boolean | AdminCountOutputTypeCountAddressesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * AdminCountOutputType without action
+   */
+  export type AdminCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the AdminCountOutputType
+     */
+    select?: AdminCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * AdminCountOutputType without action
+   */
+  export type AdminCountOutputTypeCountAddressesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AddressWhereInput
+  }
+
+
+  /**
+   * Count Type BuyerCountOutputType
+   */
+
+  export type BuyerCountOutputType = {
+    addresses: number
+  }
+
+  export type BuyerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    addresses?: boolean | BuyerCountOutputTypeCountAddressesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * BuyerCountOutputType without action
+   */
+  export type BuyerCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BuyerCountOutputType
+     */
+    select?: BuyerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * BuyerCountOutputType without action
+   */
+  export type BuyerCountOutputTypeCountAddressesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AddressWhereInput
+  }
+
+
+  /**
+   * Count Type ManagerCountOutputType
+   */
+
+  export type ManagerCountOutputType = {
+    addresses: number
+  }
+
+  export type ManagerCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    addresses?: boolean | ManagerCountOutputTypeCountAddressesArgs
+  }
+
+  // Custom InputTypes
+  /**
+   * ManagerCountOutputType without action
+   */
+  export type ManagerCountOutputTypeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the ManagerCountOutputType
+     */
+    select?: ManagerCountOutputTypeSelect<ExtArgs> | null
+  }
+
+  /**
+   * ManagerCountOutputType without action
+   */
+  export type ManagerCountOutputTypeCountAddressesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AddressWhereInput
+  }
 
 
   /**
@@ -2498,6 +2694,8 @@ export namespace Prisma {
     updatedAt?: boolean
     email?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    addresses?: boolean | Admin$addressesArgs<ExtArgs>
+    _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["admin"]>
 
   export type AdminSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -2538,6 +2736,8 @@ export namespace Prisma {
   export type AdminOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "profilePhoto" | "contactNumber" | "isDeleted" | "createdAt" | "updatedAt" | "email", ExtArgs["result"]["admin"]>
   export type AdminInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    addresses?: boolean | Admin$addressesArgs<ExtArgs>
+    _count?: boolean | AdminCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type AdminIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -2550,6 +2750,7 @@ export namespace Prisma {
     name: "Admin"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      addresses: Prisma.$AddressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2955,6 +3156,7 @@ export namespace Prisma {
   export interface Prisma__AdminClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    addresses<T extends Admin$addressesArgs<ExtArgs> = {}>(args?: Subset<T, Admin$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3388,6 +3590,30 @@ export namespace Prisma {
   }
 
   /**
+   * Admin.addresses
+   */
+  export type Admin$addressesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    where?: AddressWhereInput
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    cursor?: AddressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AddressScalarFieldEnum | AddressScalarFieldEnum[]
+  }
+
+  /**
    * Admin without action
    */
   export type AdminDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -3421,7 +3647,6 @@ export namespace Prisma {
     name: string | null
     profilePhoto: string | null
     contactNumber: string | null
-    address: string | null
     isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3433,7 +3658,6 @@ export namespace Prisma {
     name: string | null
     profilePhoto: string | null
     contactNumber: string | null
-    address: string | null
     isDeleted: boolean | null
     createdAt: Date | null
     updatedAt: Date | null
@@ -3445,7 +3669,6 @@ export namespace Prisma {
     name: number
     profilePhoto: number
     contactNumber: number
-    address: number
     isDeleted: number
     createdAt: number
     updatedAt: number
@@ -3459,7 +3682,6 @@ export namespace Prisma {
     name?: true
     profilePhoto?: true
     contactNumber?: true
-    address?: true
     isDeleted?: true
     createdAt?: true
     updatedAt?: true
@@ -3471,7 +3693,6 @@ export namespace Prisma {
     name?: true
     profilePhoto?: true
     contactNumber?: true
-    address?: true
     isDeleted?: true
     createdAt?: true
     updatedAt?: true
@@ -3483,7 +3704,6 @@ export namespace Prisma {
     name?: true
     profilePhoto?: true
     contactNumber?: true
-    address?: true
     isDeleted?: true
     createdAt?: true
     updatedAt?: true
@@ -3568,7 +3788,6 @@ export namespace Prisma {
     name: string
     profilePhoto: string | null
     contactNumber: string
-    address: string | null
     isDeleted: boolean
     createdAt: Date
     updatedAt: Date
@@ -3597,12 +3816,13 @@ export namespace Prisma {
     name?: boolean
     profilePhoto?: boolean
     contactNumber?: boolean
-    address?: boolean
     isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     email?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    addresses?: boolean | Buyer$addressesArgs<ExtArgs>
+    _count?: boolean | BuyerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["buyer"]>
 
   export type BuyerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -3610,7 +3830,6 @@ export namespace Prisma {
     name?: boolean
     profilePhoto?: boolean
     contactNumber?: boolean
-    address?: boolean
     isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3623,7 +3842,6 @@ export namespace Prisma {
     name?: boolean
     profilePhoto?: boolean
     contactNumber?: boolean
-    address?: boolean
     isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
@@ -3636,16 +3854,17 @@ export namespace Prisma {
     name?: boolean
     profilePhoto?: boolean
     contactNumber?: boolean
-    address?: boolean
     isDeleted?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     email?: boolean
   }
 
-  export type BuyerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "profilePhoto" | "contactNumber" | "address" | "isDeleted" | "createdAt" | "updatedAt" | "email", ExtArgs["result"]["buyer"]>
+  export type BuyerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "profilePhoto" | "contactNumber" | "isDeleted" | "createdAt" | "updatedAt" | "email", ExtArgs["result"]["buyer"]>
   export type BuyerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    addresses?: boolean | Buyer$addressesArgs<ExtArgs>
+    _count?: boolean | BuyerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type BuyerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -3658,13 +3877,13 @@ export namespace Prisma {
     name: "Buyer"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      addresses: Prisma.$AddressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
       name: string
       profilePhoto: string | null
       contactNumber: string
-      address: string | null
       isDeleted: boolean
       createdAt: Date
       updatedAt: Date
@@ -4064,6 +4283,7 @@ export namespace Prisma {
   export interface Prisma__BuyerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    addresses<T extends Buyer$addressesArgs<ExtArgs> = {}>(args?: Subset<T, Buyer$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -4097,7 +4317,6 @@ export namespace Prisma {
     readonly name: FieldRef<"Buyer", 'String'>
     readonly profilePhoto: FieldRef<"Buyer", 'String'>
     readonly contactNumber: FieldRef<"Buyer", 'String'>
-    readonly address: FieldRef<"Buyer", 'String'>
     readonly isDeleted: FieldRef<"Buyer", 'Boolean'>
     readonly createdAt: FieldRef<"Buyer", 'DateTime'>
     readonly updatedAt: FieldRef<"Buyer", 'DateTime'>
@@ -4498,6 +4717,30 @@ export namespace Prisma {
   }
 
   /**
+   * Buyer.addresses
+   */
+  export type Buyer$addressesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    where?: AddressWhereInput
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    cursor?: AddressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AddressScalarFieldEnum | AddressScalarFieldEnum[]
+  }
+
+  /**
    * Buyer without action
    */
   export type BuyerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -4705,6 +4948,8 @@ export namespace Prisma {
     updatedAt?: boolean
     email?: boolean
     user?: boolean | UserDefaultArgs<ExtArgs>
+    addresses?: boolean | Manager$addressesArgs<ExtArgs>
+    _count?: boolean | ManagerCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["manager"]>
 
   export type ManagerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
@@ -4745,6 +4990,8 @@ export namespace Prisma {
   export type ManagerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "profilePhoto" | "contactNumber" | "isDeleted" | "createdAt" | "updatedAt" | "email", ExtArgs["result"]["manager"]>
   export type ManagerInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
+    addresses?: boolean | Manager$addressesArgs<ExtArgs>
+    _count?: boolean | ManagerCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type ManagerIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
@@ -4757,6 +5004,7 @@ export namespace Prisma {
     name: "Manager"
     objects: {
       user: Prisma.$UserPayload<ExtArgs>
+      addresses: Prisma.$AddressPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -5162,6 +5410,7 @@ export namespace Prisma {
   export interface Prisma__ManagerClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
     readonly [Symbol.toStringTag]: "PrismaPromise"
     user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    addresses<T extends Manager$addressesArgs<ExtArgs> = {}>(args?: Subset<T, Manager$addressesArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -5595,6 +5844,30 @@ export namespace Prisma {
   }
 
   /**
+   * Manager.addresses
+   */
+  export type Manager$addressesArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    where?: AddressWhereInput
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    cursor?: AddressWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: AddressScalarFieldEnum | AddressScalarFieldEnum[]
+  }
+
+  /**
    * Manager without action
    */
   export type ManagerDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -5610,6 +5883,1396 @@ export namespace Prisma {
      * Choose, which related nodes to fetch as well
      */
     include?: ManagerInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model Address
+   */
+
+  export type AggregateAddress = {
+    _count: AddressCountAggregateOutputType | null
+    _avg: AddressAvgAggregateOutputType | null
+    _sum: AddressSumAggregateOutputType | null
+    _min: AddressMinAggregateOutputType | null
+    _max: AddressMaxAggregateOutputType | null
+  }
+
+  export type AddressAvgAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+  }
+
+  export type AddressSumAggregateOutputType = {
+    latitude: number | null
+    longitude: number | null
+  }
+
+  export type AddressMinAggregateOutputType = {
+    id: string | null
+    label: string | null
+    addressType: $Enums.AddressType | null
+    recipientName: string | null
+    recipientPhone: string | null
+    alternatePhone: string | null
+    line1: string | null
+    line2: string | null
+    landmark: string | null
+    city: string | null
+    state: string | null
+    postalCode: string | null
+    country: string | null
+    latitude: number | null
+    longitude: number | null
+    deliveryInstructions: string | null
+    isDefault: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    adminId: string | null
+    buyerId: string | null
+    managerId: string | null
+  }
+
+  export type AddressMaxAggregateOutputType = {
+    id: string | null
+    label: string | null
+    addressType: $Enums.AddressType | null
+    recipientName: string | null
+    recipientPhone: string | null
+    alternatePhone: string | null
+    line1: string | null
+    line2: string | null
+    landmark: string | null
+    city: string | null
+    state: string | null
+    postalCode: string | null
+    country: string | null
+    latitude: number | null
+    longitude: number | null
+    deliveryInstructions: string | null
+    isDefault: boolean | null
+    createdAt: Date | null
+    updatedAt: Date | null
+    adminId: string | null
+    buyerId: string | null
+    managerId: string | null
+  }
+
+  export type AddressCountAggregateOutputType = {
+    id: number
+    label: number
+    addressType: number
+    recipientName: number
+    recipientPhone: number
+    alternatePhone: number
+    line1: number
+    line2: number
+    landmark: number
+    city: number
+    state: number
+    postalCode: number
+    country: number
+    latitude: number
+    longitude: number
+    deliveryInstructions: number
+    isDefault: number
+    createdAt: number
+    updatedAt: number
+    adminId: number
+    buyerId: number
+    managerId: number
+    _all: number
+  }
+
+
+  export type AddressAvgAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
+
+  export type AddressSumAggregateInputType = {
+    latitude?: true
+    longitude?: true
+  }
+
+  export type AddressMinAggregateInputType = {
+    id?: true
+    label?: true
+    addressType?: true
+    recipientName?: true
+    recipientPhone?: true
+    alternatePhone?: true
+    line1?: true
+    line2?: true
+    landmark?: true
+    city?: true
+    state?: true
+    postalCode?: true
+    country?: true
+    latitude?: true
+    longitude?: true
+    deliveryInstructions?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+    adminId?: true
+    buyerId?: true
+    managerId?: true
+  }
+
+  export type AddressMaxAggregateInputType = {
+    id?: true
+    label?: true
+    addressType?: true
+    recipientName?: true
+    recipientPhone?: true
+    alternatePhone?: true
+    line1?: true
+    line2?: true
+    landmark?: true
+    city?: true
+    state?: true
+    postalCode?: true
+    country?: true
+    latitude?: true
+    longitude?: true
+    deliveryInstructions?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+    adminId?: true
+    buyerId?: true
+    managerId?: true
+  }
+
+  export type AddressCountAggregateInputType = {
+    id?: true
+    label?: true
+    addressType?: true
+    recipientName?: true
+    recipientPhone?: true
+    alternatePhone?: true
+    line1?: true
+    line2?: true
+    landmark?: true
+    city?: true
+    state?: true
+    postalCode?: true
+    country?: true
+    latitude?: true
+    longitude?: true
+    deliveryInstructions?: true
+    isDefault?: true
+    createdAt?: true
+    updatedAt?: true
+    adminId?: true
+    buyerId?: true
+    managerId?: true
+    _all?: true
+  }
+
+  export type AddressAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Address to aggregate.
+     */
+    where?: AddressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Addresses to fetch.
+     */
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: AddressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Addresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Addresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned Addresses
+    **/
+    _count?: true | AddressCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: AddressAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: AddressSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: AddressMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: AddressMaxAggregateInputType
+  }
+
+  export type GetAddressAggregateType<T extends AddressAggregateArgs> = {
+        [P in keyof T & keyof AggregateAddress]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateAddress[P]>
+      : GetScalarType<T[P], AggregateAddress[P]>
+  }
+
+
+
+
+  export type AddressGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: AddressWhereInput
+    orderBy?: AddressOrderByWithAggregationInput | AddressOrderByWithAggregationInput[]
+    by: AddressScalarFieldEnum[] | AddressScalarFieldEnum
+    having?: AddressScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: AddressCountAggregateInputType | true
+    _avg?: AddressAvgAggregateInputType
+    _sum?: AddressSumAggregateInputType
+    _min?: AddressMinAggregateInputType
+    _max?: AddressMaxAggregateInputType
+  }
+
+  export type AddressGroupByOutputType = {
+    id: string
+    label: string | null
+    addressType: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone: string | null
+    line1: string
+    line2: string | null
+    landmark: string | null
+    city: string
+    state: string
+    postalCode: string
+    country: string
+    latitude: number | null
+    longitude: number | null
+    deliveryInstructions: string | null
+    isDefault: boolean
+    createdAt: Date
+    updatedAt: Date
+    adminId: string | null
+    buyerId: string | null
+    managerId: string | null
+    _count: AddressCountAggregateOutputType | null
+    _avg: AddressAvgAggregateOutputType | null
+    _sum: AddressSumAggregateOutputType | null
+    _min: AddressMinAggregateOutputType | null
+    _max: AddressMaxAggregateOutputType | null
+  }
+
+  type GetAddressGroupByPayload<T extends AddressGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<AddressGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof AddressGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], AddressGroupByOutputType[P]>
+            : GetScalarType<T[P], AddressGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type AddressSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    addressType?: boolean
+    recipientName?: boolean
+    recipientPhone?: boolean
+    alternatePhone?: boolean
+    line1?: boolean
+    line2?: boolean
+    landmark?: boolean
+    city?: boolean
+    state?: boolean
+    postalCode?: boolean
+    country?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    deliveryInstructions?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    adminId?: boolean
+    buyerId?: boolean
+    managerId?: boolean
+    admin?: boolean | Address$adminArgs<ExtArgs>
+    buyer?: boolean | Address$buyerArgs<ExtArgs>
+    manager?: boolean | Address$managerArgs<ExtArgs>
+  }, ExtArgs["result"]["address"]>
+
+  export type AddressSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    addressType?: boolean
+    recipientName?: boolean
+    recipientPhone?: boolean
+    alternatePhone?: boolean
+    line1?: boolean
+    line2?: boolean
+    landmark?: boolean
+    city?: boolean
+    state?: boolean
+    postalCode?: boolean
+    country?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    deliveryInstructions?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    adminId?: boolean
+    buyerId?: boolean
+    managerId?: boolean
+    admin?: boolean | Address$adminArgs<ExtArgs>
+    buyer?: boolean | Address$buyerArgs<ExtArgs>
+    manager?: boolean | Address$managerArgs<ExtArgs>
+  }, ExtArgs["result"]["address"]>
+
+  export type AddressSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    label?: boolean
+    addressType?: boolean
+    recipientName?: boolean
+    recipientPhone?: boolean
+    alternatePhone?: boolean
+    line1?: boolean
+    line2?: boolean
+    landmark?: boolean
+    city?: boolean
+    state?: boolean
+    postalCode?: boolean
+    country?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    deliveryInstructions?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    adminId?: boolean
+    buyerId?: boolean
+    managerId?: boolean
+    admin?: boolean | Address$adminArgs<ExtArgs>
+    buyer?: boolean | Address$buyerArgs<ExtArgs>
+    manager?: boolean | Address$managerArgs<ExtArgs>
+  }, ExtArgs["result"]["address"]>
+
+  export type AddressSelectScalar = {
+    id?: boolean
+    label?: boolean
+    addressType?: boolean
+    recipientName?: boolean
+    recipientPhone?: boolean
+    alternatePhone?: boolean
+    line1?: boolean
+    line2?: boolean
+    landmark?: boolean
+    city?: boolean
+    state?: boolean
+    postalCode?: boolean
+    country?: boolean
+    latitude?: boolean
+    longitude?: boolean
+    deliveryInstructions?: boolean
+    isDefault?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    adminId?: boolean
+    buyerId?: boolean
+    managerId?: boolean
+  }
+
+  export type AddressOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "label" | "addressType" | "recipientName" | "recipientPhone" | "alternatePhone" | "line1" | "line2" | "landmark" | "city" | "state" | "postalCode" | "country" | "latitude" | "longitude" | "deliveryInstructions" | "isDefault" | "createdAt" | "updatedAt" | "adminId" | "buyerId" | "managerId", ExtArgs["result"]["address"]>
+  export type AddressInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | Address$adminArgs<ExtArgs>
+    buyer?: boolean | Address$buyerArgs<ExtArgs>
+    manager?: boolean | Address$managerArgs<ExtArgs>
+  }
+  export type AddressIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | Address$adminArgs<ExtArgs>
+    buyer?: boolean | Address$buyerArgs<ExtArgs>
+    manager?: boolean | Address$managerArgs<ExtArgs>
+  }
+  export type AddressIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    admin?: boolean | Address$adminArgs<ExtArgs>
+    buyer?: boolean | Address$buyerArgs<ExtArgs>
+    manager?: boolean | Address$managerArgs<ExtArgs>
+  }
+
+  export type $AddressPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "Address"
+    objects: {
+      admin: Prisma.$AdminPayload<ExtArgs> | null
+      buyer: Prisma.$BuyerPayload<ExtArgs> | null
+      manager: Prisma.$ManagerPayload<ExtArgs> | null
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      label: string | null
+      addressType: $Enums.AddressType
+      recipientName: string
+      recipientPhone: string
+      alternatePhone: string | null
+      line1: string
+      line2: string | null
+      landmark: string | null
+      city: string
+      state: string
+      postalCode: string
+      country: string
+      latitude: number | null
+      longitude: number | null
+      deliveryInstructions: string | null
+      isDefault: boolean
+      createdAt: Date
+      updatedAt: Date
+      adminId: string | null
+      buyerId: string | null
+      managerId: string | null
+    }, ExtArgs["result"]["address"]>
+    composites: {}
+  }
+
+  type AddressGetPayload<S extends boolean | null | undefined | AddressDefaultArgs> = $Result.GetResult<Prisma.$AddressPayload, S>
+
+  type AddressCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<AddressFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: AddressCountAggregateInputType | true
+    }
+
+  export interface AddressDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['Address'], meta: { name: 'Address' } }
+    /**
+     * Find zero or one Address that matches the filter.
+     * @param {AddressFindUniqueArgs} args - Arguments to find a Address
+     * @example
+     * // Get one Address
+     * const address = await prisma.address.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends AddressFindUniqueArgs>(args: SelectSubset<T, AddressFindUniqueArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one Address that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {AddressFindUniqueOrThrowArgs} args - Arguments to find a Address
+     * @example
+     * // Get one Address
+     * const address = await prisma.address.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends AddressFindUniqueOrThrowArgs>(args: SelectSubset<T, AddressFindUniqueOrThrowArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Address that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressFindFirstArgs} args - Arguments to find a Address
+     * @example
+     * // Get one Address
+     * const address = await prisma.address.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends AddressFindFirstArgs>(args?: SelectSubset<T, AddressFindFirstArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first Address that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressFindFirstOrThrowArgs} args - Arguments to find a Address
+     * @example
+     * // Get one Address
+     * const address = await prisma.address.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends AddressFindFirstOrThrowArgs>(args?: SelectSubset<T, AddressFindFirstOrThrowArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more Addresses that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all Addresses
+     * const addresses = await prisma.address.findMany()
+     * 
+     * // Get first 10 Addresses
+     * const addresses = await prisma.address.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const addressWithIdOnly = await prisma.address.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends AddressFindManyArgs>(args?: SelectSubset<T, AddressFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a Address.
+     * @param {AddressCreateArgs} args - Arguments to create a Address.
+     * @example
+     * // Create one Address
+     * const Address = await prisma.address.create({
+     *   data: {
+     *     // ... data to create a Address
+     *   }
+     * })
+     * 
+     */
+    create<T extends AddressCreateArgs>(args: SelectSubset<T, AddressCreateArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many Addresses.
+     * @param {AddressCreateManyArgs} args - Arguments to create many Addresses.
+     * @example
+     * // Create many Addresses
+     * const address = await prisma.address.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends AddressCreateManyArgs>(args?: SelectSubset<T, AddressCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many Addresses and returns the data saved in the database.
+     * @param {AddressCreateManyAndReturnArgs} args - Arguments to create many Addresses.
+     * @example
+     * // Create many Addresses
+     * const address = await prisma.address.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many Addresses and only return the `id`
+     * const addressWithIdOnly = await prisma.address.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends AddressCreateManyAndReturnArgs>(args?: SelectSubset<T, AddressCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a Address.
+     * @param {AddressDeleteArgs} args - Arguments to delete one Address.
+     * @example
+     * // Delete one Address
+     * const Address = await prisma.address.delete({
+     *   where: {
+     *     // ... filter to delete one Address
+     *   }
+     * })
+     * 
+     */
+    delete<T extends AddressDeleteArgs>(args: SelectSubset<T, AddressDeleteArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one Address.
+     * @param {AddressUpdateArgs} args - Arguments to update one Address.
+     * @example
+     * // Update one Address
+     * const address = await prisma.address.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends AddressUpdateArgs>(args: SelectSubset<T, AddressUpdateArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more Addresses.
+     * @param {AddressDeleteManyArgs} args - Arguments to filter Addresses to delete.
+     * @example
+     * // Delete a few Addresses
+     * const { count } = await prisma.address.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends AddressDeleteManyArgs>(args?: SelectSubset<T, AddressDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Addresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many Addresses
+     * const address = await prisma.address.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends AddressUpdateManyArgs>(args: SelectSubset<T, AddressUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more Addresses and returns the data updated in the database.
+     * @param {AddressUpdateManyAndReturnArgs} args - Arguments to update many Addresses.
+     * @example
+     * // Update many Addresses
+     * const address = await prisma.address.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more Addresses and only return the `id`
+     * const addressWithIdOnly = await prisma.address.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends AddressUpdateManyAndReturnArgs>(args: SelectSubset<T, AddressUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one Address.
+     * @param {AddressUpsertArgs} args - Arguments to update or create a Address.
+     * @example
+     * // Update or create a Address
+     * const address = await prisma.address.upsert({
+     *   create: {
+     *     // ... data to create a Address
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the Address we want to update
+     *   }
+     * })
+     */
+    upsert<T extends AddressUpsertArgs>(args: SelectSubset<T, AddressUpsertArgs<ExtArgs>>): Prisma__AddressClient<$Result.GetResult<Prisma.$AddressPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of Addresses.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressCountArgs} args - Arguments to filter Addresses to count.
+     * @example
+     * // Count the number of Addresses
+     * const count = await prisma.address.count({
+     *   where: {
+     *     // ... the filter for the Addresses we want to count
+     *   }
+     * })
+    **/
+    count<T extends AddressCountArgs>(
+      args?: Subset<T, AddressCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], AddressCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a Address.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends AddressAggregateArgs>(args: Subset<T, AddressAggregateArgs>): Prisma.PrismaPromise<GetAddressAggregateType<T>>
+
+    /**
+     * Group by Address.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {AddressGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends AddressGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: AddressGroupByArgs['orderBy'] }
+        : { orderBy?: AddressGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, AddressGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetAddressGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the Address model
+   */
+  readonly fields: AddressFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for Address.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__AddressClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    admin<T extends Address$adminArgs<ExtArgs> = {}>(args?: Subset<T, Address$adminArgs<ExtArgs>>): Prisma__AdminClient<$Result.GetResult<Prisma.$AdminPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    buyer<T extends Address$buyerArgs<ExtArgs> = {}>(args?: Subset<T, Address$buyerArgs<ExtArgs>>): Prisma__BuyerClient<$Result.GetResult<Prisma.$BuyerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    manager<T extends Address$managerArgs<ExtArgs> = {}>(args?: Subset<T, Address$managerArgs<ExtArgs>>): Prisma__ManagerClient<$Result.GetResult<Prisma.$ManagerPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the Address model
+   */
+  interface AddressFieldRefs {
+    readonly id: FieldRef<"Address", 'String'>
+    readonly label: FieldRef<"Address", 'String'>
+    readonly addressType: FieldRef<"Address", 'AddressType'>
+    readonly recipientName: FieldRef<"Address", 'String'>
+    readonly recipientPhone: FieldRef<"Address", 'String'>
+    readonly alternatePhone: FieldRef<"Address", 'String'>
+    readonly line1: FieldRef<"Address", 'String'>
+    readonly line2: FieldRef<"Address", 'String'>
+    readonly landmark: FieldRef<"Address", 'String'>
+    readonly city: FieldRef<"Address", 'String'>
+    readonly state: FieldRef<"Address", 'String'>
+    readonly postalCode: FieldRef<"Address", 'String'>
+    readonly country: FieldRef<"Address", 'String'>
+    readonly latitude: FieldRef<"Address", 'Float'>
+    readonly longitude: FieldRef<"Address", 'Float'>
+    readonly deliveryInstructions: FieldRef<"Address", 'String'>
+    readonly isDefault: FieldRef<"Address", 'Boolean'>
+    readonly createdAt: FieldRef<"Address", 'DateTime'>
+    readonly updatedAt: FieldRef<"Address", 'DateTime'>
+    readonly adminId: FieldRef<"Address", 'String'>
+    readonly buyerId: FieldRef<"Address", 'String'>
+    readonly managerId: FieldRef<"Address", 'String'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * Address findUnique
+   */
+  export type AddressFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * Filter, which Address to fetch.
+     */
+    where: AddressWhereUniqueInput
+  }
+
+  /**
+   * Address findUniqueOrThrow
+   */
+  export type AddressFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * Filter, which Address to fetch.
+     */
+    where: AddressWhereUniqueInput
+  }
+
+  /**
+   * Address findFirst
+   */
+  export type AddressFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * Filter, which Address to fetch.
+     */
+    where?: AddressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Addresses to fetch.
+     */
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Addresses.
+     */
+    cursor?: AddressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Addresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Addresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Addresses.
+     */
+    distinct?: AddressScalarFieldEnum | AddressScalarFieldEnum[]
+  }
+
+  /**
+   * Address findFirstOrThrow
+   */
+  export type AddressFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * Filter, which Address to fetch.
+     */
+    where?: AddressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Addresses to fetch.
+     */
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for Addresses.
+     */
+    cursor?: AddressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Addresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Addresses.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of Addresses.
+     */
+    distinct?: AddressScalarFieldEnum | AddressScalarFieldEnum[]
+  }
+
+  /**
+   * Address findMany
+   */
+  export type AddressFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * Filter, which Addresses to fetch.
+     */
+    where?: AddressWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of Addresses to fetch.
+     */
+    orderBy?: AddressOrderByWithRelationInput | AddressOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing Addresses.
+     */
+    cursor?: AddressWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` Addresses from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` Addresses.
+     */
+    skip?: number
+    distinct?: AddressScalarFieldEnum | AddressScalarFieldEnum[]
+  }
+
+  /**
+   * Address create
+   */
+  export type AddressCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * The data needed to create a Address.
+     */
+    data: XOR<AddressCreateInput, AddressUncheckedCreateInput>
+  }
+
+  /**
+   * Address createMany
+   */
+  export type AddressCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many Addresses.
+     */
+    data: AddressCreateManyInput | AddressCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * Address createManyAndReturn
+   */
+  export type AddressCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * The data used to create many Addresses.
+     */
+    data: AddressCreateManyInput | AddressCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Address update
+   */
+  export type AddressUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * The data needed to update a Address.
+     */
+    data: XOR<AddressUpdateInput, AddressUncheckedUpdateInput>
+    /**
+     * Choose, which Address to update.
+     */
+    where: AddressWhereUniqueInput
+  }
+
+  /**
+   * Address updateMany
+   */
+  export type AddressUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update Addresses.
+     */
+    data: XOR<AddressUpdateManyMutationInput, AddressUncheckedUpdateManyInput>
+    /**
+     * Filter which Addresses to update
+     */
+    where?: AddressWhereInput
+    /**
+     * Limit how many Addresses to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * Address updateManyAndReturn
+   */
+  export type AddressUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * The data used to update Addresses.
+     */
+    data: XOR<AddressUpdateManyMutationInput, AddressUncheckedUpdateManyInput>
+    /**
+     * Filter which Addresses to update
+     */
+    where?: AddressWhereInput
+    /**
+     * Limit how many Addresses to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * Address upsert
+   */
+  export type AddressUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * The filter to search for the Address to update in case it exists.
+     */
+    where: AddressWhereUniqueInput
+    /**
+     * In case the Address found by the `where` argument doesn't exist, create a new Address with this data.
+     */
+    create: XOR<AddressCreateInput, AddressUncheckedCreateInput>
+    /**
+     * In case the Address was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<AddressUpdateInput, AddressUncheckedUpdateInput>
+  }
+
+  /**
+   * Address delete
+   */
+  export type AddressDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
+    /**
+     * Filter which Address to delete.
+     */
+    where: AddressWhereUniqueInput
+  }
+
+  /**
+   * Address deleteMany
+   */
+  export type AddressDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which Addresses to delete
+     */
+    where?: AddressWhereInput
+    /**
+     * Limit how many Addresses to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * Address.admin
+   */
+  export type Address$adminArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Admin
+     */
+    select?: AdminSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Admin
+     */
+    omit?: AdminOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AdminInclude<ExtArgs> | null
+    where?: AdminWhereInput
+  }
+
+  /**
+   * Address.buyer
+   */
+  export type Address$buyerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Buyer
+     */
+    select?: BuyerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Buyer
+     */
+    omit?: BuyerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BuyerInclude<ExtArgs> | null
+    where?: BuyerWhereInput
+  }
+
+  /**
+   * Address.manager
+   */
+  export type Address$managerArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Manager
+     */
+    select?: ManagerSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Manager
+     */
+    omit?: ManagerOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: ManagerInclude<ExtArgs> | null
+    where?: ManagerWhereInput
+  }
+
+  /**
+   * Address without action
+   */
+  export type AddressDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the Address
+     */
+    select?: AddressSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the Address
+     */
+    omit?: AddressOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: AddressInclude<ExtArgs> | null
   }
 
 
@@ -5660,7 +7323,6 @@ export namespace Prisma {
     name: 'name',
     profilePhoto: 'profilePhoto',
     contactNumber: 'contactNumber',
-    address: 'address',
     isDeleted: 'isDeleted',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
@@ -5682,6 +7344,34 @@ export namespace Prisma {
   };
 
   export type ManagerScalarFieldEnum = (typeof ManagerScalarFieldEnum)[keyof typeof ManagerScalarFieldEnum]
+
+
+  export const AddressScalarFieldEnum: {
+    id: 'id',
+    label: 'label',
+    addressType: 'addressType',
+    recipientName: 'recipientName',
+    recipientPhone: 'recipientPhone',
+    alternatePhone: 'alternatePhone',
+    line1: 'line1',
+    line2: 'line2',
+    landmark: 'landmark',
+    city: 'city',
+    state: 'state',
+    postalCode: 'postalCode',
+    country: 'country',
+    latitude: 'latitude',
+    longitude: 'longitude',
+    deliveryInstructions: 'deliveryInstructions',
+    isDefault: 'isDefault',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt',
+    adminId: 'adminId',
+    buyerId: 'buyerId',
+    managerId: 'managerId'
+  };
+
+  export type AddressScalarFieldEnum = (typeof AddressScalarFieldEnum)[keyof typeof AddressScalarFieldEnum]
 
 
   export const SortOrder: {
@@ -5773,6 +7463,34 @@ export namespace Prisma {
    * Reference to a field of type 'DateTime[]'
    */
   export type ListDateTimeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'DateTime[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'AddressType'
+   */
+  export type EnumAddressTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AddressType'>
+    
+
+
+  /**
+   * Reference to a field of type 'AddressType[]'
+   */
+  export type ListEnumAddressTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'AddressType[]'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float'
+   */
+  export type FloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float'>
+    
+
+
+  /**
+   * Reference to a field of type 'Float[]'
+   */
+  export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
 
 
@@ -5882,6 +7600,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     email?: StringFilter<"Admin"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    addresses?: AddressListRelationFilter
   }
 
   export type AdminOrderByWithRelationInput = {
@@ -5894,6 +7613,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     email?: SortOrder
     user?: UserOrderByWithRelationInput
+    addresses?: AddressOrderByRelationAggregateInput
   }
 
   export type AdminWhereUniqueInput = Prisma.AtLeast<{
@@ -5909,6 +7629,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Admin"> | Date | string
     updatedAt?: DateTimeFilter<"Admin"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    addresses?: AddressListRelationFilter
   }, "id" | "email">
 
   export type AdminOrderByWithAggregationInput = {
@@ -5947,12 +7668,12 @@ export namespace Prisma {
     name?: StringFilter<"Buyer"> | string
     profilePhoto?: StringNullableFilter<"Buyer"> | string | null
     contactNumber?: StringFilter<"Buyer"> | string
-    address?: StringNullableFilter<"Buyer"> | string | null
     isDeleted?: BoolFilter<"Buyer"> | boolean
     createdAt?: DateTimeFilter<"Buyer"> | Date | string
     updatedAt?: DateTimeFilter<"Buyer"> | Date | string
     email?: StringFilter<"Buyer"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    addresses?: AddressListRelationFilter
   }
 
   export type BuyerOrderByWithRelationInput = {
@@ -5960,12 +7681,12 @@ export namespace Prisma {
     name?: SortOrder
     profilePhoto?: SortOrderInput | SortOrder
     contactNumber?: SortOrder
-    address?: SortOrderInput | SortOrder
     isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     email?: SortOrder
     user?: UserOrderByWithRelationInput
+    addresses?: AddressOrderByRelationAggregateInput
   }
 
   export type BuyerWhereUniqueInput = Prisma.AtLeast<{
@@ -5977,11 +7698,11 @@ export namespace Prisma {
     name?: StringFilter<"Buyer"> | string
     profilePhoto?: StringNullableFilter<"Buyer"> | string | null
     contactNumber?: StringFilter<"Buyer"> | string
-    address?: StringNullableFilter<"Buyer"> | string | null
     isDeleted?: BoolFilter<"Buyer"> | boolean
     createdAt?: DateTimeFilter<"Buyer"> | Date | string
     updatedAt?: DateTimeFilter<"Buyer"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    addresses?: AddressListRelationFilter
   }, "id" | "email">
 
   export type BuyerOrderByWithAggregationInput = {
@@ -5989,7 +7710,6 @@ export namespace Prisma {
     name?: SortOrder
     profilePhoto?: SortOrderInput | SortOrder
     contactNumber?: SortOrder
-    address?: SortOrderInput | SortOrder
     isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6007,7 +7727,6 @@ export namespace Prisma {
     name?: StringWithAggregatesFilter<"Buyer"> | string
     profilePhoto?: StringNullableWithAggregatesFilter<"Buyer"> | string | null
     contactNumber?: StringWithAggregatesFilter<"Buyer"> | string
-    address?: StringNullableWithAggregatesFilter<"Buyer"> | string | null
     isDeleted?: BoolWithAggregatesFilter<"Buyer"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Buyer"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Buyer"> | Date | string
@@ -6027,6 +7746,7 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"Manager"> | Date | string
     email?: StringFilter<"Manager"> | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    addresses?: AddressListRelationFilter
   }
 
   export type ManagerOrderByWithRelationInput = {
@@ -6039,6 +7759,7 @@ export namespace Prisma {
     updatedAt?: SortOrder
     email?: SortOrder
     user?: UserOrderByWithRelationInput
+    addresses?: AddressOrderByRelationAggregateInput
   }
 
   export type ManagerWhereUniqueInput = Prisma.AtLeast<{
@@ -6054,6 +7775,7 @@ export namespace Prisma {
     createdAt?: DateTimeFilter<"Manager"> | Date | string
     updatedAt?: DateTimeFilter<"Manager"> | Date | string
     user?: XOR<UserScalarRelationFilter, UserWhereInput>
+    addresses?: AddressListRelationFilter
   }, "id" | "email">
 
   export type ManagerOrderByWithAggregationInput = {
@@ -6082,6 +7804,154 @@ export namespace Prisma {
     createdAt?: DateTimeWithAggregatesFilter<"Manager"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Manager"> | Date | string
     email?: StringWithAggregatesFilter<"Manager"> | string
+  }
+
+  export type AddressWhereInput = {
+    AND?: AddressWhereInput | AddressWhereInput[]
+    OR?: AddressWhereInput[]
+    NOT?: AddressWhereInput | AddressWhereInput[]
+    id?: StringFilter<"Address"> | string
+    label?: StringNullableFilter<"Address"> | string | null
+    addressType?: EnumAddressTypeFilter<"Address"> | $Enums.AddressType
+    recipientName?: StringFilter<"Address"> | string
+    recipientPhone?: StringFilter<"Address"> | string
+    alternatePhone?: StringNullableFilter<"Address"> | string | null
+    line1?: StringFilter<"Address"> | string
+    line2?: StringNullableFilter<"Address"> | string | null
+    landmark?: StringNullableFilter<"Address"> | string | null
+    city?: StringFilter<"Address"> | string
+    state?: StringFilter<"Address"> | string
+    postalCode?: StringFilter<"Address"> | string
+    country?: StringFilter<"Address"> | string
+    latitude?: FloatNullableFilter<"Address"> | number | null
+    longitude?: FloatNullableFilter<"Address"> | number | null
+    deliveryInstructions?: StringNullableFilter<"Address"> | string | null
+    isDefault?: BoolFilter<"Address"> | boolean
+    createdAt?: DateTimeFilter<"Address"> | Date | string
+    updatedAt?: DateTimeFilter<"Address"> | Date | string
+    adminId?: StringNullableFilter<"Address"> | string | null
+    buyerId?: StringNullableFilter<"Address"> | string | null
+    managerId?: StringNullableFilter<"Address"> | string | null
+    admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
+    buyer?: XOR<BuyerNullableScalarRelationFilter, BuyerWhereInput> | null
+    manager?: XOR<ManagerNullableScalarRelationFilter, ManagerWhereInput> | null
+  }
+
+  export type AddressOrderByWithRelationInput = {
+    id?: SortOrder
+    label?: SortOrderInput | SortOrder
+    addressType?: SortOrder
+    recipientName?: SortOrder
+    recipientPhone?: SortOrder
+    alternatePhone?: SortOrderInput | SortOrder
+    line1?: SortOrder
+    line2?: SortOrderInput | SortOrder
+    landmark?: SortOrderInput | SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    postalCode?: SortOrder
+    country?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    deliveryInstructions?: SortOrderInput | SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    adminId?: SortOrderInput | SortOrder
+    buyerId?: SortOrderInput | SortOrder
+    managerId?: SortOrderInput | SortOrder
+    admin?: AdminOrderByWithRelationInput
+    buyer?: BuyerOrderByWithRelationInput
+    manager?: ManagerOrderByWithRelationInput
+  }
+
+  export type AddressWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: AddressWhereInput | AddressWhereInput[]
+    OR?: AddressWhereInput[]
+    NOT?: AddressWhereInput | AddressWhereInput[]
+    label?: StringNullableFilter<"Address"> | string | null
+    addressType?: EnumAddressTypeFilter<"Address"> | $Enums.AddressType
+    recipientName?: StringFilter<"Address"> | string
+    recipientPhone?: StringFilter<"Address"> | string
+    alternatePhone?: StringNullableFilter<"Address"> | string | null
+    line1?: StringFilter<"Address"> | string
+    line2?: StringNullableFilter<"Address"> | string | null
+    landmark?: StringNullableFilter<"Address"> | string | null
+    city?: StringFilter<"Address"> | string
+    state?: StringFilter<"Address"> | string
+    postalCode?: StringFilter<"Address"> | string
+    country?: StringFilter<"Address"> | string
+    latitude?: FloatNullableFilter<"Address"> | number | null
+    longitude?: FloatNullableFilter<"Address"> | number | null
+    deliveryInstructions?: StringNullableFilter<"Address"> | string | null
+    isDefault?: BoolFilter<"Address"> | boolean
+    createdAt?: DateTimeFilter<"Address"> | Date | string
+    updatedAt?: DateTimeFilter<"Address"> | Date | string
+    adminId?: StringNullableFilter<"Address"> | string | null
+    buyerId?: StringNullableFilter<"Address"> | string | null
+    managerId?: StringNullableFilter<"Address"> | string | null
+    admin?: XOR<AdminNullableScalarRelationFilter, AdminWhereInput> | null
+    buyer?: XOR<BuyerNullableScalarRelationFilter, BuyerWhereInput> | null
+    manager?: XOR<ManagerNullableScalarRelationFilter, ManagerWhereInput> | null
+  }, "id">
+
+  export type AddressOrderByWithAggregationInput = {
+    id?: SortOrder
+    label?: SortOrderInput | SortOrder
+    addressType?: SortOrder
+    recipientName?: SortOrder
+    recipientPhone?: SortOrder
+    alternatePhone?: SortOrderInput | SortOrder
+    line1?: SortOrder
+    line2?: SortOrderInput | SortOrder
+    landmark?: SortOrderInput | SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    postalCode?: SortOrder
+    country?: SortOrder
+    latitude?: SortOrderInput | SortOrder
+    longitude?: SortOrderInput | SortOrder
+    deliveryInstructions?: SortOrderInput | SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    adminId?: SortOrderInput | SortOrder
+    buyerId?: SortOrderInput | SortOrder
+    managerId?: SortOrderInput | SortOrder
+    _count?: AddressCountOrderByAggregateInput
+    _avg?: AddressAvgOrderByAggregateInput
+    _max?: AddressMaxOrderByAggregateInput
+    _min?: AddressMinOrderByAggregateInput
+    _sum?: AddressSumOrderByAggregateInput
+  }
+
+  export type AddressScalarWhereWithAggregatesInput = {
+    AND?: AddressScalarWhereWithAggregatesInput | AddressScalarWhereWithAggregatesInput[]
+    OR?: AddressScalarWhereWithAggregatesInput[]
+    NOT?: AddressScalarWhereWithAggregatesInput | AddressScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"Address"> | string
+    label?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    addressType?: EnumAddressTypeWithAggregatesFilter<"Address"> | $Enums.AddressType
+    recipientName?: StringWithAggregatesFilter<"Address"> | string
+    recipientPhone?: StringWithAggregatesFilter<"Address"> | string
+    alternatePhone?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    line1?: StringWithAggregatesFilter<"Address"> | string
+    line2?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    landmark?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    city?: StringWithAggregatesFilter<"Address"> | string
+    state?: StringWithAggregatesFilter<"Address"> | string
+    postalCode?: StringWithAggregatesFilter<"Address"> | string
+    country?: StringWithAggregatesFilter<"Address"> | string
+    latitude?: FloatNullableWithAggregatesFilter<"Address"> | number | null
+    longitude?: FloatNullableWithAggregatesFilter<"Address"> | number | null
+    deliveryInstructions?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    isDefault?: BoolWithAggregatesFilter<"Address"> | boolean
+    createdAt?: DateTimeWithAggregatesFilter<"Address"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"Address"> | Date | string
+    adminId?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    buyerId?: StringNullableWithAggregatesFilter<"Address"> | string | null
+    managerId?: StringNullableWithAggregatesFilter<"Address"> | string | null
   }
 
   export type UserCreateInput = {
@@ -6182,6 +8052,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutAdminInput
+    addresses?: AddressCreateNestedManyWithoutAdminInput
   }
 
   export type AdminUncheckedCreateInput = {
@@ -6193,6 +8064,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     email: string
+    addresses?: AddressUncheckedCreateNestedManyWithoutAdminInput
   }
 
   export type AdminUpdateInput = {
@@ -6204,6 +8076,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutAdminNestedInput
+    addresses?: AddressUpdateManyWithoutAdminNestedInput
   }
 
   export type AdminUncheckedUpdateInput = {
@@ -6215,6 +8088,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
+    addresses?: AddressUncheckedUpdateManyWithoutAdminNestedInput
   }
 
   export type AdminCreateManyInput = {
@@ -6254,11 +8128,11 @@ export namespace Prisma {
     name: string
     profilePhoto?: string | null
     contactNumber: string
-    address?: string | null
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutBuyerInput
+    addresses?: AddressCreateNestedManyWithoutBuyerInput
   }
 
   export type BuyerUncheckedCreateInput = {
@@ -6266,11 +8140,11 @@ export namespace Prisma {
     name: string
     profilePhoto?: string | null
     contactNumber: string
-    address?: string | null
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
     email: string
+    addresses?: AddressUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type BuyerUpdateInput = {
@@ -6278,11 +8152,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     contactNumber?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutBuyerNestedInput
+    addresses?: AddressUpdateManyWithoutBuyerNestedInput
   }
 
   export type BuyerUncheckedUpdateInput = {
@@ -6290,11 +8164,11 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     contactNumber?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
+    addresses?: AddressUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type BuyerCreateManyInput = {
@@ -6302,7 +8176,6 @@ export namespace Prisma {
     name: string
     profilePhoto?: string | null
     contactNumber: string
-    address?: string | null
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
@@ -6314,7 +8187,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     contactNumber?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6325,7 +8197,6 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     contactNumber?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -6341,6 +8212,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     user: UserCreateNestedOneWithoutManagerInput
+    addresses?: AddressCreateNestedManyWithoutManagerInput
   }
 
   export type ManagerUncheckedCreateInput = {
@@ -6352,6 +8224,7 @@ export namespace Prisma {
     createdAt?: Date | string
     updatedAt?: Date | string
     email: string
+    addresses?: AddressUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type ManagerUpdateInput = {
@@ -6363,6 +8236,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     user?: UserUpdateOneRequiredWithoutManagerNestedInput
+    addresses?: AddressUpdateManyWithoutManagerNestedInput
   }
 
   export type ManagerUncheckedUpdateInput = {
@@ -6374,6 +8248,7 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
+    addresses?: AddressUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type ManagerCreateManyInput = {
@@ -6406,6 +8281,178 @@ export namespace Prisma {
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     email?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AddressCreateInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    admin?: AdminCreateNestedOneWithoutAddressesInput
+    buyer?: BuyerCreateNestedOneWithoutAddressesInput
+    manager?: ManagerCreateNestedOneWithoutAddressesInput
+  }
+
+  export type AddressUncheckedCreateInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminId?: string | null
+    buyerId?: string | null
+    managerId?: string | null
+  }
+
+  export type AddressUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    admin?: AdminUpdateOneWithoutAddressesNestedInput
+    buyer?: BuyerUpdateOneWithoutAddressesNestedInput
+    manager?: ManagerUpdateOneWithoutAddressesNestedInput
+  }
+
+  export type AddressUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AddressCreateManyInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminId?: string | null
+    buyerId?: string | null
+    managerId?: string | null
+  }
+
+  export type AddressUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type AddressUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
   export type StringFilter<$PrismaModel = never> = {
@@ -6581,9 +8628,19 @@ export namespace Prisma {
     isNot?: UserWhereInput
   }
 
+  export type AddressListRelationFilter = {
+    every?: AddressWhereInput
+    some?: AddressWhereInput
+    none?: AddressWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
+  }
+
+  export type AddressOrderByRelationAggregateInput = {
+    _count?: SortOrder
   }
 
   export type AdminCountOrderByAggregateInput = {
@@ -6642,7 +8699,6 @@ export namespace Prisma {
     name?: SortOrder
     profilePhoto?: SortOrder
     contactNumber?: SortOrder
-    address?: SortOrder
     isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6654,7 +8710,6 @@ export namespace Prisma {
     name?: SortOrder
     profilePhoto?: SortOrder
     contactNumber?: SortOrder
-    address?: SortOrder
     isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6666,7 +8721,6 @@ export namespace Prisma {
     name?: SortOrder
     profilePhoto?: SortOrder
     contactNumber?: SortOrder
-    address?: SortOrder
     isDeleted?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
@@ -6704,6 +8758,135 @@ export namespace Prisma {
     createdAt?: SortOrder
     updatedAt?: SortOrder
     email?: SortOrder
+  }
+
+  export type EnumAddressTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AddressType | EnumAddressTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAddressTypeFilter<$PrismaModel> | $Enums.AddressType
+  }
+
+  export type FloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type AddressCountOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    addressType?: SortOrder
+    recipientName?: SortOrder
+    recipientPhone?: SortOrder
+    alternatePhone?: SortOrder
+    line1?: SortOrder
+    line2?: SortOrder
+    landmark?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    postalCode?: SortOrder
+    country?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    deliveryInstructions?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    adminId?: SortOrder
+    buyerId?: SortOrder
+    managerId?: SortOrder
+  }
+
+  export type AddressAvgOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type AddressMaxOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    addressType?: SortOrder
+    recipientName?: SortOrder
+    recipientPhone?: SortOrder
+    alternatePhone?: SortOrder
+    line1?: SortOrder
+    line2?: SortOrder
+    landmark?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    postalCode?: SortOrder
+    country?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    deliveryInstructions?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    adminId?: SortOrder
+    buyerId?: SortOrder
+    managerId?: SortOrder
+  }
+
+  export type AddressMinOrderByAggregateInput = {
+    id?: SortOrder
+    label?: SortOrder
+    addressType?: SortOrder
+    recipientName?: SortOrder
+    recipientPhone?: SortOrder
+    alternatePhone?: SortOrder
+    line1?: SortOrder
+    line2?: SortOrder
+    landmark?: SortOrder
+    city?: SortOrder
+    state?: SortOrder
+    postalCode?: SortOrder
+    country?: SortOrder
+    latitude?: SortOrder
+    longitude?: SortOrder
+    deliveryInstructions?: SortOrder
+    isDefault?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    adminId?: SortOrder
+    buyerId?: SortOrder
+    managerId?: SortOrder
+  }
+
+  export type AddressSumOrderByAggregateInput = {
+    latitude?: SortOrder
+    longitude?: SortOrder
+  }
+
+  export type EnumAddressTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AddressType | EnumAddressTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAddressTypeWithAggregatesFilter<$PrismaModel> | $Enums.AddressType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAddressTypeFilter<$PrismaModel>
+    _max?: NestedEnumAddressTypeFilter<$PrismaModel>
+  }
+
+  export type FloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
   }
 
   export type AdminCreateNestedOneWithoutUserInput = {
@@ -6828,6 +9011,20 @@ export namespace Prisma {
     connect?: UserWhereUniqueInput
   }
 
+  export type AddressCreateNestedManyWithoutAdminInput = {
+    create?: XOR<AddressCreateWithoutAdminInput, AddressUncheckedCreateWithoutAdminInput> | AddressCreateWithoutAdminInput[] | AddressUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutAdminInput | AddressCreateOrConnectWithoutAdminInput[]
+    createMany?: AddressCreateManyAdminInputEnvelope
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+  }
+
+  export type AddressUncheckedCreateNestedManyWithoutAdminInput = {
+    create?: XOR<AddressCreateWithoutAdminInput, AddressUncheckedCreateWithoutAdminInput> | AddressCreateWithoutAdminInput[] | AddressUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutAdminInput | AddressCreateOrConnectWithoutAdminInput[]
+    createMany?: AddressCreateManyAdminInputEnvelope
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+  }
+
   export type NullableStringFieldUpdateOperationsInput = {
     set?: string | null
   }
@@ -6840,10 +9037,52 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutAdminInput, UserUpdateWithoutAdminInput>, UserUncheckedUpdateWithoutAdminInput>
   }
 
+  export type AddressUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<AddressCreateWithoutAdminInput, AddressUncheckedCreateWithoutAdminInput> | AddressCreateWithoutAdminInput[] | AddressUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutAdminInput | AddressCreateOrConnectWithoutAdminInput[]
+    upsert?: AddressUpsertWithWhereUniqueWithoutAdminInput | AddressUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: AddressCreateManyAdminInputEnvelope
+    set?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    disconnect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    delete?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    update?: AddressUpdateWithWhereUniqueWithoutAdminInput | AddressUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: AddressUpdateManyWithWhereWithoutAdminInput | AddressUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
+  }
+
+  export type AddressUncheckedUpdateManyWithoutAdminNestedInput = {
+    create?: XOR<AddressCreateWithoutAdminInput, AddressUncheckedCreateWithoutAdminInput> | AddressCreateWithoutAdminInput[] | AddressUncheckedCreateWithoutAdminInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutAdminInput | AddressCreateOrConnectWithoutAdminInput[]
+    upsert?: AddressUpsertWithWhereUniqueWithoutAdminInput | AddressUpsertWithWhereUniqueWithoutAdminInput[]
+    createMany?: AddressCreateManyAdminInputEnvelope
+    set?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    disconnect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    delete?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    update?: AddressUpdateWithWhereUniqueWithoutAdminInput | AddressUpdateWithWhereUniqueWithoutAdminInput[]
+    updateMany?: AddressUpdateManyWithWhereWithoutAdminInput | AddressUpdateManyWithWhereWithoutAdminInput[]
+    deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutBuyerInput = {
     create?: XOR<UserCreateWithoutBuyerInput, UserUncheckedCreateWithoutBuyerInput>
     connectOrCreate?: UserCreateOrConnectWithoutBuyerInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AddressCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<AddressCreateWithoutBuyerInput, AddressUncheckedCreateWithoutBuyerInput> | AddressCreateWithoutBuyerInput[] | AddressUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutBuyerInput | AddressCreateOrConnectWithoutBuyerInput[]
+    createMany?: AddressCreateManyBuyerInputEnvelope
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+  }
+
+  export type AddressUncheckedCreateNestedManyWithoutBuyerInput = {
+    create?: XOR<AddressCreateWithoutBuyerInput, AddressUncheckedCreateWithoutBuyerInput> | AddressCreateWithoutBuyerInput[] | AddressUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutBuyerInput | AddressCreateOrConnectWithoutBuyerInput[]
+    createMany?: AddressCreateManyBuyerInputEnvelope
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutBuyerNestedInput = {
@@ -6854,10 +9093,52 @@ export namespace Prisma {
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBuyerInput, UserUpdateWithoutBuyerInput>, UserUncheckedUpdateWithoutBuyerInput>
   }
 
+  export type AddressUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<AddressCreateWithoutBuyerInput, AddressUncheckedCreateWithoutBuyerInput> | AddressCreateWithoutBuyerInput[] | AddressUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutBuyerInput | AddressCreateOrConnectWithoutBuyerInput[]
+    upsert?: AddressUpsertWithWhereUniqueWithoutBuyerInput | AddressUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: AddressCreateManyBuyerInputEnvelope
+    set?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    disconnect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    delete?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    update?: AddressUpdateWithWhereUniqueWithoutBuyerInput | AddressUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: AddressUpdateManyWithWhereWithoutBuyerInput | AddressUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
+  }
+
+  export type AddressUncheckedUpdateManyWithoutBuyerNestedInput = {
+    create?: XOR<AddressCreateWithoutBuyerInput, AddressUncheckedCreateWithoutBuyerInput> | AddressCreateWithoutBuyerInput[] | AddressUncheckedCreateWithoutBuyerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutBuyerInput | AddressCreateOrConnectWithoutBuyerInput[]
+    upsert?: AddressUpsertWithWhereUniqueWithoutBuyerInput | AddressUpsertWithWhereUniqueWithoutBuyerInput[]
+    createMany?: AddressCreateManyBuyerInputEnvelope
+    set?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    disconnect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    delete?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    update?: AddressUpdateWithWhereUniqueWithoutBuyerInput | AddressUpdateWithWhereUniqueWithoutBuyerInput[]
+    updateMany?: AddressUpdateManyWithWhereWithoutBuyerInput | AddressUpdateManyWithWhereWithoutBuyerInput[]
+    deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
+  }
+
   export type UserCreateNestedOneWithoutManagerInput = {
     create?: XOR<UserCreateWithoutManagerInput, UserUncheckedCreateWithoutManagerInput>
     connectOrCreate?: UserCreateOrConnectWithoutManagerInput
     connect?: UserWhereUniqueInput
+  }
+
+  export type AddressCreateNestedManyWithoutManagerInput = {
+    create?: XOR<AddressCreateWithoutManagerInput, AddressUncheckedCreateWithoutManagerInput> | AddressCreateWithoutManagerInput[] | AddressUncheckedCreateWithoutManagerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutManagerInput | AddressCreateOrConnectWithoutManagerInput[]
+    createMany?: AddressCreateManyManagerInputEnvelope
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+  }
+
+  export type AddressUncheckedCreateNestedManyWithoutManagerInput = {
+    create?: XOR<AddressCreateWithoutManagerInput, AddressUncheckedCreateWithoutManagerInput> | AddressCreateWithoutManagerInput[] | AddressUncheckedCreateWithoutManagerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutManagerInput | AddressCreateOrConnectWithoutManagerInput[]
+    createMany?: AddressCreateManyManagerInputEnvelope
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
   }
 
   export type UserUpdateOneRequiredWithoutManagerNestedInput = {
@@ -6866,6 +9147,94 @@ export namespace Prisma {
     upsert?: UserUpsertWithoutManagerInput
     connect?: UserWhereUniqueInput
     update?: XOR<XOR<UserUpdateToOneWithWhereWithoutManagerInput, UserUpdateWithoutManagerInput>, UserUncheckedUpdateWithoutManagerInput>
+  }
+
+  export type AddressUpdateManyWithoutManagerNestedInput = {
+    create?: XOR<AddressCreateWithoutManagerInput, AddressUncheckedCreateWithoutManagerInput> | AddressCreateWithoutManagerInput[] | AddressUncheckedCreateWithoutManagerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutManagerInput | AddressCreateOrConnectWithoutManagerInput[]
+    upsert?: AddressUpsertWithWhereUniqueWithoutManagerInput | AddressUpsertWithWhereUniqueWithoutManagerInput[]
+    createMany?: AddressCreateManyManagerInputEnvelope
+    set?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    disconnect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    delete?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    update?: AddressUpdateWithWhereUniqueWithoutManagerInput | AddressUpdateWithWhereUniqueWithoutManagerInput[]
+    updateMany?: AddressUpdateManyWithWhereWithoutManagerInput | AddressUpdateManyWithWhereWithoutManagerInput[]
+    deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
+  }
+
+  export type AddressUncheckedUpdateManyWithoutManagerNestedInput = {
+    create?: XOR<AddressCreateWithoutManagerInput, AddressUncheckedCreateWithoutManagerInput> | AddressCreateWithoutManagerInput[] | AddressUncheckedCreateWithoutManagerInput[]
+    connectOrCreate?: AddressCreateOrConnectWithoutManagerInput | AddressCreateOrConnectWithoutManagerInput[]
+    upsert?: AddressUpsertWithWhereUniqueWithoutManagerInput | AddressUpsertWithWhereUniqueWithoutManagerInput[]
+    createMany?: AddressCreateManyManagerInputEnvelope
+    set?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    disconnect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    delete?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    connect?: AddressWhereUniqueInput | AddressWhereUniqueInput[]
+    update?: AddressUpdateWithWhereUniqueWithoutManagerInput | AddressUpdateWithWhereUniqueWithoutManagerInput[]
+    updateMany?: AddressUpdateManyWithWhereWithoutManagerInput | AddressUpdateManyWithWhereWithoutManagerInput[]
+    deleteMany?: AddressScalarWhereInput | AddressScalarWhereInput[]
+  }
+
+  export type AdminCreateNestedOneWithoutAddressesInput = {
+    create?: XOR<AdminCreateWithoutAddressesInput, AdminUncheckedCreateWithoutAddressesInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutAddressesInput
+    connect?: AdminWhereUniqueInput
+  }
+
+  export type BuyerCreateNestedOneWithoutAddressesInput = {
+    create?: XOR<BuyerCreateWithoutAddressesInput, BuyerUncheckedCreateWithoutAddressesInput>
+    connectOrCreate?: BuyerCreateOrConnectWithoutAddressesInput
+    connect?: BuyerWhereUniqueInput
+  }
+
+  export type ManagerCreateNestedOneWithoutAddressesInput = {
+    create?: XOR<ManagerCreateWithoutAddressesInput, ManagerUncheckedCreateWithoutAddressesInput>
+    connectOrCreate?: ManagerCreateOrConnectWithoutAddressesInput
+    connect?: ManagerWhereUniqueInput
+  }
+
+  export type EnumAddressTypeFieldUpdateOperationsInput = {
+    set?: $Enums.AddressType
+  }
+
+  export type NullableFloatFieldUpdateOperationsInput = {
+    set?: number | null
+    increment?: number
+    decrement?: number
+    multiply?: number
+    divide?: number
+  }
+
+  export type AdminUpdateOneWithoutAddressesNestedInput = {
+    create?: XOR<AdminCreateWithoutAddressesInput, AdminUncheckedCreateWithoutAddressesInput>
+    connectOrCreate?: AdminCreateOrConnectWithoutAddressesInput
+    upsert?: AdminUpsertWithoutAddressesInput
+    disconnect?: AdminWhereInput | boolean
+    delete?: AdminWhereInput | boolean
+    connect?: AdminWhereUniqueInput
+    update?: XOR<XOR<AdminUpdateToOneWithWhereWithoutAddressesInput, AdminUpdateWithoutAddressesInput>, AdminUncheckedUpdateWithoutAddressesInput>
+  }
+
+  export type BuyerUpdateOneWithoutAddressesNestedInput = {
+    create?: XOR<BuyerCreateWithoutAddressesInput, BuyerUncheckedCreateWithoutAddressesInput>
+    connectOrCreate?: BuyerCreateOrConnectWithoutAddressesInput
+    upsert?: BuyerUpsertWithoutAddressesInput
+    disconnect?: BuyerWhereInput | boolean
+    delete?: BuyerWhereInput | boolean
+    connect?: BuyerWhereUniqueInput
+    update?: XOR<XOR<BuyerUpdateToOneWithWhereWithoutAddressesInput, BuyerUpdateWithoutAddressesInput>, BuyerUncheckedUpdateWithoutAddressesInput>
+  }
+
+  export type ManagerUpdateOneWithoutAddressesNestedInput = {
+    create?: XOR<ManagerCreateWithoutAddressesInput, ManagerUncheckedCreateWithoutAddressesInput>
+    connectOrCreate?: ManagerCreateOrConnectWithoutAddressesInput
+    upsert?: ManagerUpsertWithoutAddressesInput
+    disconnect?: ManagerWhereInput | boolean
+    delete?: ManagerWhereInput | boolean
+    connect?: ManagerWhereUniqueInput
+    update?: XOR<XOR<ManagerUpdateToOneWithWhereWithoutAddressesInput, ManagerUpdateWithoutAddressesInput>, ManagerUncheckedUpdateWithoutAddressesInput>
   }
 
   export type NestedStringFilter<$PrismaModel = never> = {
@@ -7024,6 +9393,50 @@ export namespace Prisma {
     not?: NestedIntNullableFilter<$PrismaModel> | number | null
   }
 
+  export type NestedEnumAddressTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.AddressType | EnumAddressTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAddressTypeFilter<$PrismaModel> | $Enums.AddressType
+  }
+
+  export type NestedFloatNullableFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableFilter<$PrismaModel> | number | null
+  }
+
+  export type NestedEnumAddressTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.AddressType | EnumAddressTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.AddressType[] | ListEnumAddressTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumAddressTypeWithAggregatesFilter<$PrismaModel> | $Enums.AddressType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumAddressTypeFilter<$PrismaModel>
+    _max?: NestedEnumAddressTypeFilter<$PrismaModel>
+  }
+
+  export type NestedFloatNullableWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: number | FloatFieldRefInput<$PrismaModel> | null
+    in?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    notIn?: number[] | ListFloatFieldRefInput<$PrismaModel> | null
+    lt?: number | FloatFieldRefInput<$PrismaModel>
+    lte?: number | FloatFieldRefInput<$PrismaModel>
+    gt?: number | FloatFieldRefInput<$PrismaModel>
+    gte?: number | FloatFieldRefInput<$PrismaModel>
+    not?: NestedFloatNullableWithAggregatesFilter<$PrismaModel> | number | null
+    _count?: NestedIntNullableFilter<$PrismaModel>
+    _avg?: NestedFloatNullableFilter<$PrismaModel>
+    _sum?: NestedFloatNullableFilter<$PrismaModel>
+    _min?: NestedFloatNullableFilter<$PrismaModel>
+    _max?: NestedFloatNullableFilter<$PrismaModel>
+  }
+
   export type AdminCreateWithoutUserInput = {
     id?: string
     name: string
@@ -7032,6 +9445,7 @@ export namespace Prisma {
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    addresses?: AddressCreateNestedManyWithoutAdminInput
   }
 
   export type AdminUncheckedCreateWithoutUserInput = {
@@ -7042,6 +9456,7 @@ export namespace Prisma {
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    addresses?: AddressUncheckedCreateNestedManyWithoutAdminInput
   }
 
   export type AdminCreateOrConnectWithoutUserInput = {
@@ -7054,10 +9469,10 @@ export namespace Prisma {
     name: string
     profilePhoto?: string | null
     contactNumber: string
-    address?: string | null
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    addresses?: AddressCreateNestedManyWithoutBuyerInput
   }
 
   export type BuyerUncheckedCreateWithoutUserInput = {
@@ -7065,10 +9480,10 @@ export namespace Prisma {
     name: string
     profilePhoto?: string | null
     contactNumber: string
-    address?: string | null
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    addresses?: AddressUncheckedCreateNestedManyWithoutBuyerInput
   }
 
   export type BuyerCreateOrConnectWithoutUserInput = {
@@ -7084,6 +9499,7 @@ export namespace Prisma {
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    addresses?: AddressCreateNestedManyWithoutManagerInput
   }
 
   export type ManagerUncheckedCreateWithoutUserInput = {
@@ -7094,6 +9510,7 @@ export namespace Prisma {
     isDeleted?: boolean
     createdAt?: Date | string
     updatedAt?: Date | string
+    addresses?: AddressUncheckedCreateNestedManyWithoutManagerInput
   }
 
   export type ManagerCreateOrConnectWithoutUserInput = {
@@ -7120,6 +9537,7 @@ export namespace Prisma {
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    addresses?: AddressUpdateManyWithoutAdminNestedInput
   }
 
   export type AdminUncheckedUpdateWithoutUserInput = {
@@ -7130,6 +9548,7 @@ export namespace Prisma {
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    addresses?: AddressUncheckedUpdateManyWithoutAdminNestedInput
   }
 
   export type BuyerUpsertWithoutUserInput = {
@@ -7148,10 +9567,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     contactNumber?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    addresses?: AddressUpdateManyWithoutBuyerNestedInput
   }
 
   export type BuyerUncheckedUpdateWithoutUserInput = {
@@ -7159,10 +9578,10 @@ export namespace Prisma {
     name?: StringFieldUpdateOperationsInput | string
     profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
     contactNumber?: StringFieldUpdateOperationsInput | string
-    address?: NullableStringFieldUpdateOperationsInput | string | null
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    addresses?: AddressUncheckedUpdateManyWithoutBuyerNestedInput
   }
 
   export type ManagerUpsertWithoutUserInput = {
@@ -7184,6 +9603,7 @@ export namespace Prisma {
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    addresses?: AddressUpdateManyWithoutManagerNestedInput
   }
 
   export type ManagerUncheckedUpdateWithoutUserInput = {
@@ -7194,6 +9614,7 @@ export namespace Prisma {
     isDeleted?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    addresses?: AddressUncheckedUpdateManyWithoutManagerNestedInput
   }
 
   export type UserCreateWithoutAdminInput = {
@@ -7225,6 +9646,64 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutAdminInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutAdminInput, UserUncheckedCreateWithoutAdminInput>
+  }
+
+  export type AddressCreateWithoutAdminInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyer?: BuyerCreateNestedOneWithoutAddressesInput
+    manager?: ManagerCreateNestedOneWithoutAddressesInput
+  }
+
+  export type AddressUncheckedCreateWithoutAdminInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerId?: string | null
+    managerId?: string | null
+  }
+
+  export type AddressCreateOrConnectWithoutAdminInput = {
+    where: AddressWhereUniqueInput
+    create: XOR<AddressCreateWithoutAdminInput, AddressUncheckedCreateWithoutAdminInput>
+  }
+
+  export type AddressCreateManyAdminInputEnvelope = {
+    data: AddressCreateManyAdminInput | AddressCreateManyAdminInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutAdminInput = {
@@ -7264,6 +9743,50 @@ export namespace Prisma {
     manager?: ManagerUncheckedUpdateOneWithoutUserNestedInput
   }
 
+  export type AddressUpsertWithWhereUniqueWithoutAdminInput = {
+    where: AddressWhereUniqueInput
+    update: XOR<AddressUpdateWithoutAdminInput, AddressUncheckedUpdateWithoutAdminInput>
+    create: XOR<AddressCreateWithoutAdminInput, AddressUncheckedCreateWithoutAdminInput>
+  }
+
+  export type AddressUpdateWithWhereUniqueWithoutAdminInput = {
+    where: AddressWhereUniqueInput
+    data: XOR<AddressUpdateWithoutAdminInput, AddressUncheckedUpdateWithoutAdminInput>
+  }
+
+  export type AddressUpdateManyWithWhereWithoutAdminInput = {
+    where: AddressScalarWhereInput
+    data: XOR<AddressUpdateManyMutationInput, AddressUncheckedUpdateManyWithoutAdminInput>
+  }
+
+  export type AddressScalarWhereInput = {
+    AND?: AddressScalarWhereInput | AddressScalarWhereInput[]
+    OR?: AddressScalarWhereInput[]
+    NOT?: AddressScalarWhereInput | AddressScalarWhereInput[]
+    id?: StringFilter<"Address"> | string
+    label?: StringNullableFilter<"Address"> | string | null
+    addressType?: EnumAddressTypeFilter<"Address"> | $Enums.AddressType
+    recipientName?: StringFilter<"Address"> | string
+    recipientPhone?: StringFilter<"Address"> | string
+    alternatePhone?: StringNullableFilter<"Address"> | string | null
+    line1?: StringFilter<"Address"> | string
+    line2?: StringNullableFilter<"Address"> | string | null
+    landmark?: StringNullableFilter<"Address"> | string | null
+    city?: StringFilter<"Address"> | string
+    state?: StringFilter<"Address"> | string
+    postalCode?: StringFilter<"Address"> | string
+    country?: StringFilter<"Address"> | string
+    latitude?: FloatNullableFilter<"Address"> | number | null
+    longitude?: FloatNullableFilter<"Address"> | number | null
+    deliveryInstructions?: StringNullableFilter<"Address"> | string | null
+    isDefault?: BoolFilter<"Address"> | boolean
+    createdAt?: DateTimeFilter<"Address"> | Date | string
+    updatedAt?: DateTimeFilter<"Address"> | Date | string
+    adminId?: StringNullableFilter<"Address"> | string | null
+    buyerId?: StringNullableFilter<"Address"> | string | null
+    managerId?: StringNullableFilter<"Address"> | string | null
+  }
+
   export type UserCreateWithoutBuyerInput = {
     id?: string
     email: string
@@ -7293,6 +9816,64 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutBuyerInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutBuyerInput, UserUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type AddressCreateWithoutBuyerInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    admin?: AdminCreateNestedOneWithoutAddressesInput
+    manager?: ManagerCreateNestedOneWithoutAddressesInput
+  }
+
+  export type AddressUncheckedCreateWithoutBuyerInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminId?: string | null
+    managerId?: string | null
+  }
+
+  export type AddressCreateOrConnectWithoutBuyerInput = {
+    where: AddressWhereUniqueInput
+    create: XOR<AddressCreateWithoutBuyerInput, AddressUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type AddressCreateManyBuyerInputEnvelope = {
+    data: AddressCreateManyBuyerInput | AddressCreateManyBuyerInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutBuyerInput = {
@@ -7332,6 +9913,22 @@ export namespace Prisma {
     manager?: ManagerUncheckedUpdateOneWithoutUserNestedInput
   }
 
+  export type AddressUpsertWithWhereUniqueWithoutBuyerInput = {
+    where: AddressWhereUniqueInput
+    update: XOR<AddressUpdateWithoutBuyerInput, AddressUncheckedUpdateWithoutBuyerInput>
+    create: XOR<AddressCreateWithoutBuyerInput, AddressUncheckedCreateWithoutBuyerInput>
+  }
+
+  export type AddressUpdateWithWhereUniqueWithoutBuyerInput = {
+    where: AddressWhereUniqueInput
+    data: XOR<AddressUpdateWithoutBuyerInput, AddressUncheckedUpdateWithoutBuyerInput>
+  }
+
+  export type AddressUpdateManyWithWhereWithoutBuyerInput = {
+    where: AddressScalarWhereInput
+    data: XOR<AddressUpdateManyMutationInput, AddressUncheckedUpdateManyWithoutBuyerInput>
+  }
+
   export type UserCreateWithoutManagerInput = {
     id?: string
     email: string
@@ -7361,6 +9958,64 @@ export namespace Prisma {
   export type UserCreateOrConnectWithoutManagerInput = {
     where: UserWhereUniqueInput
     create: XOR<UserCreateWithoutManagerInput, UserUncheckedCreateWithoutManagerInput>
+  }
+
+  export type AddressCreateWithoutManagerInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    admin?: AdminCreateNestedOneWithoutAddressesInput
+    buyer?: BuyerCreateNestedOneWithoutAddressesInput
+  }
+
+  export type AddressUncheckedCreateWithoutManagerInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminId?: string | null
+    buyerId?: string | null
+  }
+
+  export type AddressCreateOrConnectWithoutManagerInput = {
+    where: AddressWhereUniqueInput
+    create: XOR<AddressCreateWithoutManagerInput, AddressUncheckedCreateWithoutManagerInput>
+  }
+
+  export type AddressCreateManyManagerInputEnvelope = {
+    data: AddressCreateManyManagerInput | AddressCreateManyManagerInput[]
+    skipDuplicates?: boolean
   }
 
   export type UserUpsertWithoutManagerInput = {
@@ -7398,6 +10053,490 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     admin?: AdminUncheckedUpdateOneWithoutUserNestedInput
     buyer?: BuyerUncheckedUpdateOneWithoutUserNestedInput
+  }
+
+  export type AddressUpsertWithWhereUniqueWithoutManagerInput = {
+    where: AddressWhereUniqueInput
+    update: XOR<AddressUpdateWithoutManagerInput, AddressUncheckedUpdateWithoutManagerInput>
+    create: XOR<AddressCreateWithoutManagerInput, AddressUncheckedCreateWithoutManagerInput>
+  }
+
+  export type AddressUpdateWithWhereUniqueWithoutManagerInput = {
+    where: AddressWhereUniqueInput
+    data: XOR<AddressUpdateWithoutManagerInput, AddressUncheckedUpdateWithoutManagerInput>
+  }
+
+  export type AddressUpdateManyWithWhereWithoutManagerInput = {
+    where: AddressScalarWhereInput
+    data: XOR<AddressUpdateManyMutationInput, AddressUncheckedUpdateManyWithoutManagerInput>
+  }
+
+  export type AdminCreateWithoutAddressesInput = {
+    id?: string
+    name: string
+    profilePhoto?: string | null
+    contactNumber: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutAdminInput
+  }
+
+  export type AdminUncheckedCreateWithoutAddressesInput = {
+    id?: string
+    name: string
+    profilePhoto?: string | null
+    contactNumber: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+  }
+
+  export type AdminCreateOrConnectWithoutAddressesInput = {
+    where: AdminWhereUniqueInput
+    create: XOR<AdminCreateWithoutAddressesInput, AdminUncheckedCreateWithoutAddressesInput>
+  }
+
+  export type BuyerCreateWithoutAddressesInput = {
+    id?: string
+    name: string
+    profilePhoto?: string | null
+    contactNumber: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBuyerInput
+  }
+
+  export type BuyerUncheckedCreateWithoutAddressesInput = {
+    id?: string
+    name: string
+    profilePhoto?: string | null
+    contactNumber: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+  }
+
+  export type BuyerCreateOrConnectWithoutAddressesInput = {
+    where: BuyerWhereUniqueInput
+    create: XOR<BuyerCreateWithoutAddressesInput, BuyerUncheckedCreateWithoutAddressesInput>
+  }
+
+  export type ManagerCreateWithoutAddressesInput = {
+    id?: string
+    name: string
+    profilePhoto?: string | null
+    contactNumber: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutManagerInput
+  }
+
+  export type ManagerUncheckedCreateWithoutAddressesInput = {
+    id?: string
+    name: string
+    profilePhoto?: string | null
+    contactNumber: string
+    isDeleted?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    email: string
+  }
+
+  export type ManagerCreateOrConnectWithoutAddressesInput = {
+    where: ManagerWhereUniqueInput
+    create: XOR<ManagerCreateWithoutAddressesInput, ManagerUncheckedCreateWithoutAddressesInput>
+  }
+
+  export type AdminUpsertWithoutAddressesInput = {
+    update: XOR<AdminUpdateWithoutAddressesInput, AdminUncheckedUpdateWithoutAddressesInput>
+    create: XOR<AdminCreateWithoutAddressesInput, AdminUncheckedCreateWithoutAddressesInput>
+    where?: AdminWhereInput
+  }
+
+  export type AdminUpdateToOneWithWhereWithoutAddressesInput = {
+    where?: AdminWhereInput
+    data: XOR<AdminUpdateWithoutAddressesInput, AdminUncheckedUpdateWithoutAddressesInput>
+  }
+
+  export type AdminUpdateWithoutAddressesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutAdminNestedInput
+  }
+
+  export type AdminUncheckedUpdateWithoutAddressesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type BuyerUpsertWithoutAddressesInput = {
+    update: XOR<BuyerUpdateWithoutAddressesInput, BuyerUncheckedUpdateWithoutAddressesInput>
+    create: XOR<BuyerCreateWithoutAddressesInput, BuyerUncheckedCreateWithoutAddressesInput>
+    where?: BuyerWhereInput
+  }
+
+  export type BuyerUpdateToOneWithWhereWithoutAddressesInput = {
+    where?: BuyerWhereInput
+    data: XOR<BuyerUpdateWithoutAddressesInput, BuyerUncheckedUpdateWithoutAddressesInput>
+  }
+
+  export type BuyerUpdateWithoutAddressesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBuyerNestedInput
+  }
+
+  export type BuyerUncheckedUpdateWithoutAddressesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type ManagerUpsertWithoutAddressesInput = {
+    update: XOR<ManagerUpdateWithoutAddressesInput, ManagerUncheckedUpdateWithoutAddressesInput>
+    create: XOR<ManagerCreateWithoutAddressesInput, ManagerUncheckedCreateWithoutAddressesInput>
+    where?: ManagerWhereInput
+  }
+
+  export type ManagerUpdateToOneWithWhereWithoutAddressesInput = {
+    where?: ManagerWhereInput
+    data: XOR<ManagerUpdateWithoutAddressesInput, ManagerUncheckedUpdateWithoutAddressesInput>
+  }
+
+  export type ManagerUpdateWithoutAddressesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutManagerNestedInput
+  }
+
+  export type ManagerUncheckedUpdateWithoutAddressesInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: StringFieldUpdateOperationsInput | string
+    profilePhoto?: NullableStringFieldUpdateOperationsInput | string | null
+    contactNumber?: StringFieldUpdateOperationsInput | string
+    isDeleted?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    email?: StringFieldUpdateOperationsInput | string
+  }
+
+  export type AddressCreateManyAdminInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    buyerId?: string | null
+    managerId?: string | null
+  }
+
+  export type AddressUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyer?: BuyerUpdateOneWithoutAddressesNestedInput
+    manager?: ManagerUpdateOneWithoutAddressesNestedInput
+  }
+
+  export type AddressUncheckedUpdateWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AddressUncheckedUpdateManyWithoutAdminInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    buyerId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AddressCreateManyBuyerInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminId?: string | null
+    managerId?: string | null
+  }
+
+  export type AddressUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    admin?: AdminUpdateOneWithoutAddressesNestedInput
+    manager?: ManagerUpdateOneWithoutAddressesNestedInput
+  }
+
+  export type AddressUncheckedUpdateWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AddressUncheckedUpdateManyWithoutBuyerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    managerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AddressCreateManyManagerInput = {
+    id?: string
+    label?: string | null
+    addressType?: $Enums.AddressType
+    recipientName: string
+    recipientPhone: string
+    alternatePhone?: string | null
+    line1: string
+    line2?: string | null
+    landmark?: string | null
+    city: string
+    state: string
+    postalCode: string
+    country?: string
+    latitude?: number | null
+    longitude?: number | null
+    deliveryInstructions?: string | null
+    isDefault?: boolean
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    adminId?: string | null
+    buyerId?: string | null
+  }
+
+  export type AddressUpdateWithoutManagerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    admin?: AdminUpdateOneWithoutAddressesNestedInput
+    buyer?: BuyerUpdateOneWithoutAddressesNestedInput
+  }
+
+  export type AddressUncheckedUpdateWithoutManagerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerId?: NullableStringFieldUpdateOperationsInput | string | null
+  }
+
+  export type AddressUncheckedUpdateManyWithoutManagerInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    label?: NullableStringFieldUpdateOperationsInput | string | null
+    addressType?: EnumAddressTypeFieldUpdateOperationsInput | $Enums.AddressType
+    recipientName?: StringFieldUpdateOperationsInput | string
+    recipientPhone?: StringFieldUpdateOperationsInput | string
+    alternatePhone?: NullableStringFieldUpdateOperationsInput | string | null
+    line1?: StringFieldUpdateOperationsInput | string
+    line2?: NullableStringFieldUpdateOperationsInput | string | null
+    landmark?: NullableStringFieldUpdateOperationsInput | string | null
+    city?: StringFieldUpdateOperationsInput | string
+    state?: StringFieldUpdateOperationsInput | string
+    postalCode?: StringFieldUpdateOperationsInput | string
+    country?: StringFieldUpdateOperationsInput | string
+    latitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    longitude?: NullableFloatFieldUpdateOperationsInput | number | null
+    deliveryInstructions?: NullableStringFieldUpdateOperationsInput | string | null
+    isDefault?: BoolFieldUpdateOperationsInput | boolean
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    adminId?: NullableStringFieldUpdateOperationsInput | string | null
+    buyerId?: NullableStringFieldUpdateOperationsInput | string | null
   }
 
 
