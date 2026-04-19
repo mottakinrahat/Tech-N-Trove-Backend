@@ -8,21 +8,10 @@ import { ProductServices } from "./product.services";
 
 const createProduct = catchAsync(async (req: any, res: any) => {
   const body = req.body;
-  const data: Prisma.ProductUncheckedCreateInput = {
-    name: body.name,
-    slug: body.slug,
-    categoryId: body.categoryId,
-    description: body.description,
-    brand: body.brand,
-    images: body.images ?? [],
-    tags: body.tags ?? [],
-    isPublished: body.isPublished ?? false,
-    isFeatured: body.isFeatured ?? false,
-    metaTitle: body.metaTitle,
-    metaDescription: body.metaDescription,
-  };
+  const user=req.user;
 
-  const result = await ProductServices.createProductIntoDB(data);
+
+  const result = await ProductServices.createProductIntoDB(body,user);
 
   sendResponse(res, {
     success: true,
@@ -95,25 +84,9 @@ const getProductByIdAdmin = catchAsync(async (req: any, res: any) => {
 const updateProduct = catchAsync(async (req: any, res: any) => {
   const { productId } = req.params;
   const body = req.body;
-  const data: Prisma.ProductUncheckedUpdateInput = {
-    name: body.name,
-    slug: body.slug,
-    categoryId: body.categoryId,
-    description: body.description,
-    brand: body.brand,
-    images: body.images,
-    tags: body.tags,
-    isPublished: body.isPublished,
-    isFeatured: body.isFeatured,
-    metaTitle: body.metaTitle,
-    metaDescription: body.metaDescription,
-  };
 
-  const filtered = Object.fromEntries(
-    Object.entries(data).filter(([, value]) => value !== undefined),
-  ) as Prisma.ProductUncheckedUpdateInput;
 
-  const result = await ProductServices.updateProductIntoDB(productId, filtered);
+  const result = await ProductServices.updateProductIntoDB(productId, body);
 
   sendResponse(res, {
     success: true,
@@ -137,24 +110,7 @@ const deleteProduct = catchAsync(async (req: any, res: any) => {
 
 const createVariant = catchAsync(async (req: any, res: any) => {
   const { productId } = req.params;
-  const body = req.body;
-  const data: Omit<Prisma.ProductVariantUncheckedCreateInput, "productId"> = {
-    sku: body.sku,
-    title: body.title,
-    price: body.price,
-    comparePrice: body.comparePrice,
-    costPrice: body.costPrice,
-    stock: body.stock,
-    lowStockThreshold: body.lowStockThreshold,
-    color: body.color,
-    size: body.size,
-    material: body.material,
-    weight: body.weight,
-    barcode: body.barcode,
-    isActive: body.isActive ?? true,
-  };
-
-  const result = await ProductServices.createVariantIntoDB(productId, data);
+  const result = await ProductServices.createVariantIntoDB(productId, req);
 
   sendResponse(res, {
     success: true,
@@ -163,6 +119,20 @@ const createVariant = catchAsync(async (req: any, res: any) => {
     data: result,
   });
 });
+
+// const createVariant = catchAsync(async (req: any, res: any) => {
+//   const { productId } = req.params;
+//   const body = req.body;
+
+//   const result = await ProductServices.createVariantIntoDB(productId, body);
+
+//   sendResponse(res, {
+//     success: true,
+//     statusCode: status.CREATED,
+//     message: "Variant created successfully",
+//     data: result,
+//   });
+// });
 
 const getVariantsByProduct = catchAsync(async (req: any, res: any) => {
   const { productId } = req.params;

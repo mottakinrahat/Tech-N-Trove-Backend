@@ -21,6 +21,7 @@ model User {
   admin              Admin?
   buyer              Buyer?
   manager            Manager?
+  product            Product[]
 
   @@map("users")
 }
@@ -104,34 +105,55 @@ model Address {
 }
 
 model Product {
-  id          String   @id @default(uuid())
-  name        String
-  slug        String   @unique
-  description String?
-  brand       String?
-  categoryId  String   
-  tags        String[]
-  isPublished Boolean  @default(false)
-  isFeatured  Boolean  @default(false)
+  id             String   @id @default(uuid())
+  name           String
+  slug           String   @unique
+  description    String?
+  productAddById String
+  brandId        String?
+  categoryId     String
+  tags           String[]
+  isPublished    Boolean  @default(false)
+  isFeatured     Boolean  @default(false)
 
   // SEO
   metaTitle       String?
   metaDescription String?
-  category        Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
 
   // Relations
+  category      Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  brand         Brand?           @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  user          User             @relation(fields: [productAddById], references: [id], onDelete: Cascade)
   variants      ProductVariant[]
   productImages ProductImage[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@map("products")
+}
+
+model Brand {
+  id          String    @id @default(uuid())
+  brandName   String    @unique
+  description String?
+  logoUrl     String?
+  products    Product[]
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+
+  @@map("brands")
 }
 
 model Category {
   id           String    @id @default(uuid())
-  categoryName String
+  categoryName String    @unique
   description  String
   product      Product[]
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  @@map("categories")
 }
 
 model ProductVariant {

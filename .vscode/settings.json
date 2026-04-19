@@ -1,0 +1,13 @@
+{
+  "prisma.pinToPrisma6": true,
+  "prisma.schemaPath": "prisma/schema.prisma",
+  "files.exclude": {
+    "**/prisma/generated": true
+  },
+  "files.watcherExclude": {
+    "**/prisma/generated/**": true
+  },
+  "search.exclude": {
+    "**/prisma/generated": true
+  }
+}

@@ -1,86 +1,45 @@
 import status from "http-status";
-import { Prisma } from "../../../../prisma/generated/prisma";
+import { Prisma, UserStatus } from "../../../../prisma/generated/prisma";
 import ApiError from "../../errors/apiError";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
 import prisma from "../../../shared/prisma";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { productSearchableFields } from "./product.constant";
 import { IProductFilterRequest } from "./product.interface";
+import { productHelpers } from "./product.helper";
+import { fileUploader } from "../../../helpers/fileUploader";
 
-const productIncludeDefault = {
-  variants: {
-    include: {
-      variantImages: true,
-    },
-  },
-  productImages: true,
-} satisfies Prisma.ProductInclude;
 
-const identifierWhere = (
-  identifier: string,
-): Prisma.ProductWhereInput => ({
-  OR: [{ id: identifier }, { slug: identifier }],
-});
-
-const parseBooleanParam = (value: string | boolean | undefined) => {
-  if (typeof value === "boolean") return value;
-  if (value === "true") return true;
-  if (value === "false") return false;
-  return undefined;
-};
-
-const buildProductFilterConditions = (
-  params: IProductFilterRequest,
-  options: { publishedOnly?: boolean },
+const createProductIntoDB = async (
+  payload: Prisma.ProductUncheckedCreateInput,
+  user: any
 ) => {
-  const { searchTerm, ...filterData } = params;
-  const andConditions: Prisma.ProductWhereInput[] = [];
-
-  if (searchTerm) {
-    andConditions.push({
-      OR: productSearchableFields.map((field) => ({
-        [field]: {
-          contains: searchTerm,
-          mode: "insensitive" as const,
-        },
-      })),
-    });
-  }
-
-  if (filterData.categoryId) {
-    andConditions.push({ categoryId: filterData.categoryId });
-  }
-
-  if (filterData.brand) {
-    andConditions.push({
-      brand: {
-        equals: filterData.brand,
-        mode: "insensitive",
+  try {
+    // 🔍 Find user by email
+    const existingUser = await prisma.user.findUnique({
+      where: {
+        email: user.email,
+        status:UserStatus.ACTIVE
+      },
+      select: {
+        id: true,
       },
     });
-  }
 
-  const published = parseBooleanParam(filterData.isPublished);
-  if (published !== undefined) {
-    andConditions.push({ isPublished: published });
-  } else if (options.publishedOnly) {
-    andConditions.push({ isPublished: true });
-  }
+    if (!existingUser) {
+      throw new ApiError(status.NOT_FOUND, "User not found");
+    }
 
-  const featured = parseBooleanParam(filterData.isFeatured);
-  if (featured !== undefined) {
-    andConditions.push({ isFeatured: featured });
-  }
-
-  return andConditions;
-};
-
-const createProductIntoDB = async (payload: Prisma.ProductUncheckedCreateInput) => {
-  try {
-    return await prisma.product.create({
-      data: payload,
-      include: productIncludeDefault,
+    // ✅ Inject productAddById from DB (NOT from payload)
+    const result = await prisma.product.create({
+      data: {
+        ...payload,
+        productAddById: existingUser.id,
+      },
+      include: productHelpers.productIncludeDefault,
     });
+
+    return result;
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -100,7 +59,7 @@ const getProductsFromDB = async (
   const { page, limit, sortBy, sortOrder, skip } =
     paginationHelpers.calculatePagination(options);
 
-  const andConditions = buildProductFilterConditions(params, {
+  const andConditions = productHelpers.buildProductFilterConditions(params, {
     publishedOnly: listOptions.publishedOnly ?? true,
   });
 
@@ -116,7 +75,7 @@ const getProductsFromDB = async (
       skip,
       take: limit,
       orderBy: { [orderField]: orderDir },
-      include: productIncludeDefault,
+      include: productHelpers.productIncludeDefault,
     }),
     prisma.product.count({ where: whereConditions }),
   ]);
@@ -132,7 +91,7 @@ const getSingleProductFromDB = async (
   options: { publishedOnly?: boolean } = {},
 ) => {
   const andConditions: Prisma.ProductWhereInput[] = [
-    identifierWhere(identifier),
+    productHelpers.identifierWhere(identifier),
   ];
 
   if (options.publishedOnly) {
@@ -141,7 +100,7 @@ const getSingleProductFromDB = async (
 
   const result = await prisma.product.findFirst({
     where: { AND: andConditions },
-    include: productIncludeDefault,
+    include: productHelpers.productIncludeDefault,
   });
 
   if (!result) {
@@ -156,7 +115,7 @@ const updateProductIntoDB = async (
   payload: Prisma.ProductUncheckedUpdateInput,
 ) => {
   const existing = await prisma.product.findFirst({
-    where: identifierWhere(identifier),
+    where: productHelpers.identifierWhere(identifier),
     select: { id: true },
   });
 
@@ -168,7 +127,7 @@ const updateProductIntoDB = async (
     return await prisma.product.update({
       where: { id: existing.id },
       data: payload,
-      include: productIncludeDefault,
+      include: productHelpers.productIncludeDefault,
     });
   } catch (error) {
     if (
@@ -183,7 +142,7 @@ const updateProductIntoDB = async (
 
 const deleteProductIntoDB = async (identifier: string) => {
   const existing = await prisma.product.findFirst({
-    where: identifierWhere(identifier),
+    where: productHelpers.identifierWhere(identifier),
     select: { id: true },
   });
 
@@ -206,20 +165,32 @@ const assertProductExists = async (productId: string) => {
     throw new ApiError(status.NOT_FOUND, "Product not found");
   }
 };
-
 const createVariantIntoDB = async (
   productId: string,
-  data: Omit<Prisma.ProductVariantUncheckedCreateInput, "productId">,
+ req:any,
 ) => {
+  const data=req.body;
+
+  const file=req?.file;
+  const uploadToCloudinary=await fileUploader.uploadToCloudinary(file?.path);
+  
   await assertProductExists(productId);
 
   try {
-    return await prisma.productVariant.create({
+    const result= await prisma.productVariant.create({
       data: {
         ...data,
         productId,
       },
     });
+    const createVarientImage=await prisma.productImage.create ({
+      data:{
+        url:uploadToCloudinary?.url,
+        productId,
+        variantId:result.id,
+      },
+    });
+    return result;
   } catch (error) {
     if (
       error instanceof Prisma.PrismaClientKnownRequestError &&
@@ -230,6 +201,31 @@ const createVariantIntoDB = async (
     throw error;
   }
 };
+// const createVariantIntoDB = async (
+//   productId: string,
+//   data: Omit<Prisma.ProductVariantUncheckedCreateInput, "productId">,
+// ) => {
+//   await assertProductExists(productId);
+
+//   try {
+//     const result= await prisma.productVariant.create({
+//       data: {
+//         ...data,
+//         productId,
+//       },
+//     });
+    
+//     return result;
+//   } catch (error) {
+//     if (
+//       error instanceof Prisma.PrismaClientKnownRequestError &&
+//       error.code === "P2002"
+//     ) {
+//       throw new ApiError(status.CONFLICT, "Variant SKU must be unique");
+//     }
+//     throw error;
+//   }
+// };
 
 const getVariantsByProductFromDB = async (productId: string) => {
   await assertProductExists(productId);

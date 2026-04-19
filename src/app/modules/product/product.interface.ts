@@ -1,7 +1,7 @@
 export type IProductFilterRequest = {
   searchTerm?: string;
   categoryId?: string;
-  brand?: string;
+  brandId?: string;
   isPublished?: string | boolean;
   isFeatured?: string | boolean;
 };

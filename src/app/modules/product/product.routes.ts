@@ -1,9 +1,10 @@
-import express from "express";
+import express, { NextFunction, Request, Response } from "express";
 import { UserRole } from "../../../../prisma/generated/prisma";
 import { auth } from "../../middleWares/auth";
 import validateRequest from "../../middleWares/validateRequest";
 import { ProductController } from "./product.controller";
 import { ProductValidation } from "./product.validation";
+import { fileUploader } from "../../../helpers/fileUploader";
 
 const router = express.Router();
 
@@ -44,11 +45,20 @@ router.post(
   ProductController.createProductImage,
 );
 
+// router.post(
+//   "/:productId/variants",
+//   adminAuth,
+//   validateRequest(ProductValidation.createVariant),
+//   ProductController.createVariant,
+// );
 router.post(
   "/:productId/variants",
   adminAuth,
-  validateRequest(ProductValidation.createVariant),
-  ProductController.createVariant,
+  fileUploader.upload.single("file"),   
+  (req: Request, res: Response, next: NextFunction  ) => {
+    req.body = JSON.parse(req.body.data)
+    return ProductController.createVariant(req, res, next);
+  }
 );
 
 router.get("/:productId/variants/:variantId", ProductController.getVariantById);

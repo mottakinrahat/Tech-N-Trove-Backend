@@ -194,7 +194,8 @@ exports.Prisma.ProductScalarFieldEnum = {
   name: 'name',
   slug: 'slug',
   description: 'description',
-  brand: 'brand',
+  productAddById: 'productAddById',
+  brandId: 'brandId',
   categoryId: 'categoryId',
   tags: 'tags',
   isPublished: 'isPublished',
@@ -205,10 +206,21 @@ exports.Prisma.ProductScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.BrandScalarFieldEnum = {
+  id: 'id',
+  brandName: 'brandName',
+  description: 'description',
+  logoUrl: 'logoUrl',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.CategoryScalarFieldEnum = {
   id: 'id',
   categoryName: 'categoryName',
-  description: 'description'
+  description: 'description',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProductVariantScalarFieldEnum = {
@@ -278,6 +290,7 @@ exports.Prisma.ModelName = {
   Manager: 'Manager',
   Address: 'Address',
   Product: 'Product',
+  Brand: 'Brand',
   Category: 'Category',
   ProductVariant: 'ProductVariant',
   ProductImage: 'ProductImage'
