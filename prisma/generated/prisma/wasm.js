@@ -189,6 +189,55 @@ exports.Prisma.AddressScalarFieldEnum = {
   managerId: 'managerId'
 };
 
+exports.Prisma.ProductScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  description: 'description',
+  brand: 'brand',
+  categoryId: 'categoryId',
+  tags: 'tags',
+  isPublished: 'isPublished',
+  isFeatured: 'isFeatured',
+  metaTitle: 'metaTitle',
+  metaDescription: 'metaDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  categoryName: 'categoryName',
+  description: 'description'
+};
+
+exports.Prisma.ProductVariantScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  sku: 'sku',
+  title: 'title',
+  price: 'price',
+  comparePrice: 'comparePrice',
+  costPrice: 'costPrice',
+  stock: 'stock',
+  lowStockThreshold: 'lowStockThreshold',
+  color: 'color',
+  size: 'size',
+  material: 'material',
+  weight: 'weight',
+  barcode: 'barcode',
+  isActive: 'isActive',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductImageScalarFieldEnum = {
+  id: 'id',
+  url: 'url',
+  productId: 'productId',
+  variantId: 'variantId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -227,7 +276,11 @@ exports.Prisma.ModelName = {
   Admin: 'Admin',
   Buyer: 'Buyer',
   Manager: 'Manager',
-  Address: 'Address'
+  Address: 'Address',
+  Product: 'Product',
+  Category: 'Category',
+  ProductVariant: 'ProductVariant',
+  ProductImage: 'ProductImage'
 };
 
 /**
