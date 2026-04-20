@@ -10,4 +10,13 @@ export default {
     refresh_token_secret: process.env.REFRESH_TOKEN_SECRET,
     refresh_token_expires_in: process.env.REFRESH_TOKEN_EXPIRES_IN,
   },
+  ssl: {
+    store_id: process.env.STORE_ID,
+    store_passwd: process.env.STORE_PASS,
+    is_live: process.env.IS_LIVE,
+    success_url: process.env.SUCCESS_URL,
+    fail_url: process.env.FAIL_URL,
+    cancel_url: process.env.CANCEL_URL,
+    validation_url: process.env.VALIDATION_URL,
+  }
 };

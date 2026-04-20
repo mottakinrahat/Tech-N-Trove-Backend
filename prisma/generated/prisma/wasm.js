@@ -250,9 +250,62 @@ exports.Prisma.ProductImageScalarFieldEnum = {
   variantId: 'variantId'
 };
 
+exports.Prisma.OrderScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  status: 'status',
+  paymentStatus: 'paymentStatus',
+  subtotal: 'subtotal',
+  discountAmount: 'discountAmount',
+  totalAmount: 'totalAmount',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.PaymentScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  transactionId: 'transactionId',
+  amount: 'amount',
+  paymentStatus: 'paymentStatus',
+  paymentGatewayData: 'paymentGatewayData',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderItemsScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  productId: 'productId',
+  variantId: 'variantId',
+  quantity: 'quantity',
+  price: 'price',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CartScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.CartItemScalarFieldEnum = {
+  id: 'id',
+  cartId: 'cartId',
+  productId: 'productId',
+  variantId: 'variantId',
+  quantity: 'quantity',
+  price: 'price'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.NullableJsonNullValueInput = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.QueryMode = {
@@ -263,6 +316,12 @@ exports.Prisma.QueryMode = {
 exports.Prisma.NullsOrder = {
   first: 'first',
   last: 'last'
+};
+
+exports.Prisma.JsonNullValueFilter = {
+  DbNull: Prisma.DbNull,
+  JsonNull: Prisma.JsonNull,
+  AnyNull: Prisma.AnyNull
 };
 exports.UserRole = exports.$Enums.UserRole = {
   ADMIN: 'ADMIN',
@@ -283,6 +342,22 @@ exports.AddressType = exports.$Enums.AddressType = {
   OTHER: 'OTHER'
 };
 
+exports.OrderStatus = exports.$Enums.OrderStatus = {
+  PENDING: 'PENDING',
+  CONFIRMED: 'CONFIRMED',
+  DELIVERED: 'DELIVERED',
+  PROGRESSING: 'PROGRESSING',
+  SHIPPED: 'SHIPPED',
+  CANCELLED: 'CANCELLED',
+  REFUNDED: 'REFUNDED'
+};
+
+exports.PaymentStatusEnum = exports.$Enums.PaymentStatusEnum = {
+  PAID: 'PAID',
+  UNPAID: 'UNPAID',
+  PENDING: 'PENDING'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Admin: 'Admin',
@@ -293,7 +368,12 @@ exports.Prisma.ModelName = {
   Brand: 'Brand',
   Category: 'Category',
   ProductVariant: 'ProductVariant',
-  ProductImage: 'ProductImage'
+  ProductImage: 'ProductImage',
+  Order: 'Order',
+  Payment: 'Payment',
+  OrderItems: 'OrderItems',
+  Cart: 'Cart',
+  CartItem: 'CartItem'
 };
 
 /**

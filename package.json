@@ -39,6 +39,7 @@
     "multer": "^2.0.2",
     "nodemailer": "^8.0.0",
     "npm": "^11.6.1",
+    "sslcommerz-lts": "^1.2.0",
     "zod": "^4.1.9"
   }
 }
