@@ -1,8 +1,10 @@
+import { add } from 'date-fns';
 import { PaymentStatusEnum } from '../../../../prisma/generated/prisma';
 import prisma from '../../../shared/prisma';
 import { initiatePayment } from './payment.utils';
 
 const initPayment = async (orderId: string) => {
+    console.log(orderId);
     const orderData = await prisma.order.findUnique({
         where: {
             id: orderId
@@ -17,16 +19,31 @@ const initPayment = async (orderId: string) => {
 
         }
     });
+    const address = await prisma.address.findFirst({
+        where: {
+            buyerId: orderData?.user?.buyer?.id,
+            isDefault: true,
+        }
+    })
+    console.log(address);
     if (!orderData) {
         throw new Error("Order not found");
     }
 
     const transactionId = `txn-${Date.now()}`;
-
+console.log(transactionId);
     const paymentData = {
         total_amount: orderData.totalAmount,
         currency: 'BDT',
         tran_id: transactionId,
+        ship_name: address?.recipientName,
+        ship_add1: address?.line1,
+        ship_add2: address?.line2,
+        ship_city: address?.city,
+        ship_state: address?.state,
+        ship_postcode: address?.postalCode,
+        ship_country: address?.country,
+        ship_phone: address?.recipientPhone,
         success_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=success`,
         fail_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=fail`,
         cancel_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=cancel`,
@@ -37,11 +54,11 @@ const initPayment = async (orderId: string) => {
         product_profile: 'general',
         cus_name: orderData.user.buyer?.name || 'Customer',
         cus_email: orderData.user.email,
-        cus_add1: 'Dhaka',
-        cus_city: 'Dhaka',
-        cus_state: 'Dhaka',
-        cus_postcode: '1000',
-        cus_country: 'Bangladesh',
+        cus_add1: address?.line1 || 'N/A',
+        cus_city: address?.city || 'Dhaka',
+        cus_state: address?.state || 'Dhaka',
+        cus_postcode: address?.postalCode || '1000',
+        cus_country: address?.country || 'Bangladesh',
         cus_phone: orderData.user.buyer?.contactNumber || '01711111111',
     };
 
