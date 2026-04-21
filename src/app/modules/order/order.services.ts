@@ -12,11 +12,32 @@ const createOrder = async (email: string, payload: any) => {
   }
 
   let subtotal = 0;
-  items.forEach((item) => {
-    subtotal += item.price * item.quantity;
-  });
+  for (const item of items) {
+    // Ensure quantity is a number, not a string from JSON body
+    item.quantity = Number(item.quantity);
+    if (!item.quantity || item.quantity <= 0) {
+      throw new Error("Item quantity must be a positive number");
+    }
 
-  const discountAmount = payload.discountAmount || 0;
+    const product = await prisma.product.findUnique({
+      where: { id: item.productId },
+      include: { variants: true },
+    });
+
+    if (!product) throw new Error(`Product not found: ${item.productId}`);
+
+    const variant = product.variants.find((v) => v.id === item.variantId);
+
+    if (!variant) throw new Error(`Variant not found: ${item.variantId}`);
+    if (variant.stock < item.quantity) {
+      throw new Error(`Insufficient stock for variant: ${variant.sku}`);
+    }
+
+    subtotal += variant.price * item.quantity;
+    item.price = variant.price; // attach for later use
+  }
+
+  const discountAmount = Number(payload.discountAmount) || 0;
   const totalAmount = subtotal - discountAmount;
 
   const result = await prisma.$transaction(async (tx) => {
@@ -30,13 +51,13 @@ const createOrder = async (email: string, payload: any) => {
         totalAmount,
       },
     });
-console.log(newOrder);
+    console.log(newOrder);
     const orderItemsData = items.map((item) => ({
       orderId: newOrder.id,
       productId: item.productId,
       variantId: item.variantId,
-      quantity: item.quantity,
-      price: item.price,
+      quantity: Number(item.quantity),
+      price: Number(item.price),
     }));
 
     await tx.orderItems.createMany({
