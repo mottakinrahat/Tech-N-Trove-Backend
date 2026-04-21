@@ -8,14 +8,15 @@ const initPayment = async (orderId: string) => {
             id: orderId
         },
         include: {
+
             user: {
                 include: {
-                    buyer: true
+                    buyer: true,
                 }
             }
+
         }
     });
-
     if (!orderData) {
         throw new Error("Order not found");
     }
@@ -63,10 +64,10 @@ const initPayment = async (orderId: string) => {
 const confirmationService = async (transactionId: string, status: string) => {
     // This will be called by the redirect after payment
     // We should verify payment here usually using the validation API
-    
+
     let message = "";
     if (status === 'success') {
-       const result = await prisma.payment.update({
+        const result = await prisma.payment.update({
             where: {
                 transactionId
             },
