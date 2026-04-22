@@ -18,7 +18,12 @@ const initPayment = catchAsync(async (req: Request, res: Response) => {
 
 const confirmation = catchAsync(async (req: Request, res: Response) => {
     const { transactionId, status } = req.query;
-    const result = await PaymentServices.confirmationService(transactionId as string, status as string);
+    const { val_id } = req.body; // SSLCommerz POSTs val_id in body on success
+    const result = await PaymentServices.confirmationService(
+        transactionId as string,
+        status as string,
+        val_id as string
+    );
     res.send(result);
 });
 

@@ -1,7 +1,6 @@
-import { add } from 'date-fns';
 import { PaymentStatusEnum } from '../../../../prisma/generated/prisma';
 import prisma from '../../../shared/prisma';
-import { initiatePayment } from './payment.utils';
+import { initiatePayment, verifyPayment } from './payment.utils';
 
 const initPayment = async (orderId: string) => {
     console.log(orderId);
@@ -78,32 +77,48 @@ console.log(transactionId);
     return sslResponse;
 };
 
-const confirmationService = async (transactionId: string, status: string) => {
-    // This will be called by the redirect after payment
-    // We should verify payment here usually using the validation API
-
+const confirmationService = async (transactionId: string, status: string, val_id: string) => {
     let message = "";
+
     if (status === 'success') {
-        const result = await prisma.payment.update({
-            where: {
-                transactionId
-            },
-            data: {
-                paymentStatus: PaymentStatusEnum.PAID
-            }
+        // 🔐 Verify the payment with SSLCommerz before trusting the redirect
+        const verifyResult = await verifyPayment(val_id);
+
+        if (verifyResult?.status !== 'VALID' && verifyResult?.status !== 'VALIDATED') {
+            message = "Payment verification failed!";
+        } else {
+            // ✅ Use a transaction so both updates are atomic
+            await prisma.$transaction(async (tx) => {
+                const updatedPayment = await tx.payment.update({
+                    where: { transactionId },
+                    data: { paymentStatus: PaymentStatusEnum.PAID },
+                });
+
+                await tx.order.update({
+                    where: { id: updatedPayment.orderId },
+                    data: { paymentStatus: PaymentStatusEnum.PAID },
+                });
+            });
+
+            message = "Successfully Paid!";
+        }
+    } else if (status === 'fail') {
+        await prisma.$transaction(async (tx) => {
+            const updatedPayment = await tx.payment.update({
+                where: { transactionId },
+                data: { paymentStatus: PaymentStatusEnum.UNPAID },
+            });
+
+            await tx.order.update({
+                where: { id: updatedPayment.orderId },
+                data: { paymentStatus: PaymentStatusEnum.UNPAID },
+            });
         });
 
-        await prisma.order.update({
-            where: {
-                id: result.orderId
-            },
-            data: {
-                paymentStatus: PaymentStatusEnum.PAID
-            }
-        });
-        message = "Successfully Paid!";
+        message = "Payment Failed!";
     } else {
-        message = `Payment ${status}!`;
+        // cancel
+        message = "Payment Cancelled!";
     }
 
     return `

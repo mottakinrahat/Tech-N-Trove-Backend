@@ -10,7 +10,7 @@ export const initiatePayment = async (paymentData: any) => {
         const is_live = config.ssl.is_live === 'true'; //true for live, false for sandbox
 
         const sslcz = new SSLCommerzPayment(store_id, store_passwd, is_live);
-        
+
         const response = await sslcz.init(paymentData);
         return response;
     } catch (error) {
@@ -18,10 +18,10 @@ export const initiatePayment = async (paymentData: any) => {
     }
 };
 
-export const verifyPayment = async (payload: any) => {
+export const verifyPayment = async (val_id: string) => {
     try {
         const response = await fetch(
-            `${config.ssl.validation_url}?val_id=${payload.val_id}&store_id=${config.ssl.store_id}&store_passwd=${config.ssl.store_passwd}&format=json`
+            `${config.ssl.validation_url}?val_id=${val_id}&store_id=${config.ssl.store_id}&store_passwd=${config.ssl.store_passwd}&format=json`
         );
 
         return await response.json();
