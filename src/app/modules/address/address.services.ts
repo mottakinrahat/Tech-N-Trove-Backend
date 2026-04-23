@@ -111,7 +111,7 @@ const getOwnershipOrConditions = (profile: {
 
 const createAddressIntoDB = async (user: any, payload: any) => {
   const userData = await getProfileOwnershipFilter(user);
-  console.log(userData);
+ 
   const normalizedPayload = normalizeAddressPayload(payload);
 
   return prisma.$transaction(async (tx) => {

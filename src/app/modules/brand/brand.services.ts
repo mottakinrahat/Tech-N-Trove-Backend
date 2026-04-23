@@ -17,7 +17,7 @@ const createBrandIntoDB = async (req: any
     const existing = await prisma.brand.findFirst({
       where: { brandName: { equals: payload.brandName, mode: "insensitive" } },
     });
-    console.log(req.body);
+ 
 
     if (existing) {
       throw new ApiError(

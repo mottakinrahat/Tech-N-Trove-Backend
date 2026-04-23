@@ -51,7 +51,7 @@ const createOrder = async (email: string, payload: any) => {
         totalAmount,
       },
     });
-    console.log(newOrder);
+   
     const orderItemsData = items.map((item) => ({
       orderId: newOrder.id,
       productId: item.productId,

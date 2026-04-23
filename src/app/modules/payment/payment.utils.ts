@@ -23,7 +23,6 @@ export const verifyPayment = async (val_id: string) => {
         const response = await fetch(
             `${config.ssl.validation_url}?val_id=${val_id}&store_id=${config.ssl.store_id}&store_passwd=${config.ssl.store_passwd}&format=json`
         );
-
         return await response.json();
     } catch (error) {
         throw error;

@@ -1,4 +1,5 @@
 import * as bcrypt from "bcrypt";
+import { triggerN8NWebhook } from "../../middleWares/n8n.services";
 import { fileUploader } from "../../../helpers/fileUploader";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { userSearchableFields } from "./user.constant";
@@ -36,6 +37,8 @@ const createAdmin = async (req: any) => {
     });
     return createdAdminData;
   });
+
+
   return result;
 };
 const createManagerIntoDB = async (req: any) => {
@@ -62,6 +65,14 @@ const createManagerIntoDB = async (req: any) => {
     });
     return createdManagerData;
   });
+
+  // Trigger n8n welcome email webhook (non-blocking)
+  triggerN8NWebhook("user-registered", {
+    name: result.name,
+    email: req.body.manager.email,
+    role: "MANAGER",
+  });
+
   return result;
 };
 const createBuyerIntoDB = async (req: any) => {
@@ -87,6 +98,14 @@ const createBuyerIntoDB = async (req: any) => {
     });
     return createdBuyerData;
   });
+
+  // Trigger n8n welcome email webhook (non-blocking)
+  triggerN8NWebhook("user-registered", {
+    name: result.name,
+    email: req.body.buyer.email,
+    role: "BUYER",
+  });
+
   return result;
 };
 

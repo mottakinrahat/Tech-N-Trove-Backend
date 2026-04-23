@@ -1,9 +1,9 @@
+import { response } from 'express';
 import { PaymentStatusEnum } from '../../../../prisma/generated/prisma';
 import prisma from '../../../shared/prisma';
 import { initiatePayment, verifyPayment } from './payment.utils';
 
 const initPayment = async (orderId: string) => {
-    console.log(orderId);
     const orderData = await prisma.order.findUnique({
         where: {
             id: orderId
@@ -24,13 +24,11 @@ const initPayment = async (orderId: string) => {
             isDefault: true,
         }
     })
-    console.log(address);
     if (!orderData) {
         throw new Error("Order not found");
     }
 
     const transactionId = `txn-${Date.now()}`;
-console.log(transactionId);
     const paymentData = {
         total_amount: orderData.totalAmount,
         currency: 'BDT',
