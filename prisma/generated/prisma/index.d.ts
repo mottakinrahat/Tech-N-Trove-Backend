@@ -11429,6 +11429,7 @@ export namespace Prisma {
     id: string | null
     categoryName: string | null
     description: string | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11437,6 +11438,7 @@ export namespace Prisma {
     id: string | null
     categoryName: string | null
     description: string | null
+    image: string | null
     createdAt: Date | null
     updatedAt: Date | null
   }
@@ -11445,6 +11447,7 @@ export namespace Prisma {
     id: number
     categoryName: number
     description: number
+    image: number
     createdAt: number
     updatedAt: number
     _all: number
@@ -11455,6 +11458,7 @@ export namespace Prisma {
     id?: true
     categoryName?: true
     description?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11463,6 +11467,7 @@ export namespace Prisma {
     id?: true
     categoryName?: true
     description?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
   }
@@ -11471,6 +11476,7 @@ export namespace Prisma {
     id?: true
     categoryName?: true
     description?: true
+    image?: true
     createdAt?: true
     updatedAt?: true
     _all?: true
@@ -11551,7 +11557,8 @@ export namespace Prisma {
   export type CategoryGroupByOutputType = {
     id: string
     categoryName: string
-    description: string
+    description: string | null
+    image: string
     createdAt: Date
     updatedAt: Date
     _count: CategoryCountAggregateOutputType | null
@@ -11577,6 +11584,7 @@ export namespace Prisma {
     id?: boolean
     categoryName?: boolean
     description?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     product?: boolean | Category$productArgs<ExtArgs>
@@ -11587,6 +11595,7 @@ export namespace Prisma {
     id?: boolean
     categoryName?: boolean
     description?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["category"]>
@@ -11595,6 +11604,7 @@ export namespace Prisma {
     id?: boolean
     categoryName?: boolean
     description?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }, ExtArgs["result"]["category"]>
@@ -11603,11 +11613,12 @@ export namespace Prisma {
     id?: boolean
     categoryName?: boolean
     description?: boolean
+    image?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "categoryName" | "description" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
+  export type CategoryOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "categoryName" | "description" | "image" | "createdAt" | "updatedAt", ExtArgs["result"]["category"]>
   export type CategoryInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     product?: boolean | Category$productArgs<ExtArgs>
     _count?: boolean | CategoryCountOutputTypeDefaultArgs<ExtArgs>
@@ -11623,7 +11634,8 @@ export namespace Prisma {
     scalars: $Extensions.GetPayloadResult<{
       id: string
       categoryName: string
-      description: string
+      description: string | null
+      image: string
       createdAt: Date
       updatedAt: Date
     }, ExtArgs["result"]["category"]>
@@ -12053,6 +12065,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Category", 'String'>
     readonly categoryName: FieldRef<"Category", 'String'>
     readonly description: FieldRef<"Category", 'String'>
+    readonly image: FieldRef<"Category", 'String'>
     readonly createdAt: FieldRef<"Category", 'DateTime'>
     readonly updatedAt: FieldRef<"Category", 'DateTime'>
   }
@@ -23050,11 +23063,11 @@ export namespace Prisma {
 
   export type BannerGroupByOutputType = {
     id: string
-    title: string
+    title: string | null
     description: string | null
     image: string
     buttonText: string | null
-    buttonLink: string | null
+    buttonLink: string
     sortOrder: number
     isActive: boolean
     createdAt: Date
@@ -23139,11 +23152,11 @@ export namespace Prisma {
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
-      title: string
+      title: string | null
       description: string | null
       image: string
       buttonText: string | null
-      buttonLink: string | null
+      buttonLink: string
       sortOrder: number
       isActive: boolean
       createdAt: Date
@@ -24081,6 +24094,7 @@ export namespace Prisma {
     id: 'id',
     categoryName: 'categoryName',
     description: 'description',
+    image: 'image',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt'
   };
@@ -25068,7 +25082,8 @@ export namespace Prisma {
     NOT?: CategoryWhereInput | CategoryWhereInput[]
     id?: StringFilter<"Category"> | string
     categoryName?: StringFilter<"Category"> | string
-    description?: StringFilter<"Category"> | string
+    description?: StringNullableFilter<"Category"> | string | null
+    image?: StringFilter<"Category"> | string
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     product?: ProductListRelationFilter
@@ -25077,7 +25092,8 @@ export namespace Prisma {
   export type CategoryOrderByWithRelationInput = {
     id?: SortOrder
     categoryName?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     product?: ProductOrderByRelationAggregateInput
@@ -25089,7 +25105,8 @@ export namespace Prisma {
     AND?: CategoryWhereInput | CategoryWhereInput[]
     OR?: CategoryWhereInput[]
     NOT?: CategoryWhereInput | CategoryWhereInput[]
-    description?: StringFilter<"Category"> | string
+    description?: StringNullableFilter<"Category"> | string | null
+    image?: StringFilter<"Category"> | string
     createdAt?: DateTimeFilter<"Category"> | Date | string
     updatedAt?: DateTimeFilter<"Category"> | Date | string
     product?: ProductListRelationFilter
@@ -25098,7 +25115,8 @@ export namespace Prisma {
   export type CategoryOrderByWithAggregationInput = {
     id?: SortOrder
     categoryName?: SortOrder
-    description?: SortOrder
+    description?: SortOrderInput | SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     _count?: CategoryCountOrderByAggregateInput
@@ -25112,7 +25130,8 @@ export namespace Prisma {
     NOT?: CategoryScalarWhereWithAggregatesInput | CategoryScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Category"> | string
     categoryName?: StringWithAggregatesFilter<"Category"> | string
-    description?: StringWithAggregatesFilter<"Category"> | string
+    description?: StringNullableWithAggregatesFilter<"Category"> | string | null
+    image?: StringWithAggregatesFilter<"Category"> | string
     createdAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"Category"> | Date | string
   }
@@ -25781,11 +25800,11 @@ export namespace Prisma {
     OR?: BannerWhereInput[]
     NOT?: BannerWhereInput | BannerWhereInput[]
     id?: StringFilter<"Banner"> | string
-    title?: StringFilter<"Banner"> | string
+    title?: StringNullableFilter<"Banner"> | string | null
     description?: StringNullableFilter<"Banner"> | string | null
     image?: StringFilter<"Banner"> | string
     buttonText?: StringNullableFilter<"Banner"> | string | null
-    buttonLink?: StringNullableFilter<"Banner"> | string | null
+    buttonLink?: StringFilter<"Banner"> | string
     sortOrder?: IntFilter<"Banner"> | number
     isActive?: BoolFilter<"Banner"> | boolean
     createdAt?: DateTimeFilter<"Banner"> | Date | string
@@ -25794,11 +25813,11 @@ export namespace Prisma {
 
   export type BannerOrderByWithRelationInput = {
     id?: SortOrder
-    title?: SortOrder
+    title?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     image?: SortOrder
     buttonText?: SortOrderInput | SortOrder
-    buttonLink?: SortOrderInput | SortOrder
+    buttonLink?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25810,11 +25829,11 @@ export namespace Prisma {
     AND?: BannerWhereInput | BannerWhereInput[]
     OR?: BannerWhereInput[]
     NOT?: BannerWhereInput | BannerWhereInput[]
-    title?: StringFilter<"Banner"> | string
+    title?: StringNullableFilter<"Banner"> | string | null
     description?: StringNullableFilter<"Banner"> | string | null
     image?: StringFilter<"Banner"> | string
     buttonText?: StringNullableFilter<"Banner"> | string | null
-    buttonLink?: StringNullableFilter<"Banner"> | string | null
+    buttonLink?: StringFilter<"Banner"> | string
     sortOrder?: IntFilter<"Banner"> | number
     isActive?: BoolFilter<"Banner"> | boolean
     createdAt?: DateTimeFilter<"Banner"> | Date | string
@@ -25823,11 +25842,11 @@ export namespace Prisma {
 
   export type BannerOrderByWithAggregationInput = {
     id?: SortOrder
-    title?: SortOrder
+    title?: SortOrderInput | SortOrder
     description?: SortOrderInput | SortOrder
     image?: SortOrder
     buttonText?: SortOrderInput | SortOrder
-    buttonLink?: SortOrderInput | SortOrder
+    buttonLink?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -25844,11 +25863,11 @@ export namespace Prisma {
     OR?: BannerScalarWhereWithAggregatesInput[]
     NOT?: BannerScalarWhereWithAggregatesInput | BannerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Banner"> | string
-    title?: StringWithAggregatesFilter<"Banner"> | string
+    title?: StringNullableWithAggregatesFilter<"Banner"> | string | null
     description?: StringNullableWithAggregatesFilter<"Banner"> | string | null
     image?: StringWithAggregatesFilter<"Banner"> | string
     buttonText?: StringNullableWithAggregatesFilter<"Banner"> | string | null
-    buttonLink?: StringNullableWithAggregatesFilter<"Banner"> | string | null
+    buttonLink?: StringWithAggregatesFilter<"Banner"> | string
     sortOrder?: IntWithAggregatesFilter<"Banner"> | number
     isActive?: BoolWithAggregatesFilter<"Banner"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Banner"> | Date | string
@@ -26586,7 +26605,8 @@ export namespace Prisma {
   export type CategoryCreateInput = {
     id?: string
     categoryName: string
-    description: string
+    description?: string | null
+    image: string
     createdAt?: Date | string
     updatedAt?: Date | string
     product?: ProductCreateNestedManyWithoutCategoryInput
@@ -26595,7 +26615,8 @@ export namespace Prisma {
   export type CategoryUncheckedCreateInput = {
     id?: string
     categoryName: string
-    description: string
+    description?: string | null
+    image: string
     createdAt?: Date | string
     updatedAt?: Date | string
     product?: ProductUncheckedCreateNestedManyWithoutCategoryInput
@@ -26604,7 +26625,8 @@ export namespace Prisma {
   export type CategoryUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     categoryName?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUpdateManyWithoutCategoryNestedInput
@@ -26613,7 +26635,8 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
     categoryName?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     product?: ProductUncheckedUpdateManyWithoutCategoryNestedInput
@@ -26622,7 +26645,8 @@ export namespace Prisma {
   export type CategoryCreateManyInput = {
     id?: string
     categoryName: string
-    description: string
+    description?: string | null
+    image: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -26630,7 +26654,8 @@ export namespace Prisma {
   export type CategoryUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
     categoryName?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -26638,7 +26663,8 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
     categoryName?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -27307,11 +27333,11 @@ export namespace Prisma {
 
   export type BannerCreateInput = {
     id?: string
-    title: string
+    title?: string | null
     description?: string | null
     image: string
     buttonText?: string | null
-    buttonLink?: string | null
+    buttonLink: string
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -27320,11 +27346,11 @@ export namespace Prisma {
 
   export type BannerUncheckedCreateInput = {
     id?: string
-    title: string
+    title?: string | null
     description?: string | null
     image: string
     buttonText?: string | null
-    buttonLink?: string | null
+    buttonLink: string
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -27333,11 +27359,11 @@ export namespace Prisma {
 
   export type BannerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonLink?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27346,11 +27372,11 @@ export namespace Prisma {
 
   export type BannerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonLink?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27359,11 +27385,11 @@ export namespace Prisma {
 
   export type BannerCreateManyInput = {
     id?: string
-    title: string
+    title?: string | null
     description?: string | null
     image: string
     buttonText?: string | null
-    buttonLink?: string | null
+    buttonLink: string
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -27372,11 +27398,11 @@ export namespace Prisma {
 
   export type BannerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonLink?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -27385,11 +27411,11 @@ export namespace Prisma {
 
   export type BannerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
-    title?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
     description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    buttonLink?: StringFieldUpdateOperationsInput | string
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -28018,6 +28044,7 @@ export namespace Prisma {
     id?: SortOrder
     categoryName?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28026,6 +28053,7 @@ export namespace Prisma {
     id?: SortOrder
     categoryName?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -28034,6 +28062,7 @@ export namespace Prisma {
     id?: SortOrder
     categoryName?: SortOrder
     description?: SortOrder
+    image?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
   }
@@ -31656,7 +31685,8 @@ export namespace Prisma {
   export type CategoryCreateWithoutProductInput = {
     id?: string
     categoryName: string
-    description: string
+    description?: string | null
+    image: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31664,7 +31694,8 @@ export namespace Prisma {
   export type CategoryUncheckedCreateWithoutProductInput = {
     id?: string
     categoryName: string
-    description: string
+    description?: string | null
+    image: string
     createdAt?: Date | string
     updatedAt?: Date | string
   }
@@ -31936,7 +31967,8 @@ export namespace Prisma {
   export type CategoryUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     categoryName?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
@@ -31944,7 +31976,8 @@ export namespace Prisma {
   export type CategoryUncheckedUpdateWithoutProductInput = {
     id?: StringFieldUpdateOperationsInput | string
     categoryName?: StringFieldUpdateOperationsInput | string
-    description?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    image?: StringFieldUpdateOperationsInput | string
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
