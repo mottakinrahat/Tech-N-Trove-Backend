@@ -125,15 +125,16 @@ model Product {
   metaDescription String?
 
   // Relations
-  category      Category         @relation(fields: [categoryId], references: [id], onDelete: Cascade)
-  brand         Brand?           @relation(fields: [brandId], references: [id], onDelete: SetNull)
-  user          User             @relation(fields: [productAddById], references: [id], onDelete: Cascade)
-  variants      ProductVariant[]
-  productImages ProductImage[]
-  orderItems    OrderItems[]
-  cartItems     CartItem[]
-  reviews       Review[]
-  wishlists     Wishlist[]
+  category         Category          @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+  brand            Brand?            @relation(fields: [brandId], references: [id], onDelete: SetNull)
+  user             User              @relation(fields: [productAddById], references: [id], onDelete: Cascade)
+  variants         ProductVariant[]
+  productImages    ProductImage[]
+  orderItems       OrderItems[]
+  cartItems        CartItem[]
+  reviews          Review[]
+  wishlists        Wishlist[]
+  discountProducts DiscountProduct[]
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -154,13 +155,14 @@ model Brand {
 }
 
 model Category {
-  id           String    @id @default(uuid())
-  categoryName String    @unique
-  description  String?
-  image        String
-  product      Product[]
-  createdAt    DateTime  @default(now())
-  updatedAt    DateTime  @updatedAt
+  id               String             @id @default(uuid())
+  categoryName     String             @unique
+  description      String?
+  image            String
+  product          Product[]
+  createdAt        DateTime           @default(now())
+  updatedAt        DateTime           @updatedAt
+  discountCategory DiscountCategory[]
 
   @@map("categories")
 }
@@ -321,6 +323,64 @@ model Banner {
   updatedAt   DateTime @updatedAt
 
   @@map("banners")
+}
+
+model Discount {
+  id    String       @id @default(uuid())
+  name  String
+  type  DiscountType
+  value Float
+
+  isGlobal Boolean @default(false)
+
+  startDate DateTime
+  endDate   DateTime
+
+  isActive Boolean @default(true)
+
+  // Advanced
+  priority Int     @default(0)
+  code     String? @unique
+
+  // Relations
+  products   DiscountProduct[]
+  categories DiscountCategory[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("discounts")
+}
+
+model DiscountProduct {
+  id         String @id @default(uuid())
+  discountId String
+  productId  String
+
+  discount Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  product  Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([discountId, productId])
+  @@index([productId])
+  @@map("discount_products")
+}
+
+model DiscountCategory {
+  id         String @id @default(uuid())
+  discountId String
+  categoryId String
+
+  discount Discount @relation(fields: [discountId], references: [id], onDelete: Cascade)
+  category Category @relation(fields: [categoryId], references: [id], onDelete: Cascade)
+
+  @@unique([discountId, categoryId])
+  @@index([categoryId])
+  @@map("discount_categories")
+}
+
+enum DiscountType {
+  PERCENTAGE
+  FIXED
 }
 
 enum UserRole {

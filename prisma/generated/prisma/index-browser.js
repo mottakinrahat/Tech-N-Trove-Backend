@@ -330,6 +330,33 @@ exports.Prisma.BannerScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.DiscountScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  type: 'type',
+  value: 'value',
+  isGlobal: 'isGlobal',
+  startDate: 'startDate',
+  endDate: 'endDate',
+  isActive: 'isActive',
+  priority: 'priority',
+  code: 'code',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.DiscountProductScalarFieldEnum = {
+  id: 'id',
+  discountId: 'discountId',
+  productId: 'productId'
+};
+
+exports.Prisma.DiscountCategoryScalarFieldEnum = {
+  id: 'id',
+  discountId: 'discountId',
+  categoryId: 'categoryId'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -390,6 +417,11 @@ exports.PaymentStatusEnum = exports.$Enums.PaymentStatusEnum = {
   PENDING: 'PENDING'
 };
 
+exports.DiscountType = exports.$Enums.DiscountType = {
+  PERCENTAGE: 'PERCENTAGE',
+  FIXED: 'FIXED'
+};
+
 exports.Prisma.ModelName = {
   User: 'User',
   Admin: 'Admin',
@@ -408,7 +440,10 @@ exports.Prisma.ModelName = {
   CartItem: 'CartItem',
   Review: 'Review',
   Wishlist: 'Wishlist',
-  Banner: 'Banner'
+  Banner: 'Banner',
+  Discount: 'Discount',
+  DiscountProduct: 'DiscountProduct',
+  DiscountCategory: 'DiscountCategory'
 };
 
 /**

@@ -3,36 +3,38 @@ import ApiError from "../../errors/apiError";
 import { fileUploader } from "../../../helpers/fileUploader";
 import prisma from "../../../shared/prisma";
 
-const createBrandIntoDB = async (req: any
-) => {
-
+const createBrandIntoDB = async (req: any) => {
   const file = req?.file;
   const payload = req.body;
-  if (file) {
-    const uploadToCloudinary = await fileUploader.uploadToCloudinary(
-      file?.path,
+
+  // Check for duplicate name first
+  const existing = await prisma.brand.findFirst({
+    where: { brandName: { equals: payload.brandName, mode: "insensitive" } },
+  });
+
+  if (existing) {
+    throw new ApiError(
+      status.CONFLICT,
+      "A brand with this name already exists",
     );
-    payload.logoUrl = uploadToCloudinary.url;
-
-    const existing = await prisma.brand.findFirst({
-      where: { brandName: { equals: payload.brandName, mode: "insensitive" } },
-    });
- 
-
-    if (existing) {
-      throw new ApiError(
-        status.CONFLICT,
-        "A brand with this name already exists",
-      );
-    }
-    const result = await prisma.brand.create({
-      data: {
-        brandName: payload.brandName,
-        description: payload.description
-      },
-    });
-    return result;
   }
+
+  // Upload logo if a file was provided
+  let logoUrl: string | undefined;
+  if (file?.path) {
+    const uploadToCloudinary = await fileUploader.uploadToCloudinary(file.path);
+    logoUrl = uploadToCloudinary?.url;
+  }
+
+  const result = await prisma.brand.create({
+    data: {
+      brandName: payload.brandName,
+      description: payload.description,
+      logoUrl,
+    },
+  });
+
+  return result;
 };
 
 const getBrandsFromDB = async () => {
