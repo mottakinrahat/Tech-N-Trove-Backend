@@ -15,7 +15,14 @@ const getCart = catchAsync(async (req: Request & { user?: any }, res: Response) 
 });
 
 const addToCart = catchAsync(async (req: Request & { user?: any }, res: Response) => {
-  const result = await CartServices.addToCart(req.user.email, req.body);
+  // Support both flat body { productId, variantId, quantity, price }
+  // and wrapped body { items: [{ productId, variantId, quantity, price }] }
+  const body = req.body;
+  const payload = Array.isArray(body.items) && body.items.length > 0
+    ? body.items[0]
+    : body;
+
+  const result = await CartServices.addToCart(req.user.email, payload);
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
