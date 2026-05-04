@@ -32,19 +32,19 @@ const addToCart = catchAsync(async (req: Request & { user?: any }, res: Response
 });
 
 const updateCartItemQuantity = catchAsync(async (req: Request & { user?: any }, res: Response) => {
-    const { id } = req.params;
-    const { quantity } = req.body;
-    const result = await CartServices.updateCartItemQuantity(req.user.email, id, quantity);
-    sendResponse(res, {
-      success: true,
-      statusCode: status.OK,
-      message: "Cart item quantity updated",
-      data: result,
-    });
+  const id = req.params.id as string;
+  const { quantity } = req.body;
+  const result = await CartServices.updateCartItemQuantity(req.user.email, id, quantity);
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Cart item quantity updated",
+    data: result,
+  });
 });
 
 const removeCartItem = catchAsync(async (req: Request & { user?: any }, res: Response) => {
-  const { id } = req.params;
+  const id = req.params.id as string;
   const result = await CartServices.removeCartItem(req.user.email, id);
   sendResponse(res, {
     success: true,
