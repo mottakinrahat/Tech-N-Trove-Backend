@@ -19,7 +19,7 @@ const createProductIntoDB = async (
     const existingUser = await prisma.user.findUnique({
       where: {
         email: user.email,
-        status:UserStatus.ACTIVE
+        status: UserStatus.ACTIVE
       },
       select: {
         id: true,
@@ -167,27 +167,27 @@ const assertProductExists = async (productId: string) => {
 };
 const createVariantIntoDB = async (
   productId: string,
- req:any,
+  req: any,
 ) => {
-  const data=req.body;
+  const data = req.body;
 
-  const file=req?.file;
-  const uploadToCloudinary=await fileUploader.uploadToCloudinary(file?.path);
-  
+  const file = req?.file;
+  const uploadToCloudinary = await fileUploader.uploadToCloudinary(file?.path);
+
   await assertProductExists(productId);
 
   try {
-    const result= await prisma.productVariant.create({
+    const result = await prisma.productVariant.create({
       data: {
         ...data,
         productId,
       },
     });
-    const createVarientImage=await prisma.productImage.create ({
-      data:{
-        url:uploadToCloudinary?.url,
+    const createVarientImage = await prisma.productImage.create({
+      data: {
+        url: uploadToCloudinary?.url,
         productId,
-        variantId:result.id,
+        variantId: result.id,
       },
     });
     return result;
@@ -214,7 +214,7 @@ const createVariantIntoDB = async (
 //         productId,
 //       },
 //     });
-    
+
 //     return result;
 //   } catch (error) {
 //     if (

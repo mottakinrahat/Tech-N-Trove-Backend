@@ -47,8 +47,30 @@ const buildProductFilterConditions = (
         andConditions.push({ categoryId: filterData.categoryId });
     }
 
+    if (filterData.category) {
+        andConditions.push({
+            category: {
+                categoryName: {
+                    equals: filterData.category,
+                    mode: "insensitive",
+                },
+            },
+        });
+    }
+
     if (filterData.brandId) {
         andConditions.push({ brandId: filterData.brandId });
+    }
+
+    if (filterData.brand) {
+        andConditions.push({
+            brand: {
+                brandName: {
+                    equals: filterData.brand,
+                    mode: "insensitive",
+                },
+            },
+        });
     }
 
     const published = parseBooleanParam(filterData.isPublished);
