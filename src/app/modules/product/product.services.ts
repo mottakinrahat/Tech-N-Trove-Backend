@@ -188,6 +188,11 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
             title: true,
             price: true,
             stock: true,
+            variantImages: {
+              select: {
+                url: true,
+              },
+            }
           }
         }
       }
