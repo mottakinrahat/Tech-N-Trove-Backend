@@ -88,18 +88,32 @@ const createProductIntoDB = async (
 // };
 
 const getProductsFromDB = async (filters: IProductFilterRequest, options: IPaginationOptions) => {
-  const { limit, page, skip } = paginationHelpers.calculatePagination(options);
-  const { searchTerm, category, brand, ...filterData } = filters;
+  const { page, limit, sortBy, sortOrder, skip } = paginationHelpers.calculatePagination(options);
+  const { searchTerm, category, brand, minPrice, maxPrice, ...filterData } = filters;
   const andConditions: Prisma.ProductWhereInput[] = [];
 
   if (searchTerm) {
     andConditions.push({
-      OR: productSearchableFields.map(field => ({
-        [field]: {
-          contains: searchTerm,
-          mode: 'insensitive'
+      OR: [
+        ...productSearchableFields.map(field => ({
+          [field]: {
+            contains: searchTerm,
+            mode: 'insensitive'
+          }
+        })),
+        {
+          variants: {
+            some: {
+              OR: [
+                { title: { contains: searchTerm, mode: 'insensitive' } },
+                { sku: { contains: searchTerm, mode: 'insensitive' } },
+                { size: { contains: searchTerm, mode: 'insensitive' } },
+                { color: { contains: searchTerm, mode: 'insensitive' } }
+              ]
+            }
+          }
         }
-      }))
+      ]
     })
   }
 
@@ -125,6 +139,20 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
     })
   }
 
+  if (minPrice !== undefined || maxPrice !== undefined) {
+    const priceCondition: any = {};
+    if (minPrice !== undefined) priceCondition.gte = Number(minPrice);
+    if (maxPrice !== undefined) priceCondition.lte = Number(maxPrice);
+
+    andConditions.push({
+      variants: {
+        some: {
+          price: priceCondition
+        }
+      }
+    });
+  }
+
   if (Object.keys(filterData).length > 0) {
     const filterCondition = Object.keys(filterData).map((key) => ({
       [key]: {
@@ -136,22 +164,38 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
 
   const whereConditions: Prisma.ProductWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
-  const result = await prisma.product.findMany({
-    where: whereConditions,
-    include: {
-      category: {
-        select: {
-          categoryName: true
+  const [result] = await prisma.$transaction([
+    prisma.product.findMany({
+      where: whereConditions,
+      skip,
+      take: limit,
+      orderBy:
+        sortBy && sortOrder ? [{ [sortBy]: sortOrder }] : [{ createdAt: "asc" }],
+      include: {
+        category: {
+          select: {
+            categoryName: true
+          }
+        },
+        brand: {
+          select: {
+            brandName: true
+          }
+        },
+        variants: {
+          select: {
+            id: true,
+            title: true,
+            price: true,
+            stock: true,
+          }
         }
-      },
-      brand: {
-        select: {
-          brandName: true
-        }
-      },
-    }
-  });
-  return result;
+      }
+    }),
+  ]);
+  const total = result.length;
+
+  return { meta: { page, limit, total }, data: result };
 }
 
 

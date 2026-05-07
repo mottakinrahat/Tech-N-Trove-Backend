@@ -8,10 +8,10 @@ import { ProductServices } from "./product.services";
 
 const createProduct = catchAsync(async (req: any, res: any) => {
   const body = req.body;
-  const user=req.user;
+  const user = req.user;
 
 
-  const result = await ProductServices.createProductIntoDB(body,user);
+  const result = await ProductServices.createProductIntoDB(body, user);
 
   sendResponse(res, {
     success: true,
@@ -30,8 +30,8 @@ const getPublishedProducts = catchAsync(async (req: any, res: any) => {
     success: true,
     statusCode: status.OK,
     message: "Products retrieved successfully",
-    // meta: result.meta,
-    data: result,
+    meta: result.meta,
+    data: result.data,
   });
 });
 

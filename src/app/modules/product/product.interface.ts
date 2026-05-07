@@ -4,6 +4,9 @@ export type IProductFilterRequest = {
   category?: string;
   brandId?: string;
   brand?: string;
+  variants?: any;
   isPublished?: string | boolean;
   isFeatured?: string | boolean;
+  minPrice?: string | number;
+  maxPrice?: string | number;
 };
