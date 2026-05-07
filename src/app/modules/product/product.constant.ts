@@ -8,4 +8,5 @@ export const productFilterableFields = [
   "isFeatured",
 ];
 
-export const productSearchableFields = ["name", "slug", "price", "originalPrice", "category.categoryName", "brand.brandName"];
+export const productSearchableFields = ["name", "slug",];
+export const productNeumaricSearchableFields = ["price", "originalPrice"];

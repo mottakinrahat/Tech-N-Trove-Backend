@@ -18,7 +18,7 @@ const identifierWhere = (
     OR: [{ id: identifier }, { slug: identifier }],
 });
 
-const parseBooleanParam = (value: string | boolean | undefined) => {
+export const parseBooleanParam = (value: string | boolean | undefined) => {
     if (typeof value === "boolean") return value;
     if (value === "true") return true;
     if (value === "false") return false;
@@ -31,6 +31,7 @@ const buildProductFilterConditions = (
 ) => {
     const { searchTerm, ...filterData } = params;
     const andConditions: Prisma.ProductWhereInput[] = [];
+    console.log(searchTerm);
 
     if (searchTerm) {
         andConditions.push({
@@ -42,8 +43,9 @@ const buildProductFilterConditions = (
             })),
         });
     }
+    
 
-    if (filterData.categoryId) {
+    if (filterData?.categoryId) {
         andConditions.push({ categoryId: filterData.categoryId });
     }
 

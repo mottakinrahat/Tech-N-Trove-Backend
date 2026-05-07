@@ -8,6 +8,7 @@ import { productSearchableFields } from "./product.constant";
 import { IProductFilterRequest } from "./product.interface";
 import { productHelpers } from "./product.helper";
 import { fileUploader } from "../../../helpers/fileUploader";
+import { object } from "zod";
 
 
 const createProductIntoDB = async (
@@ -51,40 +52,121 @@ const createProductIntoDB = async (
   }
 };
 
-const getProductsFromDB = async (
-  params: IProductFilterRequest,
-  options: IPaginationOptions,
-  listOptions: { publishedOnly?: boolean } = {},
-) => {
-  const { page, limit, sortBy, sortOrder, skip } =
-    paginationHelpers.calculatePagination(options);
+// const getProductsFromDB = async (
+//   params: IProductFilterRequest,
+//   options: IPaginationOptions,
+//   listOptions: { publishedOnly?: boolean } = {},
+// ) => {
+//   const { page, limit, sortBy, sortOrder, skip } =
+//     paginationHelpers.calculatePagination(options);
 
-  const andConditions = productHelpers.buildProductFilterConditions(params, {
-    publishedOnly: listOptions.publishedOnly ?? true,
-  });
+//   const andConditions = productHelpers.buildProductFilterConditions(params, {
+//     publishedOnly: listOptions.publishedOnly ?? true,
+//   });
+
+//   const whereConditions: Prisma.ProductWhereInput =
+//     andConditions.length > 0 ? { AND: andConditions } : {};
+
+//   const orderField = sortBy || "createdAt";
+//   const orderDir = sortOrder === "asc" ? "asc" : "desc";
+
+//   const [data, total] = await prisma.$transaction([
+//     prisma.product.findMany({
+//       where: whereConditions,
+//       skip,
+//       take: limit,
+//       orderBy: { [orderField]: orderDir },
+//       include: productHelpers.productIncludeDefault,
+//     }),
+//     prisma.product.count({ where: whereConditions }),
+//   ]);
+
+//   return {
+//     meta: { page, limit, total },
+//     data,
+//   };
+// };
+
+const getProductsFromDB = async (filters: IProductFilterRequest, options: IPaginationOptions) => {
+  const { limit, page, skip } = paginationHelpers.calculatePagination(options);
+  const { searchTerm, category, brand, ...filterData } = filters;
+  const andConditions: Prisma.ProductWhereInput[] = [];
+
+  if (searchTerm) {
+    andConditions.push({
+      OR: productSearchableFields.map(field => ({
+        [field]: {
+          contains: searchTerm,
+          mode: 'insensitive'
+        }
+      }))
+    })
+  }
+
+  if (category && category.length > 0) {
+    andConditions.push({
+      category: {
+        categoryName: {
+          equals: category,
+          mode: 'insensitive'
+        }
+      }
+    })
+  }
+
+  if (brand && brand.length > 0) {
+    andConditions.push({
+      brand: {
+        brandName: {
+          equals: brand,
+          mode: 'insensitive'
+        }
+      }
+    })
+  }
+
+  if (Object.keys(filterData).length > 0) {
+    const filterCondition = Object.keys(filterData).map((key) => ({
+      [key]: {
+        equals: (filterData as any)[key]
+      }
+    }))
+    andConditions.push(...filterCondition);
+  }
 
   const whereConditions: Prisma.ProductWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
+  const result = await prisma.product.findMany({
+    where: whereConditions,
+    include: {
+      category: {
+        select: {
+          categoryName: true
+        }
+      },
+      brand: {
+        select: {
+          brandName: true
+        }
+      },
+    }
+  });
+  return result;
+}
 
-  const orderField = sortBy || "createdAt";
-  const orderDir = sortOrder === "asc" ? "asc" : "desc";
 
-  const [data, total] = await prisma.$transaction([
-    prisma.product.findMany({
-      where: whereConditions,
-      skip,
-      take: limit,
-      orderBy: { [orderField]: orderDir },
-      include: productHelpers.productIncludeDefault,
-    }),
-    prisma.product.count({ where: whereConditions }),
-  ]);
 
-  return {
-    meta: { page, limit, total },
-    data,
-  };
-};
+
+
+
+
+
+
+
+
+
+
+
 
 const getSingleProductFromDB = async (
   identifier: string,
