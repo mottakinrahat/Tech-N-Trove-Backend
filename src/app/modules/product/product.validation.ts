@@ -7,7 +7,6 @@ const createProduct = z.object({
     categoryId: z.string().min(1),
     description: z.string().optional(),
     brandId: z.string().optional(),
-    images: z.array(z.string()).optional(),
     tags: z.array(z.string()).optional(),
     isPublished: z.boolean().optional(),
     isFeatured: z.boolean().optional(),
@@ -24,7 +23,6 @@ const updateProduct = z.object({
       categoryId: z.string().min(1).optional(),
       description: z.string().optional().nullable(),
       brandId: z.string().optional().nullable(),
-      images: z.array(z.string()).optional(),
       tags: z.array(z.string()).optional(),
       isPublished: z.boolean().optional(),
       isFeatured: z.boolean().optional(),
@@ -76,7 +74,7 @@ const updateVariant = z.object({
     }),
 });
 
-const createProductImage = z.object({
+const createImage = z.object({
   body: z.object({
     url: z.string().min(1),
   }),
@@ -87,5 +85,5 @@ export const ProductValidation = {
   updateProduct,
   createVariant,
   updateVariant,
-  createProductImage,
+  createImage,
 };

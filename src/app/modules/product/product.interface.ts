@@ -7,6 +7,7 @@ export type IProductFilterRequest = {
   variants?: any;
   isPublished?: string | boolean;
   isFeatured?: string | boolean;
+  status?: string;
   minPrice?: string | number;
   maxPrice?: string | number;
 };

@@ -9,7 +9,6 @@ const productIncludeDefault = {
             variantImages: true,
         },
     },
-    productImages: true,
 } satisfies Prisma.ProductInclude;
 
 const identifierWhere = (

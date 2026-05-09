@@ -200,6 +200,7 @@ exports.Prisma.ProductScalarFieldEnum = {
   tags: 'tags',
   isPublished: 'isPublished',
   isFeatured: 'isFeatured',
+  status: 'status',
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
   createdAt: 'createdAt',
@@ -247,7 +248,6 @@ exports.Prisma.ProductVariantScalarFieldEnum = {
 exports.Prisma.ProductImageScalarFieldEnum = {
   id: 'id',
   url: 'url',
-  productId: 'productId',
   variantId: 'variantId'
 };
 
@@ -319,8 +319,6 @@ exports.Prisma.WishlistScalarFieldEnum = {
 
 exports.Prisma.BannerScalarFieldEnum = {
   id: 'id',
-  title: 'title',
-  description: 'description',
   image: 'image',
   buttonText: 'buttonText',
   buttonLink: 'buttonLink',
@@ -399,6 +397,12 @@ exports.AddressType = exports.$Enums.AddressType = {
   HOME: 'HOME',
   OFFICE: 'OFFICE',
   OTHER: 'OTHER'
+};
+
+exports.ProductStatus = exports.$Enums.ProductStatus = {
+  ACTIVE: 'ACTIVE',
+  INACTIVE: 'INACTIVE',
+  DRAFT: 'DRAFT'
 };
 
 exports.OrderStatus = exports.$Enums.OrderStatus = {

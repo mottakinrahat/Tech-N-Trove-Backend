@@ -6,22 +6,28 @@ import { Secret } from "jsonwebtoken";
 import config from "../../../config";
 import emailSender from "./emailSender";
 import { UserStatus } from "../../../../prisma/generated/prisma";
+import ApiError from "../../errors/apiError";
+import status from "http-status";
 
 const loginUser = async (payload: TLogInUser) => {
   const { email, password } = payload;
 
   // Find the user by email
-  const userData = await prisma.user.findUniqueOrThrow({
+  const userData = await prisma.user.findUnique({
     where: {
       email: email,
       status: UserStatus.ACTIVE,
     },
   });
 
+  if (!userData) {
+    throw new ApiError(status.NOT_FOUND, "User does not exist or is inactive");
+  }
+
   // Validate password
-  const isCorrectPassword = await bcrypt.compare(password, userData?.password);
+  const isCorrectPassword = await bcrypt.compare(password, userData.password);
   if (!isCorrectPassword) {
-    throw new Error("Invalid password");
+    throw new ApiError(status.UNAUTHORIZED, "Invalid password");
   }
 
   // Create JWT token
@@ -60,21 +66,25 @@ const refreshToken = async (token: string) => {
     );
   } catch (error) {
     console.error("JWT verification failed:", error);
-    throw new Error("You are not authorized ");
+    throw new ApiError(status.UNAUTHORIZED, "You are not authorized");
   }
   if (
     typeof decodedData !== "object" ||
     !decodedData ||
     !("email" in decodedData)
   ) {
-    throw new Error("Invalid token payload");
+    throw new ApiError(status.BAD_REQUEST, "Invalid token payload");
   }
-  const userData = await prisma.user.findUniqueOrThrow({
+  const userData = await prisma.user.findUnique({
     where: {
       email: decodedData?.email,
       status: UserStatus.ACTIVE,
     },
   });
+
+  if (!userData) {
+    throw new ApiError(status.NOT_FOUND, "User not found or is inactive");
+  }
   const accessToken = generateToken(
     {
       email: userData?.email,
@@ -91,18 +101,22 @@ const refreshToken = async (token: string) => {
 const changePassword = async (user: any, payload: any) => {
   const { oldPassword, newPassword } = payload;
 
-  const userData = await prisma.user.findFirstOrThrow({
+  const userData = await prisma.user.findFirst({
     where: {
       email: user.email,
       status: UserStatus.ACTIVE,
     },
   });
+
+  if (!userData) {
+    throw new ApiError(status.NOT_FOUND, "User not found or is inactive");
+  }
   const isCorrectPassword = await bcrypt.compare(
     oldPassword,
     userData.password,
   );
   if (!isCorrectPassword) {
-    throw new Error("Invalid password");
+    throw new ApiError(status.UNAUTHORIZED, "Invalid password");
   }
 
   await prisma.user.update({
@@ -123,12 +137,16 @@ const changePassword = async (user: any, payload: any) => {
 const forgotPassword = async (payload: { email: string }) => {
   const { email } = payload;
 
-  const userData = await prisma.user.findUniqueOrThrow({
+  const userData = await prisma.user.findUnique({
     where: {
       email: email,
       status: UserStatus.ACTIVE,
     },
   });
+
+  if (!userData) {
+    throw new ApiError(status.NOT_FOUND, "User not found with this email");
+  }
   const resetPassToken = generateToken(
     { email: userData.email, role: userData.role },
     process.env.reset_pass_token as Secret,
@@ -157,7 +175,7 @@ const resetPassword = async (
     process.env.reset_pass_token as Secret,
   );
   if(!isValidToken){
-    throw new Error("Invalid or expired token");
+    throw new ApiError(status.BAD_REQUEST, "Invalid or expired token");
   }
   const hashPassword=bcrypt.hashSync(payload.password,12);
 

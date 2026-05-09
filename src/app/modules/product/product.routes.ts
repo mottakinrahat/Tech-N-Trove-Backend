@@ -34,16 +34,11 @@ router.get(
 router.post(
   "/:productId/variants/:variantId/images",
   adminAuth,
-  validateRequest(ProductValidation.createProductImage),
+  validateRequest(ProductValidation.createImage),
   ProductController.createVariantImage,
 );
 
-router.post(
-  "/:productId/images",
-  adminAuth,
-  validateRequest(ProductValidation.createProductImage),
-  ProductController.createProductImage,
-);
+
 
 // router.post(
 //   "/:productId/variants",

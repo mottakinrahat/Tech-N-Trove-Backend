@@ -25,13 +25,11 @@ const createReview = async (
   }
 
   // Prevent duplicate: same user + product + order
-  const existing = await prisma.review.findUnique({
+  const existing = await prisma.review.findFirst({
     where: {
-      userId_productId_orderId: {
-        userId: user.id,
-        productId: payload.productId,
-        orderId: payload.orderId ?? null,
-      },
+      userId: user.id,
+      productId: payload.productId,
+      orderId: payload.orderId ?? null,
     },
   });
   if (existing) throw new Error("You have already reviewed this product");
@@ -134,7 +132,18 @@ const getMyReviews = async (email: string) => {
   return prisma.review.findMany({
     where: { userId: user.id },
     include: {
-      product: { select: { id: true, name: true, productImages: true } },
+      product: {
+        select: {
+          id: true,
+          name: true,
+          variants: {
+            take: 1,
+            select: {
+              variantImages: { take: 1, select: { url: true } },
+            },
+          },
+        },
+      },
     },
     orderBy: { createdAt: "desc" },
   });

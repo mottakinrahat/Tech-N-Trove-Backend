@@ -89,7 +89,7 @@ const createProductIntoDB = async (
 
 const getProductsFromDB = async (filters: IProductFilterRequest, options: IPaginationOptions) => {
   const { page, limit, sortBy, sortOrder, skip } = paginationHelpers.calculatePagination(options);
-  const { searchTerm, category, brand, minPrice, maxPrice, ...filterData } = filters;
+  const { searchTerm, category, brand, minPrice, maxPrice, isPublished, isFeatured, status: productStatus, ...filterData } = filters;
   const andConditions: Prisma.ProductWhereInput[] = [];
 
   if (searchTerm) {
@@ -98,17 +98,17 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
         ...productSearchableFields.map(field => ({
           [field]: {
             contains: searchTerm,
-            mode: 'insensitive'
+            mode: 'insensitive' as const
           }
         })),
         {
           variants: {
             some: {
               OR: [
-                { title: { contains: searchTerm, mode: 'insensitive' } },
-                { sku: { contains: searchTerm, mode: 'insensitive' } },
-                { size: { contains: searchTerm, mode: 'insensitive' } },
-                { color: { contains: searchTerm, mode: 'insensitive' } }
+                { title: { contains: searchTerm, mode: 'insensitive' as const } },
+                { sku: { contains: searchTerm, mode: 'insensitive' as const } },
+                { size: { contains: searchTerm, mode: 'insensitive' as const } },
+                { color: { contains: searchTerm, mode: 'insensitive' as const } }
               ]
             }
           }
@@ -151,6 +151,20 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
         }
       }
     });
+  }
+
+  const published = productHelpers.parseBooleanParam(isPublished);
+  if (published !== undefined) {
+    andConditions.push({ isPublished: published });
+  }
+
+  const featured = productHelpers.parseBooleanParam(isFeatured);
+  if (featured !== undefined) {
+    andConditions.push({ isFeatured: featured });
+  }
+
+  if (productStatus) {
+    andConditions.push({ status: productStatus as any });
   }
 
   if (Object.keys(filterData).length > 0) {
@@ -317,7 +331,6 @@ const createVariantIntoDB = async (
     const createVarientImage = await prisma.productImage.create({
       data: {
         url: uploadToCloudinary?.url,
-        productId,
         variantId: result.id,
       },
     });
@@ -416,16 +429,7 @@ const deleteVariantIntoDB = async (productId: string, variantId: string) => {
   });
 };
 
-const createProductImageIntoDB = async (productId: string, url: string) => {
-  await assertProductExists(productId);
 
-  return prisma.productImage.create({
-    data: {
-      url,
-      productId,
-    },
-  });
-};
 
 const createVariantImageIntoDB = async (
   productId: string,
@@ -437,7 +441,6 @@ const createVariantImageIntoDB = async (
   return prisma.productImage.create({
     data: {
       url,
-      productId,
       variantId,
     },
   });
@@ -468,7 +471,6 @@ export const ProductServices = {
   getSingleVariantFromDB,
   updateVariantIntoDB,
   deleteVariantIntoDB,
-  createProductImageIntoDB,
   createVariantImageIntoDB,
   deleteProductImageIntoDB,
 };

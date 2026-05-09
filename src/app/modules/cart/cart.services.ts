@@ -11,11 +11,7 @@ const getCart = async (email: string) => {
     include: {
       items: {
         include: {
-          product: {
-            include: {
-              productImages: true,
-            },
-          },
+          product: true,
           variant: {
             include: {
                variantImages: true,
@@ -32,11 +28,7 @@ const getCart = async (email: string) => {
       include: {
         items: {
           include: {
-            product: {
-              include: {
-                productImages: true,
-              },
-            },
+            product: true,
             variant: {
               include: {
                 variantImages: true,

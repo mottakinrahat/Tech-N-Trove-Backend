@@ -206,20 +206,7 @@ const deleteVariant = catchAsync(async (req: any, res: any) => {
   });
 });
 
-const createProductImage = catchAsync(async (req: any, res: any) => {
-  const { productId } = req.params;
-  const result = await ProductServices.createProductImageIntoDB(
-    productId,
-    req.body.url,
-  );
 
-  sendResponse(res, {
-    success: true,
-    statusCode: status.CREATED,
-    message: "Image added to product successfully",
-    data: result,
-  });
-});
 
 const createVariantImage = catchAsync(async (req: any, res: any) => {
   const { productId, variantId } = req.params;
@@ -262,7 +249,6 @@ export const ProductController = {
   getVariantById,
   updateVariant,
   deleteVariant,
-  createProductImage,
   createVariantImage,
   deleteProductImage,
 };

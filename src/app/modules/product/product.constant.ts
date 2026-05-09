@@ -7,6 +7,7 @@ export const productFilterableFields = [
   "brand",
   "isPublished",
   "isFeatured",
+  "status",
   "minPrice",
   "maxPrice",
 ];

@@ -21,8 +21,14 @@ const addToWishlist = async (email: string, productId: string) => {
           id: true,
           name: true,
           slug: true,
-          productImages: true,
-          variants: { where: { isActive: true }, take: 1 },
+          variants: { 
+            where: { isActive: true }, 
+            take: 1,
+            select: {
+              id: true,
+              variantImages: { take: 1, select: { url: true } }
+            }
+          },
         },
       },
     },
@@ -56,10 +62,15 @@ const getMyWishlist = async (email: string) => {
           name: true,
           slug: true,
           isPublished: true,
-          productImages: true,
           variants: {
             where: { isActive: true },
-            select: { id: true, price: true, comparePrice: true, stock: true },
+            select: { 
+              id: true, 
+              price: true, 
+              comparePrice: true, 
+              stock: true,
+              variantImages: { take: 1, select: { url: true } }
+            },
           },
           brand: { select: { brandName: true } },
           category: { select: { categoryName: true } },
