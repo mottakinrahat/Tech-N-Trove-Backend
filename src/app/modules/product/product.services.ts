@@ -178,7 +178,7 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
 
   const whereConditions: Prisma.ProductWhereInput =
     andConditions.length > 0 ? { AND: andConditions } : {};
-  const [result] = await prisma.$transaction([
+  const [result, total] = await prisma.$transaction([
     prisma.product.findMany({
       where: whereConditions,
       skip,
@@ -211,10 +211,33 @@ const getProductsFromDB = async (filters: IProductFilterRequest, options: IPagin
         }
       }
     }),
+    prisma.product.count({ where: whereConditions })
   ]);
-  const total = result.length;
 
-  return { meta: { page, limit, total }, data: result };
+  const productIds = result.map(p => p.id);
+  const ratings = await prisma.review.groupBy({
+    by: ['productId'],
+    where: {
+      productId: { in: productIds }
+    },
+    _avg: {
+      rating: true
+    },
+    _count: {
+      rating: true
+    }
+  });
+
+  const productsWithRatings = result.map(product => {
+    const ratingData = ratings.find(r => r.productId === product.id);
+    return {
+      ...product,
+      rating: ratingData?._avg.rating ?? 0,
+      reviews: ratingData?._count.rating ?? 0
+    };
+  });
+
+  return { meta: { page, limit, total }, data: productsWithRatings };
 }
 
 
@@ -252,7 +275,17 @@ const getSingleProductFromDB = async (
     throw new ApiError(status.NOT_FOUND, "Product not found");
   }
 
-  return result;
+  const agg = await prisma.review.aggregate({
+    where: { productId: result.id },
+    _avg: { rating: true },
+    _count: { rating: true },
+  });
+
+  return {
+    ...result,
+    rating: agg._avg.rating ?? 0,
+    reviews: agg._count.rating ?? 0
+  };
 };
 
 const updateProductIntoDB = async (
