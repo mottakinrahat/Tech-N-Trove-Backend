@@ -18,7 +18,7 @@ router.post(
   DiscountController.createDiscount,
 );
 
-router.get("/", adminAuth, DiscountController.getAllDiscounts);
+router.get("/", DiscountController.getAllDiscounts);
 
 router.get("/:discountId", adminAuth, DiscountController.getSingleDiscount);
 
