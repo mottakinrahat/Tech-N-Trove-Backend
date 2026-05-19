@@ -2,12 +2,14 @@ import status from "http-status";
 import ApiError from "../../errors/apiError";
 import prisma from "../../../shared/prisma";
 import { fileUploader } from "../../../helpers/fileUploader";
+import { BannerType } from "../../../../prisma/generated/prisma";
 
 /* ------------------------------------------------------------------ */
 /*  CREATE                                                               */
 /* ------------------------------------------------------------------ */
 const createBannerIntoDB = async (req: any) => {
   // File is mandatory for a new banner
+  
   if (!req.file) {
     throw new ApiError(status.BAD_REQUEST, "Banner image is required");
   }
@@ -22,17 +24,38 @@ const createBannerIntoDB = async (req: any) => {
       req.body.isActive !== undefined
         ? req.body.isActive === "true" || req.body.isActive === true
         : true,
+    bannerType: req.body.bannerType || "HERO",
   };
 
   return prisma.banner.create({ data: payload });
 };
 
 /* ------------------------------------------------------------------ */
-/*  READ — all active banners (public / frontend)                        */
+/*  READ — all active HERO banners (public / frontend carousel)          */
 /* ------------------------------------------------------------------ */
 const getActiveBannersFromDB = async () => {
   return prisma.banner.findMany({
-    where: { isActive: true },
+    where: { isActive: true, bannerType: "HERO" },
+    orderBy: { sortOrder: "asc" },
+  });
+};
+
+/* ------------------------------------------------------------------ */
+/*  READ — all active OFFER banners (public / home page offers)          */
+/* ------------------------------------------------------------------ */
+const getActiveOfferBannersFromDB = async () => {
+  return prisma.banner.findMany({
+    where: { isActive: true, bannerType: "OFFER" },
+    orderBy: { sortOrder: "asc" },
+  });
+};
+
+/* ------------------------------------------------------------------ */
+/*  READ — all active PROMO banners (public / hero promo cards)          */
+/* ------------------------------------------------------------------ */
+const getActivePromoBannersFromDB = async () => {
+  return prisma.banner.findMany({
+    where: { isActive: true, bannerType: "PROMO" },
     orderBy: { sortOrder: "asc" },
   });
 };
@@ -40,8 +63,11 @@ const getActiveBannersFromDB = async () => {
 /* ------------------------------------------------------------------ */
 /*  READ — all banners (admin)                                           */
 /* ------------------------------------------------------------------ */
-const getAllBannersFromDB = async () => {
-  return prisma.banner.findMany({ orderBy: { sortOrder: "asc" } });
+const getAllBannersFromDB = async (bannerType?: string) => {
+  return prisma.banner.findMany({
+    where: bannerType ? { bannerType: bannerType as BannerType } : undefined,
+    orderBy: { sortOrder: "asc" },
+  });
 };
 
 /* ------------------------------------------------------------------ */
@@ -85,6 +111,8 @@ const deleteBannerFromDB = async (bannerId: string) => {
 export const BannerServices = {
   createBannerIntoDB,
   getActiveBannersFromDB,
+  getActiveOfferBannersFromDB,
+  getActivePromoBannersFromDB,
   getAllBannersFromDB,
   getSingleBannerFromDB,
   updateBannerIntoDB,

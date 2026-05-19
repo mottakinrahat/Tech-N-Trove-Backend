@@ -8,8 +8,12 @@ const router = express.Router();
 
 const adminAuth = auth(UserRole.ADMIN, UserRole.SUPER_ADMIN);
 
+// Public routes
 router.get("/active", BannerController.getActiveBanners);
+router.get("/offers/active", BannerController.getActiveOfferBanners);
+router.get("/promos/active", BannerController.getActivePromoBanners);
 
+// Admin routes
 router.get("/", BannerController.getAllBanners);
 
 router.get("/:bannerId", adminAuth, BannerController.getSingleBanner);
@@ -30,7 +34,12 @@ router.patch(
   "/:bannerId",
   adminAuth,
   fileUploader.upload.single("file"),
-  BannerController.updateBanner,
+  (req: Request, res: Response, next: NextFunction) => {
+    if (req.body.data) {
+      req.body = { ...JSON.parse(req.body.data) };
+    }
+    return BannerController.updateBanner(req, res, next);
+  },
 );
 
 router.delete("/:bannerId", adminAuth, BannerController.deleteBanner);

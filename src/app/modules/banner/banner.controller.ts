@@ -15,7 +15,7 @@ const createBanner = catchAsync(async (req: any, res: any) => {
   });
 });
 
-/* ---------- GET ACTIVE (public / frontend carousel) ---------- */
+/* ---------- GET ACTIVE HERO banners (public / frontend carousel) ---------- */
 const getActiveBanners = catchAsync(async (_req: any, res: any) => {
   const result = await BannerServices.getActiveBannersFromDB();
 
@@ -27,9 +27,33 @@ const getActiveBanners = catchAsync(async (_req: any, res: any) => {
   });
 });
 
+/* ---------- GET ACTIVE OFFER banners (public / home page) ---------- */
+const getActiveOfferBanners = catchAsync(async (_req: any, res: any) => {
+  const result = await BannerServices.getActiveOfferBannersFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Active offer banners retrieved successfully",
+    data: result,
+  });
+});
+
+/* ---------- GET ACTIVE PROMO banners (public / hero promo cards) ---------- */
+const getActivePromoBanners = catchAsync(async (_req: any, res: any) => {
+  const result = await BannerServices.getActivePromoBannersFromDB();
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Active promo banners retrieved successfully",
+    data: result,
+  });
+});
+
 /* ---------- GET ALL (admin) ---------- */
-const getAllBanners = catchAsync(async (_req: any, res: any) => {
-  const result = await BannerServices.getAllBannersFromDB();
+const getAllBanners = catchAsync(async (req: any, res: any) => {
+  const result = await BannerServices.getAllBannersFromDB(req.query.bannerType);
 
   sendResponse(res, {
     success: true,
@@ -78,6 +102,8 @@ const deleteBanner = catchAsync(async (req: any, res: any) => {
 export const BannerController = {
   createBanner,
   getActiveBanners,
+  getActiveOfferBanners,
+  getActivePromoBanners,
   getAllBanners,
   getSingleBanner,
   updateBanner,

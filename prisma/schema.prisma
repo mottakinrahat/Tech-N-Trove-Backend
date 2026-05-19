@@ -310,14 +310,17 @@ model Wishlist {
 }
 
 model Banner {
-  id          String   @id @default(uuid())
-  image       String // Cloudinary URL
+  id          String     @id @default(uuid())
+  title       String?
+  description String?
+  image       String     // Cloudinary URL
   buttonText  String?
-  buttonLink  String
-  sortOrder   Int      @default(0)
-  isActive    Boolean  @default(true)
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  buttonLink  String?
+  bannerType  BannerType @default(HERO)
+  sortOrder   Int        @default(0)
+  isActive    Boolean    @default(true)
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
 
   @@map("banners")
 }
@@ -378,6 +381,12 @@ model DiscountCategory {
 enum DiscountType {
   PERCENTAGE
   FIXED
+}
+
+enum BannerType {
+  HERO
+  OFFER
+  PROMO
 }
 
 enum UserRole {
