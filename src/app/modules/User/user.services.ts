@@ -10,7 +10,24 @@ import {
   UserStatus,
 } from "../../../../prisma/generated/prisma";
 import { paginationHelpers } from "../../../helpers/paginationHelpers";
+import ApiError from "../../errors/apiError";
+import status from "http-status";
+
 const prisma = new PrismaClient();
+
+const ensureEmailIsAvailable = async (email: string) => {
+  const existingUser = await prisma.user.findUnique({
+    where: { email },
+  });
+
+  if (existingUser) {
+    throw new ApiError(
+      status.CONFLICT,
+      "This email already exists. Please login.",
+    );
+  }
+};
+
 const createAdmin = async (req: any) => {
 
   const file = req.file;
@@ -20,6 +37,8 @@ const createAdmin = async (req: any) => {
     );
     req.body.admin.profilePhoto = uploadToCloudinary?.url;
   }
+
+  await ensureEmailIsAvailable(req.body.admin.email);
 
   const hashedPassword: string = await bcrypt.hash(req.body.password, 12);
 
@@ -50,6 +69,8 @@ const createManagerIntoDB = async (req: any) => {
     );
     req.body.manager.profilePhoto = uploadToCloudinary?.url;
   }
+  await ensureEmailIsAvailable(req.body.manager.email);
+
   const hashedPassword: string = await bcrypt.hash(req.body.password, 12);
   const userData = {
     email: req.body.manager.email,
@@ -83,6 +104,8 @@ const createBuyerIntoDB = async (req: any) => {
     );
     req.body.buyer.profilePhoto = uploadToCloudinary?.url;
   }
+  await ensureEmailIsAvailable(req.body.buyer.email);
+
   const hashedPassword: string = await bcrypt.hash(req.body.password, 12);
   const userData = {
     email: req.body.buyer.email,

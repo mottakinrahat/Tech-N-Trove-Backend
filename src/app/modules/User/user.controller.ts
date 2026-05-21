@@ -6,55 +6,35 @@ import { pick } from "../../../shared/pick";
 import { userFilterableFields } from "./user.constant";
 import status from "http-status";
 
-const createAdminUser = async (req: Request, res: Response) => {
-  try {
+const createAdminUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.createAdmin(req);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Admin user created successfully",
+    data: result,
+  });
+});
 
-    const result = await UserServices.createAdmin(req);
-    res.status(200).json({
-      success: true,
-      message: "Admin user created successfully",
-      data: result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to create admin user", //failed
-      error: error,
-    });
-  }
-};
-const createManager = async (req: Request, res: Response) => {
-  try {
-    const result = await UserServices.createManagerIntoDB(req);
-    res.status(200).json({
-      success: true,
-      message: "Manager created successfully",
-      data: result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to create Manager",
-      error: error,
-    });
-  }
-};
-const createBuyer = async (req: Request, res: Response) => {
-  try {
-    const result = await UserServices.createBuyerIntoDB(req);
-    res.status(200).json({
-      success: true,
-      message: "Buyer created successfully",
-      data: result,
-    });
-  } catch (error) {
-    res.status(500).json({
-      success: false,
-      message: "Failed to create Buyer",
-      error: error,
-    });
-  }
-};
+const createManager = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.createManagerIntoDB(req);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Manager created successfully",
+    data: result,
+  });
+});
+
+const createBuyer = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.createBuyerIntoDB(req);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Buyer created successfully",
+    data: result,
+  });
+});
 
 const getAllUser = catchAsync(async (req, res, next) => {
   const filter = pick(req.query, userFilterableFields);

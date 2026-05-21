@@ -12,10 +12,17 @@ export const globalErrorHandler = (err: any, req: Request, res: Response, next: 
     statusCode = err.statusCode;
     message = err.message;
   } else if (err?.name === "PrismaClientKnownRequestError") {
-    // Prisma record not found error (thrown by findUniqueOrThrow)
     if (err.code === "P2025") {
       statusCode = status.NOT_FOUND;
       message = "Record not found";
+    } else if (err.code === "P2002") {
+      statusCode = status.CONFLICT;
+      const target = err.meta?.target as string[] | undefined;
+      if (target?.includes("email")) {
+        message = "This email already exists. Please login.";
+      } else {
+        message = "Duplicate value violates unique constraint";
+      }
     }
   }
 
