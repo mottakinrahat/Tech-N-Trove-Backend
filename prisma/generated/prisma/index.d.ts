@@ -131,6 +131,15 @@ export namespace $Enums {
 export type DiscountType = (typeof DiscountType)[keyof typeof DiscountType]
 
 
+export const BannerType: {
+  HERO: 'HERO',
+  OFFER: 'OFFER',
+  PROMO: 'PROMO'
+};
+
+export type BannerType = (typeof BannerType)[keyof typeof BannerType]
+
+
 export const UserRole: {
   ADMIN: 'ADMIN',
   BUYER: 'BUYER',
@@ -194,6 +203,10 @@ export type ProductStatus = (typeof ProductStatus)[keyof typeof ProductStatus]
 export type DiscountType = $Enums.DiscountType
 
 export const DiscountType: typeof $Enums.DiscountType
+
+export type BannerType = $Enums.BannerType
+
+export const BannerType: typeof $Enums.BannerType
 
 export type UserRole = $Enums.UserRole
 
@@ -23217,9 +23230,12 @@ export namespace Prisma {
 
   export type BannerMinAggregateOutputType = {
     id: string | null
+    title: string | null
+    description: string | null
     image: string | null
     buttonText: string | null
     buttonLink: string | null
+    bannerType: $Enums.BannerType | null
     sortOrder: number | null
     isActive: boolean | null
     createdAt: Date | null
@@ -23228,9 +23244,12 @@ export namespace Prisma {
 
   export type BannerMaxAggregateOutputType = {
     id: string | null
+    title: string | null
+    description: string | null
     image: string | null
     buttonText: string | null
     buttonLink: string | null
+    bannerType: $Enums.BannerType | null
     sortOrder: number | null
     isActive: boolean | null
     createdAt: Date | null
@@ -23239,9 +23258,12 @@ export namespace Prisma {
 
   export type BannerCountAggregateOutputType = {
     id: number
+    title: number
+    description: number
     image: number
     buttonText: number
     buttonLink: number
+    bannerType: number
     sortOrder: number
     isActive: number
     createdAt: number
@@ -23260,9 +23282,12 @@ export namespace Prisma {
 
   export type BannerMinAggregateInputType = {
     id?: true
+    title?: true
+    description?: true
     image?: true
     buttonText?: true
     buttonLink?: true
+    bannerType?: true
     sortOrder?: true
     isActive?: true
     createdAt?: true
@@ -23271,9 +23296,12 @@ export namespace Prisma {
 
   export type BannerMaxAggregateInputType = {
     id?: true
+    title?: true
+    description?: true
     image?: true
     buttonText?: true
     buttonLink?: true
+    bannerType?: true
     sortOrder?: true
     isActive?: true
     createdAt?: true
@@ -23282,9 +23310,12 @@ export namespace Prisma {
 
   export type BannerCountAggregateInputType = {
     id?: true
+    title?: true
+    description?: true
     image?: true
     buttonText?: true
     buttonLink?: true
+    bannerType?: true
     sortOrder?: true
     isActive?: true
     createdAt?: true
@@ -23380,9 +23411,12 @@ export namespace Prisma {
 
   export type BannerGroupByOutputType = {
     id: string
+    title: string | null
+    description: string | null
     image: string
     buttonText: string | null
-    buttonLink: string
+    buttonLink: string | null
+    bannerType: $Enums.BannerType
     sortOrder: number
     isActive: boolean
     createdAt: Date
@@ -23410,9 +23444,12 @@ export namespace Prisma {
 
   export type BannerSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
+    description?: boolean
     image?: boolean
     buttonText?: boolean
     buttonLink?: boolean
+    bannerType?: boolean
     sortOrder?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -23421,9 +23458,12 @@ export namespace Prisma {
 
   export type BannerSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
+    description?: boolean
     image?: boolean
     buttonText?: boolean
     buttonLink?: boolean
+    bannerType?: boolean
     sortOrder?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -23432,9 +23472,12 @@ export namespace Prisma {
 
   export type BannerSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    title?: boolean
+    description?: boolean
     image?: boolean
     buttonText?: boolean
     buttonLink?: boolean
+    bannerType?: boolean
     sortOrder?: boolean
     isActive?: boolean
     createdAt?: boolean
@@ -23443,25 +23486,31 @@ export namespace Prisma {
 
   export type BannerSelectScalar = {
     id?: boolean
+    title?: boolean
+    description?: boolean
     image?: boolean
     buttonText?: boolean
     buttonLink?: boolean
+    bannerType?: boolean
     sortOrder?: boolean
     isActive?: boolean
     createdAt?: boolean
     updatedAt?: boolean
   }
 
-  export type BannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "image" | "buttonText" | "buttonLink" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["banner"]>
+  export type BannerOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "title" | "description" | "image" | "buttonText" | "buttonLink" | "bannerType" | "sortOrder" | "isActive" | "createdAt" | "updatedAt", ExtArgs["result"]["banner"]>
 
   export type $BannerPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "Banner"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      title: string | null
+      description: string | null
       image: string
       buttonText: string | null
-      buttonLink: string
+      buttonLink: string | null
+      bannerType: $Enums.BannerType
       sortOrder: number
       isActive: boolean
       createdAt: Date
@@ -23890,9 +23939,12 @@ export namespace Prisma {
    */
   interface BannerFieldRefs {
     readonly id: FieldRef<"Banner", 'String'>
+    readonly title: FieldRef<"Banner", 'String'>
+    readonly description: FieldRef<"Banner", 'String'>
     readonly image: FieldRef<"Banner", 'String'>
     readonly buttonText: FieldRef<"Banner", 'String'>
     readonly buttonLink: FieldRef<"Banner", 'String'>
+    readonly bannerType: FieldRef<"Banner", 'BannerType'>
     readonly sortOrder: FieldRef<"Banner", 'Int'>
     readonly isActive: FieldRef<"Banner", 'Boolean'>
     readonly createdAt: FieldRef<"Banner", 'DateTime'>
@@ -27834,9 +27886,12 @@ export namespace Prisma {
 
   export const BannerScalarFieldEnum: {
     id: 'id',
+    title: 'title',
+    description: 'description',
     image: 'image',
     buttonText: 'buttonText',
     buttonLink: 'buttonLink',
+    bannerType: 'bannerType',
     sortOrder: 'sortOrder',
     isActive: 'isActive',
     createdAt: 'createdAt',
@@ -28086,6 +28141,20 @@ export namespace Prisma {
    * Reference to a field of type 'QueryMode'
    */
   export type EnumQueryModeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'QueryMode'>
+    
+
+
+  /**
+   * Reference to a field of type 'BannerType'
+   */
+  export type EnumBannerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BannerType'>
+    
+
+
+  /**
+   * Reference to a field of type 'BannerType[]'
+   */
+  export type ListEnumBannerTypeFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'BannerType[]'>
     
 
 
@@ -29472,9 +29541,12 @@ export namespace Prisma {
     OR?: BannerWhereInput[]
     NOT?: BannerWhereInput | BannerWhereInput[]
     id?: StringFilter<"Banner"> | string
+    title?: StringNullableFilter<"Banner"> | string | null
+    description?: StringNullableFilter<"Banner"> | string | null
     image?: StringFilter<"Banner"> | string
     buttonText?: StringNullableFilter<"Banner"> | string | null
-    buttonLink?: StringFilter<"Banner"> | string
+    buttonLink?: StringNullableFilter<"Banner"> | string | null
+    bannerType?: EnumBannerTypeFilter<"Banner"> | $Enums.BannerType
     sortOrder?: IntFilter<"Banner"> | number
     isActive?: BoolFilter<"Banner"> | boolean
     createdAt?: DateTimeFilter<"Banner"> | Date | string
@@ -29483,9 +29555,12 @@ export namespace Prisma {
 
   export type BannerOrderByWithRelationInput = {
     id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     image?: SortOrder
     buttonText?: SortOrderInput | SortOrder
-    buttonLink?: SortOrder
+    buttonLink?: SortOrderInput | SortOrder
+    bannerType?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -29497,9 +29572,12 @@ export namespace Prisma {
     AND?: BannerWhereInput | BannerWhereInput[]
     OR?: BannerWhereInput[]
     NOT?: BannerWhereInput | BannerWhereInput[]
+    title?: StringNullableFilter<"Banner"> | string | null
+    description?: StringNullableFilter<"Banner"> | string | null
     image?: StringFilter<"Banner"> | string
     buttonText?: StringNullableFilter<"Banner"> | string | null
-    buttonLink?: StringFilter<"Banner"> | string
+    buttonLink?: StringNullableFilter<"Banner"> | string | null
+    bannerType?: EnumBannerTypeFilter<"Banner"> | $Enums.BannerType
     sortOrder?: IntFilter<"Banner"> | number
     isActive?: BoolFilter<"Banner"> | boolean
     createdAt?: DateTimeFilter<"Banner"> | Date | string
@@ -29508,9 +29586,12 @@ export namespace Prisma {
 
   export type BannerOrderByWithAggregationInput = {
     id?: SortOrder
+    title?: SortOrderInput | SortOrder
+    description?: SortOrderInput | SortOrder
     image?: SortOrder
     buttonText?: SortOrderInput | SortOrder
-    buttonLink?: SortOrder
+    buttonLink?: SortOrderInput | SortOrder
+    bannerType?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -29527,9 +29608,12 @@ export namespace Prisma {
     OR?: BannerScalarWhereWithAggregatesInput[]
     NOT?: BannerScalarWhereWithAggregatesInput | BannerScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"Banner"> | string
+    title?: StringNullableWithAggregatesFilter<"Banner"> | string | null
+    description?: StringNullableWithAggregatesFilter<"Banner"> | string | null
     image?: StringWithAggregatesFilter<"Banner"> | string
     buttonText?: StringNullableWithAggregatesFilter<"Banner"> | string | null
-    buttonLink?: StringWithAggregatesFilter<"Banner"> | string
+    buttonLink?: StringNullableWithAggregatesFilter<"Banner"> | string | null
+    bannerType?: EnumBannerTypeWithAggregatesFilter<"Banner"> | $Enums.BannerType
     sortOrder?: IntWithAggregatesFilter<"Banner"> | number
     isActive?: BoolWithAggregatesFilter<"Banner"> | boolean
     createdAt?: DateTimeWithAggregatesFilter<"Banner"> | Date | string
@@ -31193,9 +31277,12 @@ export namespace Prisma {
 
   export type BannerCreateInput = {
     id?: string
+    title?: string | null
+    description?: string | null
     image: string
     buttonText?: string | null
-    buttonLink: string
+    buttonLink?: string | null
+    bannerType?: $Enums.BannerType
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -31204,9 +31291,12 @@ export namespace Prisma {
 
   export type BannerUncheckedCreateInput = {
     id?: string
+    title?: string | null
+    description?: string | null
     image: string
     buttonText?: string | null
-    buttonLink: string
+    buttonLink?: string | null
+    bannerType?: $Enums.BannerType
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -31215,9 +31305,12 @@ export namespace Prisma {
 
   export type BannerUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: StringFieldUpdateOperationsInput | string
+    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerType?: EnumBannerTypeFieldUpdateOperationsInput | $Enums.BannerType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31226,9 +31319,12 @@ export namespace Prisma {
 
   export type BannerUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: StringFieldUpdateOperationsInput | string
+    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerType?: EnumBannerTypeFieldUpdateOperationsInput | $Enums.BannerType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31237,9 +31333,12 @@ export namespace Prisma {
 
   export type BannerCreateManyInput = {
     id?: string
+    title?: string | null
+    description?: string | null
     image: string
     buttonText?: string | null
-    buttonLink: string
+    buttonLink?: string | null
+    bannerType?: $Enums.BannerType
     sortOrder?: number
     isActive?: boolean
     createdAt?: Date | string
@@ -31248,9 +31347,12 @@ export namespace Prisma {
 
   export type BannerUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: StringFieldUpdateOperationsInput | string
+    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerType?: EnumBannerTypeFieldUpdateOperationsInput | $Enums.BannerType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31259,9 +31361,12 @@ export namespace Prisma {
 
   export type BannerUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    title?: NullableStringFieldUpdateOperationsInput | string | null
+    description?: NullableStringFieldUpdateOperationsInput | string | null
     image?: StringFieldUpdateOperationsInput | string
     buttonText?: NullableStringFieldUpdateOperationsInput | string | null
-    buttonLink?: StringFieldUpdateOperationsInput | string
+    buttonLink?: NullableStringFieldUpdateOperationsInput | string | null
+    bannerType?: EnumBannerTypeFieldUpdateOperationsInput | $Enums.BannerType
     sortOrder?: IntFieldUpdateOperationsInput | number
     isActive?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -32696,11 +32801,21 @@ export namespace Prisma {
     createdAt?: SortOrder
   }
 
+  export type EnumBannerTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BannerType | EnumBannerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBannerTypeFilter<$PrismaModel> | $Enums.BannerType
+  }
+
   export type BannerCountOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     image?: SortOrder
     buttonText?: SortOrder
     buttonLink?: SortOrder
+    bannerType?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -32713,9 +32828,12 @@ export namespace Prisma {
 
   export type BannerMaxOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     image?: SortOrder
     buttonText?: SortOrder
     buttonLink?: SortOrder
+    bannerType?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -32724,9 +32842,12 @@ export namespace Prisma {
 
   export type BannerMinOrderByAggregateInput = {
     id?: SortOrder
+    title?: SortOrder
+    description?: SortOrder
     image?: SortOrder
     buttonText?: SortOrder
     buttonLink?: SortOrder
+    bannerType?: SortOrder
     sortOrder?: SortOrder
     isActive?: SortOrder
     createdAt?: SortOrder
@@ -32735,6 +32856,16 @@ export namespace Prisma {
 
   export type BannerSumOrderByAggregateInput = {
     sortOrder?: SortOrder
+  }
+
+  export type EnumBannerTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BannerType | EnumBannerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBannerTypeWithAggregatesFilter<$PrismaModel> | $Enums.BannerType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBannerTypeFilter<$PrismaModel>
+    _max?: NestedEnumBannerTypeFilter<$PrismaModel>
   }
 
   export type EnumDiscountTypeFilter<$PrismaModel = never> = {
@@ -34397,6 +34528,10 @@ export namespace Prisma {
     update?: XOR<XOR<ProductUpdateToOneWithWhereWithoutWishlistsInput, ProductUpdateWithoutWishlistsInput>, ProductUncheckedUpdateWithoutWishlistsInput>
   }
 
+  export type EnumBannerTypeFieldUpdateOperationsInput = {
+    set?: $Enums.BannerType
+  }
+
   export type DiscountProductCreateNestedManyWithoutDiscountInput = {
     create?: XOR<DiscountProductCreateWithoutDiscountInput, DiscountProductUncheckedCreateWithoutDiscountInput> | DiscountProductCreateWithoutDiscountInput[] | DiscountProductUncheckedCreateWithoutDiscountInput[]
     connectOrCreate?: DiscountProductCreateOrConnectWithoutDiscountInput | DiscountProductCreateOrConnectWithoutDiscountInput[]
@@ -34872,6 +35007,23 @@ export namespace Prisma {
     gt?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     gte?: InputJsonValue | JsonFieldRefInput<$PrismaModel>
     not?: InputJsonValue | JsonFieldRefInput<$PrismaModel> | JsonNullValueFilter
+  }
+
+  export type NestedEnumBannerTypeFilter<$PrismaModel = never> = {
+    equals?: $Enums.BannerType | EnumBannerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBannerTypeFilter<$PrismaModel> | $Enums.BannerType
+  }
+
+  export type NestedEnumBannerTypeWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: $Enums.BannerType | EnumBannerTypeFieldRefInput<$PrismaModel>
+    in?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    notIn?: $Enums.BannerType[] | ListEnumBannerTypeFieldRefInput<$PrismaModel>
+    not?: NestedEnumBannerTypeWithAggregatesFilter<$PrismaModel> | $Enums.BannerType
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedEnumBannerTypeFilter<$PrismaModel>
+    _max?: NestedEnumBannerTypeFilter<$PrismaModel>
   }
 
   export type NestedEnumDiscountTypeFilter<$PrismaModel = never> = {

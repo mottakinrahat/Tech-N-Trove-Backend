@@ -319,9 +319,12 @@ exports.Prisma.WishlistScalarFieldEnum = {
 
 exports.Prisma.BannerScalarFieldEnum = {
   id: 'id',
+  title: 'title',
+  description: 'description',
   image: 'image',
   buttonText: 'buttonText',
   buttonLink: 'buttonLink',
+  bannerType: 'bannerType',
   sortOrder: 'sortOrder',
   isActive: 'isActive',
   createdAt: 'createdAt',
@@ -419,6 +422,12 @@ exports.PaymentStatusEnum = exports.$Enums.PaymentStatusEnum = {
   PAID: 'PAID',
   UNPAID: 'UNPAID',
   PENDING: 'PENDING'
+};
+
+exports.BannerType = exports.$Enums.BannerType = {
+  HERO: 'HERO',
+  OFFER: 'OFFER',
+  PROMO: 'PROMO'
 };
 
 exports.DiscountType = exports.$Enums.DiscountType = {
