@@ -18,7 +18,7 @@ router.post(
   fileUploader.upload.single("file"),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data)
-    return UserController.createAdminUser(req, res);
+    return UserController.createAdminUser(req, res, next);
   },
 ); //
 
@@ -28,7 +28,7 @@ router.post(
   fileUploader.upload.single("file"),
   (req: Request, res: Response, next: NextFunction) => {
     req.body = JSON.parse(req.body.data)
-    return UserController.createManager(req, res);
+    return UserController.createManager(req, res, next);
   },
 ); //
 router.post(
@@ -38,7 +38,7 @@ router.post(
     req.body = UserValidation.createBuyerValidationSchema.parse(
       JSON.parse(req.body.data),
     );
-    return UserController.createBuyer(req, res); //controller for creating patient
+    return UserController.createBuyer(req, res, next);
   },
 ); //
 router.get(
