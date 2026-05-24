@@ -212,6 +212,7 @@ model Order {
   user   User   @relation(fields: [userId], references: [id])
 
   status        OrderStatus
+  paymentMethod PaymentMethod
   paymentStatus PaymentStatusEnum
 
   subtotal       Float
@@ -421,6 +422,11 @@ enum PaymentStatusEnum {
   PAID
   UNPAID
   PENDING
+}
+
+enum PaymentMethod {
+  COD
+  ONLINE
 }
 
 enum ProductStatus {

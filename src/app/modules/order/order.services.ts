@@ -1,4 +1,4 @@
-import { OrderStatus, PaymentStatusEnum } from "../../../../prisma/generated/prisma";
+import { OrderStatus, PaymentStatusEnum,PaymentMethod } from "../../../../prisma/generated/prisma";
 import prisma from "../../../shared/prisma";
 
 const createOrder = async (email: string, payload: any) => {
@@ -107,11 +107,17 @@ const createOrder = async (email: string, payload: any) => {
   const totalAmount = Math.max(0, subtotal - discountAmount);
 
   const result = await prisma.$transaction(async (tx) => {
+                      // determine payment method and initial payment status
+    const pmRaw = (payload.paymentMethod || "").toString().toUpperCase();
+    const paymentMethodValue = pmRaw === "ONLINE" ? PaymentMethod.ONLINE : PaymentMethod.COD;
+    const paymentStatus = paymentMethodValue === PaymentMethod.COD ? PaymentStatusEnum.UNPAID : PaymentStatusEnum.PAID;
+
     const newOrder = await tx.order.create({
       data: {
         userId: user?.id,
         status: OrderStatus.PENDING,
-        paymentStatus: PaymentStatusEnum.PENDING,
+        paymentMethod: paymentMethodValue,
+        paymentStatus,
         subtotal,
         discountAmount,
         totalAmount,
