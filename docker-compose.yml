@@ -13,7 +13,6 @@ services:
       JWT_SECRET: ${jwt_secret}
     volumes:
       - .:/app
-      - /app/node_modules
 
   db:
     image: postgres:15
