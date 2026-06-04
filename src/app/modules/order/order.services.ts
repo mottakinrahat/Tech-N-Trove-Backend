@@ -112,6 +112,23 @@ const createOrder = async (email: string, payload: any) => {
     const paymentMethodValue = pmRaw === "ONLINE" ? PaymentMethod.ONLINE : PaymentMethod.COD;
     const paymentStatus = paymentMethodValue === PaymentMethod.COD ? PaymentStatusEnum.UNPAID : PaymentStatusEnum.PAID;
 
+    let shippingAddressId: string | undefined;
+    if (payload.shippingAddress) {
+      const shippingAddress = await tx.shippingAddress.create({
+        data: {
+          userId: user.id,
+          houseStreet: payload.shippingAddress.houseStreet,
+          village: payload.shippingAddress.village,
+          postOffice: payload.shippingAddress.postOffice,
+          upazilla: payload.shippingAddress.upazilla,
+          district: payload.shippingAddress.district,
+          division: payload.shippingAddress.division,
+          country: payload.shippingAddress.country || "Bangladesh",
+        },
+      });
+      shippingAddressId = shippingAddress.id;
+    }
+
     const newOrder = await tx.order.create({
       data: {
         userId: user?.id,
@@ -121,6 +138,7 @@ const createOrder = async (email: string, payload: any) => {
         subtotal,
         discountAmount,
         totalAmount,
+        shippingAddressId,
       },
     });
    
@@ -170,6 +188,7 @@ const getOrdersForUser = async (email: string) => {
         include: { product: true, variant: true },
       },
       payment: true,
+      shippingAddress: true,
     },
     orderBy: { createdAt: "desc" },
   });
@@ -182,6 +201,7 @@ const getOrderById = async (orderId: string) => {
       items: { include: { product: true, variant: true } },
       payment: true,
       user: { include: { buyer: true } },
+      shippingAddress: true,
     },
   });
 };
@@ -191,6 +211,7 @@ const getAllOrders = async () => {
     include: {
       items: { include: { product: true, variant: true } },
       user: { include: { buyer: true } },
+      shippingAddress: true,
     },
     orderBy: { createdAt: "desc" },
   });

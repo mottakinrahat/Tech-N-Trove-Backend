@@ -26,6 +26,7 @@ model User {
   cart               Cart[]
   reviews            Review[]
   wishlists          Wishlist[]
+  shippingAddresses  ShippingAddress[]
 
   @@map("users")
 }
@@ -208,9 +209,11 @@ model ProductImage {
 
 
 model Order {
-  id     String @id @default(uuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  id                String           @id @default(uuid())
+  userId            String
+  user              User             @relation(fields: [userId], references: [id])
+  shippingAddressId String?          @unique
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id], onDelete: Cascade)
 
   status        OrderStatus
   paymentMethod PaymentMethod
@@ -225,6 +228,27 @@ model Order {
   reviews Review[]
 
   createdAt DateTime @default(now())
+}
+
+model ShippingAddress {
+  id          String   @id @default(uuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order       Order?
+
+  houseStreet String?
+  village     String?
+  postOffice  String
+  upazilla    String
+  district    String
+  division    String
+  country     String   @default("Bangladesh")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("shipping_addresses")
 }
 
 model Payment {
