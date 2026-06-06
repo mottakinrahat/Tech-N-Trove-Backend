@@ -127,6 +127,8 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   needPasswordChange: 'needPasswordChange',
   status: 'status',
+  phoneNumber: 'phoneNumber',
+  altPhoneNumber: 'altPhoneNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -254,12 +256,38 @@ exports.Prisma.ProductImageScalarFieldEnum = {
 exports.Prisma.OrderScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
+  shippingAddressId: 'shippingAddressId',
   status: 'status',
   paymentMethod: 'paymentMethod',
   paymentStatus: 'paymentStatus',
   subtotal: 'subtotal',
   discountAmount: 'discountAmount',
   totalAmount: 'totalAmount',
+  createdAt: 'createdAt'
+};
+
+exports.Prisma.ShippingAddressScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  houseStreet: 'houseStreet',
+  village: 'village',
+  postOffice: 'postOffice',
+  upazilla: 'upazilla',
+  district: 'district',
+  division: 'division',
+  country: 'country',
+  phoneNumber: 'phoneNumber',
+  altPhoneNumber: 'altPhoneNumber',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.OrderOtpScalarFieldEnum = {
+  id: 'id',
+  orderId: 'orderId',
+  otp: 'otp',
+  expiresAt: 'expiresAt',
+  verified: 'verified',
   createdAt: 'createdAt'
 };
 
@@ -453,6 +481,8 @@ exports.Prisma.ModelName = {
   ProductVariant: 'ProductVariant',
   ProductImage: 'ProductImage',
   Order: 'Order',
+  ShippingAddress: 'ShippingAddress',
+  OrderOtp: 'OrderOtp',
   Payment: 'Payment',
   OrderItems: 'OrderItems',
   Cart: 'Cart',

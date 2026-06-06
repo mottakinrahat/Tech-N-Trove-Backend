@@ -10,14 +10,16 @@ datasource db {
 }
 
 model User {
-  id                 String     @id @default(uuid())
-  email              String     @unique
+  id                 String            @id @default(uuid())
+  email              String            @unique
   password           String
   role               UserRole
-  needPasswordChange Boolean    @default(true)
-  status             UserStatus @default(ACTIVE)
-  createdAt          DateTime   @default(now())
-  updatedAt          DateTime   @updatedAt
+  needPasswordChange Boolean           @default(true)
+  status             UserStatus        @default(ACTIVE)
+  phoneNumber        String? // primary contact number
+  altPhoneNumber     String? // alternative contact number
+  createdAt          DateTime          @default(now())
+  updatedAt          DateTime          @updatedAt
   admin              Admin?
   buyer              Buyer?
   manager            Manager?
@@ -26,6 +28,7 @@ model User {
   cart               Cart[]
   reviews            Review[]
   wishlists          Wishlist[]
+  shippingAddresses  ShippingAddress[]
 
   @@map("users")
 }
@@ -207,9 +210,11 @@ model ProductImage {
 }
 
 model Order {
-  id     String @id @default(uuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id])
+  id                String           @id @default(uuid())
+  userId            String
+  user              User             @relation(fields: [userId], references: [id])
+  shippingAddressId String?          @unique
+  shippingAddress   ShippingAddress? @relation(fields: [shippingAddressId], references: [id], onDelete: Cascade)
 
   status        OrderStatus
   paymentMethod PaymentMethod
@@ -222,8 +227,44 @@ model Order {
   items   OrderItems[]
   payment Payment?
   reviews Review[]
+  otp     OrderOtp?
 
   createdAt DateTime @default(now())
+}
+
+model ShippingAddress {
+  id     String @id @default(uuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order  Order?
+
+  houseStreet    String?
+  village        String?
+  postOffice     String
+  upazilla       String
+  district       String
+  division       String
+  country        String  @default("Bangladesh")
+  phoneNumber    String? // recipient primary phone
+  altPhoneNumber String? // recipient alternative phone
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([userId])
+  @@map("shipping_addresses")
+}
+
+model OrderOtp {
+  id        String   @id @default(uuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  otp       String
+  expiresAt DateTime
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("order_otps")
 }
 
 model Payment {

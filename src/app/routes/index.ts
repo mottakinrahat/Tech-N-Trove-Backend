@@ -5,6 +5,7 @@ import { authRoutes } from "../modules/auth/auth.routes";
 import { ManagerRoutes } from "../modules/manager/manager.routes";
 import { buyerRoutes } from "../modules/buyer/buyer.routes";
 import { addressRoutes } from "../modules/address/address.routes";
+import { shippingAddressRoutes } from "../modules/shippingAddress/shippingAddress.routes";
 import { productRoutes } from "../modules/product/product.routes";
 import { categoryRoutes } from "../modules/category/category.routes";
 import { brandRoutes } from "../modules/brand/brand.routes";
@@ -42,6 +43,10 @@ const moduleRouter = [
   {
     path: "/addresses",
     route: addressRoutes,
+  },
+  {
+    path: "/shipping-addresses",
+    route: shippingAddressRoutes,
   },
   {
     path: "/products",

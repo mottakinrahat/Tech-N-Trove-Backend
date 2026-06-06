@@ -16,6 +16,8 @@ model User {
   role               UserRole
   needPasswordChange Boolean    @default(true)
   status             UserStatus @default(ACTIVE)
+  phoneNumber        String?    // primary contact number
+  altPhoneNumber     String?    // alternative contact number
   createdAt          DateTime   @default(now())
   updatedAt          DateTime   @updatedAt
   admin              Admin?
@@ -226,29 +228,44 @@ model Order {
   items   OrderItems[]
   payment Payment?
   reviews Review[]
+  otp     OrderOtp?
 
   createdAt DateTime @default(now())
 }
 
 model ShippingAddress {
-  id          String   @id @default(uuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  order       Order?
+  id             String   @id @default(uuid())
+  userId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  order          Order?
 
-  houseStreet String?
-  village     String?
-  postOffice  String
-  upazilla    String
-  district    String
-  division    String
-  country     String   @default("Bangladesh")
+  houseStreet    String?
+  village        String?
+  postOffice     String
+  upazilla       String
+  district       String
+  division       String
+  country        String   @default("Bangladesh")
+  phoneNumber    String?  // recipient primary phone
+  altPhoneNumber String?  // recipient alternative phone
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 
   @@index([userId])
   @@map("shipping_addresses")
+}
+
+model OrderOtp {
+  id        String   @id @default(uuid())
+  orderId   String   @unique
+  order     Order    @relation(fields: [orderId], references: [id], onDelete: Cascade)
+  otp       String
+  expiresAt DateTime
+  verified  Boolean  @default(false)
+  createdAt DateTime @default(now())
+
+  @@map("order_otps")
 }
 
 model Payment {

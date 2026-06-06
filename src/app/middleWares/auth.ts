@@ -13,16 +13,21 @@ export const auth = (...roles: string[]) => {
   ) => {
     try {
 
-      const token = req.headers.authorization;
-      if (!token) {
+      const authHeader = req.headers.authorization;
+      if (!authHeader) {
         throw new Error("You are not authorized");
       }
+
+      const token = authHeader.startsWith("Bearer ")
+        ? authHeader.slice(7)
+        : authHeader;
+
       const verifiedUser = await verifyToken(token, config.jwt.jwt_secret as Secret);
-      req.user=verifiedUser;
+      req.user = verifiedUser;
       if (roles.length && !roles.includes(verifiedUser.role)) {
         throw new Error("You are not authorized for this role");
       }
-        next();
+      next();
     } catch (error) {
       next(error);
     }
