@@ -57,23 +57,10 @@ const updateOrderStatus = catchAsync(async (req: Request, res: Response) => {
   });
 });
 
-const confirmOrderWithOtp = catchAsync(async (req: Request, res: Response) => {
-  const { id } = req.params;
-  const { otp } = req.body;
-  const result = await OrderServices.confirmOrderWithOtp(id as string, otp);
-  sendResponse(res, {
-    success: true,
-    statusCode: status.OK,
-    message: "Order confirmed successfully",
-    data: result,
-  });
-});
-
 export const OrderController = {
   createOrder,
   getMyOrders,
   getOrderById,
   getAllOrders,
   updateOrderStatus,
-  confirmOrderWithOtp,
 };

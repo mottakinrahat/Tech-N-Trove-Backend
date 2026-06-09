@@ -1,8 +1,5 @@
 import { OrderStatus, PaymentStatusEnum, PaymentMethod } from "../../../../prisma/generated/prisma";
 import prisma from "../../../shared/prisma";
-import ApiError from "../../errors/apiError";
-import httpStatus from "http-status";
-import { generateOtp, sendOtp } from "../../../helpers/otp";
 
 const createOrder = async (email: string, payload: any) => {
   const user = await prisma.user.findUnique({ where: { email } });
@@ -127,6 +124,8 @@ const createOrder = async (email: string, payload: any) => {
           district: payload.shippingAddress.district,
           division: payload.shippingAddress.division,
           country: payload.shippingAddress.country || "Bangladesh",
+          phoneNumber: payload.shippingAddress.phoneNumber,
+          altPhoneNumber: payload.shippingAddress.altPhoneNumber,
         },
       });
       shippingAddressId = shippingAddress.id;
@@ -176,26 +175,6 @@ const createOrder = async (email: string, payload: any) => {
 
     return newOrder;
   });
-
-  // ── OTP: send to user's phone after order created ─────────────────────────
-  const otp = generateOtp();
-  const expiresAt = new Date(Date.now() + 5 * 60 * 1000); // 5 minutes
-
-  await prisma.orderOtp.create({
-    data: {
-      orderId: result.id,
-      otp,
-      expiresAt,
-    },
-  });
-
-  const phoneTarget = user.phoneNumber || user.altPhoneNumber;
-  if (phoneTarget) {
-    await sendOtp(phoneTarget, otp);
-  } else {
-    console.warn(`[OTP] User ${user.email} has no phone number on file. OTP not sent.`);
-  }
-  // ─────────────────────────────────────────────────────────────────────────
 
   return result;
 };
@@ -247,40 +226,10 @@ const updateOrderStatus = async (orderId: string, status: OrderStatus) => {
   });
 };
 
-const confirmOrderWithOtp = async (orderId: string, otp: string) => {
-  const otpRecord = await prisma.orderOtp.findUnique({ where: { orderId } });
-
-  if (!otpRecord) {
-    throw new ApiError(httpStatus.NOT_FOUND, "OTP record not found for this order");
-  }
-  if (otpRecord.verified) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "OTP already used");
-  }
-  if (new Date() > otpRecord.expiresAt) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "OTP has expired. Please request a new one");
-  }
-  if (otpRecord.otp !== otp) {
-    throw new ApiError(httpStatus.BAD_REQUEST, "Invalid OTP");
-  }
-
-  // Mark OTP as verified
-  await prisma.orderOtp.update({
-    where: { orderId },
-    data: { verified: true },
-  });
-
-  // Confirm the order
-  return prisma.order.update({
-    where: { id: orderId },
-    data: { status: OrderStatus.CONFIRMED },
-  });
-};
-
 export const OrderServices = {
   createOrder,
   getOrdersForUser,
   getOrderById,
   getAllOrders,
   updateOrderStatus,
-  confirmOrderWithOtp,
 };

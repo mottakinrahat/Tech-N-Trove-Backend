@@ -38,18 +38,6 @@ const createShippingAddressIntoDB = async (
     throw new ApiError(status.CONFLICT, "Shipping address already exists");
   }
 
-  // Auto-update user's phone numbers if they don't have them yet
-  const phoneUpdates: { phoneNumber?: string; altPhoneNumber?: string } = {};
-  if (payload.phoneNumber && !user.phoneNumber) {
-    phoneUpdates.phoneNumber = payload.phoneNumber;
-  }
-  if (payload.altPhoneNumber && !user.altPhoneNumber) {
-    phoneUpdates.altPhoneNumber = payload.altPhoneNumber;
-  }
-  if (Object.keys(phoneUpdates).length > 0) {
-    await prisma.user.update({ where: { id: user.id }, data: phoneUpdates });
-  }
-
   return prisma.shippingAddress.create({
     data: {
       ...payload,
@@ -94,14 +82,6 @@ const updateMyShippingAddressFromDB = async (
 
   if (existingShippingAddress?.userId !== user.id) {
     throw new ApiError(status.NOT_FOUND, "Shipping address not found");
-  }
-
-  // Sync phone updates to user profile as well
-  const phoneUpdates: { phoneNumber?: string; altPhoneNumber?: string } = {};
-  if (payload.phoneNumber) phoneUpdates.phoneNumber = payload.phoneNumber;
-  if (payload.altPhoneNumber) phoneUpdates.altPhoneNumber = payload.altPhoneNumber;
-  if (Object.keys(phoneUpdates).length > 0) {
-    await prisma.user.update({ where: { id: user.id }, data: phoneUpdates });
   }
 
   return prisma.shippingAddress.update({

@@ -127,8 +127,6 @@ exports.Prisma.UserScalarFieldEnum = {
   role: 'role',
   needPasswordChange: 'needPasswordChange',
   status: 'status',
-  phoneNumber: 'phoneNumber',
-  altPhoneNumber: 'altPhoneNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -280,15 +278,6 @@ exports.Prisma.ShippingAddressScalarFieldEnum = {
   altPhoneNumber: 'altPhoneNumber',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
-};
-
-exports.Prisma.OrderOtpScalarFieldEnum = {
-  id: 'id',
-  orderId: 'orderId',
-  otp: 'otp',
-  expiresAt: 'expiresAt',
-  verified: 'verified',
-  createdAt: 'createdAt'
 };
 
 exports.Prisma.PaymentScalarFieldEnum = {
@@ -482,7 +471,6 @@ exports.Prisma.ModelName = {
   ProductImage: 'ProductImage',
   Order: 'Order',
   ShippingAddress: 'ShippingAddress',
-  OrderOtp: 'OrderOtp',
   Payment: 'Payment',
   OrderItems: 'OrderItems',
   Cart: 'Cart',

@@ -35,10 +35,4 @@ router.patch(
   OrderController.updateOrderStatus
 );
 
-router.post(
-  "/:id/confirm-otp",
-  auth(UserRole.BUYER, UserRole.ADMIN, UserRole.MANAGER, UserRole.SUPER_ADMIN),
-  OrderController.confirmOrderWithOtp
-);
-
 export const orderRoutes = router;
