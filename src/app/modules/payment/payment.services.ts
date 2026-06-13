@@ -33,9 +33,9 @@ const initPayment = async (orderId: string) => {
         total_amount: orderData.totalAmount,
         currency: 'BDT',
         tran_id: transactionId,
-        success_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=success`,
-        fail_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=fail`,
-        cancel_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=cancel`,
+        success_url: `${process.env.BACKEND_URL || 'http://localhost:3000'}/api/v1/payment/confirmation?transactionId=${transactionId}&status=success`,
+        fail_url: `${process.env.BACKEND_URL || 'http://localhost:3000'}/api/v1/payment/confirmation?transactionId=${transactionId}&status=fail`,
+        cancel_url: `${process.env.BACKEND_URL || 'http://localhost:3000'}/api/v1/payment/confirmation?transactionId=${transactionId}&status=cancel`,
         cus_name: orderData.user.buyer?.name || 'Customer',
         cus_email: orderData.user.email,
         cus_phone: orderData.shippingAddress?.phoneNumber || '01711111111',
@@ -125,6 +125,8 @@ const confirmationService = async (transactionId: string, status: string, val_id
         message = "Payment Cancelled!";
     }
 
+    const frontendUrl = process.env.FRONTEND_URL || 'http://localhost:3001';
+
     return `
         <html>
             <head>
@@ -133,13 +135,17 @@ const confirmationService = async (transactionId: string, status: string, val_id
                     .card { padding: 2rem; border-radius: 8px; box-shadow: 0 4px 6px rgba(0,0,0,0.1); text-align: center; }
                     .success { color: #2ecc71; }
                     .error { color: #e74c3c; }
-                    button { margin-top: 1rem; padding: 0.5rem 1rem; background: #3498db; color: white; border: none; border-radius: 4px; cursor: pointer; }
                 </style>
+                <meta http-equiv="refresh" content="0;url=${
+                    status === 'success'
+                        ? `${frontendUrl}/payment/success`
+                        : `${frontendUrl}/payment/failed`
+                }" />
             </head>
             <body>
                 <div class="card">
                     <h1 class="${status === 'success' ? 'success' : 'error'}">${message}</h1>
-                    <button onclick="window.location.href='http://localhost:3001'">Go to Dashboard</button>
+                    <p>Redirecting...</p>
                 </div>
             </body>
         </html>
