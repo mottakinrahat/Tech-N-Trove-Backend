@@ -1,4 +1,4 @@
-import { response } from 'express';
+
 import { PaymentStatusEnum } from '../../../../prisma/generated/prisma';
 import prisma from '../../../shared/prisma';
 import { initiatePayment, verifyPayment } from './payment.utils';
@@ -9,13 +9,12 @@ const initPayment = async (orderId: string) => {
             id: orderId
         },
         include: {
-
             user: {
                 include: {
                     buyer: true,
                 }
-            }
-
+            },
+            shippingAddress: true,
         }
     });
     const address = await prisma.address.findFirst({
@@ -30,33 +29,35 @@ const initPayment = async (orderId: string) => {
 
     const transactionId = `txn-${Date.now()}`;
     const paymentData = {
+        // ── Mandatory fields ──────────────────────────────────────────────
         total_amount: orderData.totalAmount,
         currency: 'BDT',
         tran_id: transactionId,
-        ship_name: address?.recipientName,
-        ship_add1: address?.line1,
-        ship_add2: address?.line2,
-        ship_city: address?.city,
-        ship_state: address?.state,
-        ship_postcode: address?.postalCode,
-        ship_country: address?.country,
-        ship_phone: address?.recipientPhone,
         success_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=success`,
         fail_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=fail`,
         cancel_url: `http://localhost:3000/api/v1/payment/confirmation?transactionId=${transactionId}&status=cancel`,
-        ipn_url: `http://localhost:3000/api/v1/payment/ipn`,
-        shipping_method: 'Courier',
+        cus_name: orderData.user.buyer?.name || 'Customer',
+        cus_email: orderData.user.email,
+        cus_phone: orderData.shippingAddress?.phoneNumber || '01711111111',
+        cus_add1: [orderData.shippingAddress?.houseStreet, orderData.shippingAddress?.village].filter(Boolean).join(', ') || 'N/A',
+        cus_city: orderData.shippingAddress?.district || 'Dhaka',
+        cus_country: orderData.shippingAddress?.country || 'Bangladesh',
         product_name: 'TechNTrove Product',
         product_category: 'Electronic',
         product_profile: 'general',
-        cus_name: orderData.user.buyer?.name || 'Customer',
-        cus_email: orderData.user.email,
-        cus_add1: address?.line1 || 'N/A',
-        cus_city: address?.city || 'Dhaka',
-        cus_state: address?.state || 'Dhaka',
-        cus_postcode: address?.postalCode || '1000',
-        cus_country: address?.country || 'Bangladesh',
-        cus_phone: orderData.user.buyer?.contactNumber || '01711111111',
+        shipping_method: 'NO',              // mandatory — 'NO' means no shipment address required
+
+        // ── Optional fields ───────────────────────────────────────────────
+        // ship_name: orderData.user.buyer?.name || orderData.user.email?.split('@')[0],  // optional
+        // ship_add1: address?.line1,
+        // ship_add2: address?.line2,
+        // ship_city: address?.city,
+        // ship_state: address?.state,
+        // ship_postcode: address?.postalCode,
+        // ship_country: address?.country,
+        // ship_phone: address?.recipientPhone,
+        // shipping_method: 'Courier',
+        // ipn_url: `http://localhost:3000/api/v1/payment/ipn`,
     };
 
     const sslResponse = await initiatePayment(paymentData);
@@ -85,7 +86,7 @@ const confirmationService = async (transactionId: string, status: string, val_id
         if (verifyResult?.status !== 'VALID' && verifyResult?.status !== 'VALIDATED') {
             message = "Payment verification failed!";
         } else {
-            // ✅ Use a transaction so both updates are atomic
+            // ✅ Payment verified — mark as PAID and CONFIRM the order atomically
             await prisma.$transaction(async (tx) => {
                 const updatedPayment = await tx.payment.update({
                     where: { transactionId },
@@ -94,13 +95,17 @@ const confirmationService = async (transactionId: string, status: string, val_id
 
                 await tx.order.update({
                     where: { id: updatedPayment.orderId },
-                    data: { paymentStatus: PaymentStatusEnum.PAID },
+                    data: {
+                        paymentStatus: PaymentStatusEnum.PAID,
+                        status: 'CONFIRMED',        // ✅ confirm order on successful payment
+                    },
                 });
             });
 
             message = "Successfully Paid!";
         }
     } else if (status === 'fail') {
+        // ❌ Payment failed — mark as UNPAID, order stays PENDING
         await prisma.$transaction(async (tx) => {
             const updatedPayment = await tx.payment.update({
                 where: { transactionId },
@@ -110,12 +115,13 @@ const confirmationService = async (transactionId: string, status: string, val_id
             await tx.order.update({
                 where: { id: updatedPayment.orderId },
                 data: { paymentStatus: PaymentStatusEnum.UNPAID },
+                // status stays PENDING — admin can review or user can retry
             });
         });
 
         message = "Payment Failed!";
     } else {
-        // cancel
+        // 🚫 Cancelled — no DB changes, order stays PENDING
         message = "Payment Cancelled!";
     }
 

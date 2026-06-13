@@ -110,7 +110,9 @@ const createOrder = async (email: string, payload: any) => {
                       // determine payment method and initial payment status
     const pmRaw = (payload.paymentMethod || "").toString().toUpperCase();
     const paymentMethodValue = pmRaw === "ONLINE" ? PaymentMethod.ONLINE : PaymentMethod.COD;
-    const paymentStatus = paymentMethodValue === PaymentMethod.COD ? PaymentStatusEnum.UNPAID : PaymentStatusEnum.PAID;
+    // ONLINE → paymentStatus starts as PENDING (confirmed after gateway callback)
+    // COD    → paymentStatus starts as UNPAID (confirmed when cash is collected)
+    const paymentStatus = paymentMethodValue === PaymentMethod.COD ? PaymentStatusEnum.UNPAID : PaymentStatusEnum.PENDING;
 
     let shippingAddressId: string | undefined;
     if (payload.shippingAddress) {
@@ -131,10 +133,14 @@ const createOrder = async (email: string, payload: any) => {
       shippingAddressId = shippingAddress.id;
     }
 
+    // COD → confirmed immediately (user pays on delivery)
+    // ONLINE → stays PENDING until payment gateway confirms
+    const orderStatus = paymentMethodValue === PaymentMethod.COD ? OrderStatus.CONFIRMED : OrderStatus.PENDING;
+
     const newOrder = await tx.order.create({
       data: {
         userId: user?.id,
-        status: OrderStatus.PENDING,
+        status: orderStatus,
         paymentMethod: paymentMethodValue,
         paymentStatus,
         subtotal,
