@@ -23,7 +23,7 @@ const removeFromWishlist = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const result = await WishlistServices.removeFromWishlist(
       req.user.email,
-      req.params.productId
+      req.params.productId as string
     );
     sendResponse(res, {
       success: true,
@@ -50,7 +50,7 @@ const toggleWishlist = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const result = await WishlistServices.toggleWishlist(
       req.user.email,
-      req.params.productId
+      req.params.productId as string
     );
     sendResponse(res, {
       success: true,

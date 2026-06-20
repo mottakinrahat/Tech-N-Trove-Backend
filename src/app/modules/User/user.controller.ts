@@ -6,6 +6,8 @@ import { pick } from "../../../shared/pick";
 import { userFilterableFields } from "./user.constant";
 import status from "http-status";
 
+type AuthenticatedRequest = Request & { user?: any };
+
 const createAdminUser = catchAsync(async (req: Request, res: Response) => {
   const result = await UserServices.createAdmin(req);
   sendResponse(res, {
@@ -64,7 +66,7 @@ const changeProfileStatus = catchAsync(async (req, res) => {
     data: result,
   });
 });
-const getMyProfile = catchAsync(async (req, res) => {
+const getMyProfile = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const result = await UserServices.getMyProfile(req?.user);
 
   sendResponse(res, {
@@ -75,7 +77,7 @@ const getMyProfile = catchAsync(async (req, res) => {
   });
 });
 
-const updateMyProfile = catchAsync(async (req, res) => {
+const updateMyProfile = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const result = await UserServices.updateMyProfile(
     req.user,
     req,

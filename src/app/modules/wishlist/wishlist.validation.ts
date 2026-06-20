@@ -2,7 +2,7 @@ import { z } from "zod";
 
 const addToWishlist = z.object({
   body: z.object({
-    productId: z.string({ required_error: "productId is required" }),
+    productId: z.string({ error: "productId is required" }),
   }),
 });
 

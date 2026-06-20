@@ -2,10 +2,10 @@ import { z } from "zod";
 
 const createReview = z.object({
   body: z.object({
-    productId: z.string({ required_error: "productId is required" }),
+    productId: z.string({ error: "productId is required" }),
     orderId: z.string().optional(),
     rating: z
-      .number({ required_error: "rating is required" })
+      .number({ error: "rating is required" })
       .int()
       .min(1, "Rating must be at least 1")
       .max(5, "Rating must be at most 5"),

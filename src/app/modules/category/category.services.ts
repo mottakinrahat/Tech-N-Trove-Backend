@@ -5,6 +5,7 @@ import prisma from "../../../shared/prisma";
 const createCategoryIntoDB = async (payload: {
   categoryName: string;
   description: string;
+  image: string;
 }) => {
   const existing = await prisma.category.findFirst({
     where: {

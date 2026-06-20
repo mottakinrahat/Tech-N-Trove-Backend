@@ -3,16 +3,16 @@ import { z } from 'zod';
 const create = z.object({
     body: z.object({
         email: z.string({
-            required_error: 'Email is required',
+            error: 'Email is required',
         }),
         name: z.string({
-            required_error: 'Name is required',
+            error: 'Name is required',
         }),
         profilePhoto: z.string({
-            required_error: 'Profile Photo is required',
+            error: 'Profile Photo is required',
         }),
         contactNumber: z.string({
-            required_error: 'Contact Number is required',
+            error: 'Contact Number is required',
         }),
     }),
 });

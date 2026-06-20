@@ -20,7 +20,7 @@ const updateReview = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const result = await ReviewServices.updateReview(
       req.user.email,
-      req.params.reviewId,
+      req.params.reviewId as string,
       req.body
     );
     sendResponse(res, {
@@ -36,7 +36,7 @@ const deleteReview = catchAsync(
   async (req: Request & { user?: any }, res: Response) => {
     const result = await ReviewServices.deleteReview(
       req.user.email,
-      req.params.reviewId,
+      req.params.reviewId as string,
       req.user.role
     );
     sendResponse(res, {
@@ -50,7 +50,7 @@ const deleteReview = catchAsync(
 
 const getReviewsByProduct = catchAsync(async (req: Request, res: Response) => {
   const result = await ReviewServices.getReviewsByProduct(
-    req.params.productId,
+    req.params.productId as string,
     req.query
   );
   sendResponse(res, {

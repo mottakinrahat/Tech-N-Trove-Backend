@@ -34,7 +34,7 @@ const getMyShippingAddresses = catchAsync(async (req: AuthenticatedRequest, res:
 const updateMyShippingAddress = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
   const result = await ShippingAddressServices.updateMyShippingAddressFromDB(
     req?.user?.email,
-    req.params.id,
+    req.params.id as string,
     req.body,
   );
   sendResponse(res, {
@@ -46,7 +46,7 @@ const updateMyShippingAddress = catchAsync(async (req: AuthenticatedRequest, res
 });
 
 const deleteMyShippingAddress = catchAsync(async (req: AuthenticatedRequest, res: Response) => {
-  await ShippingAddressServices.deleteMyShippingAddressFromDB(req?.user?.email, req.params.id);
+  await ShippingAddressServices.deleteMyShippingAddressFromDB(req?.user?.email, req.params.id as string);
   sendResponse(res, {
     success: true,
     statusCode: status.OK,
