@@ -9,7 +9,16 @@ import cookieParser from "cookie-parser";
 
 
 const app = express();
-app.use(cors());
+app.use(
+  cors({
+    origin: [
+      "https://tech-n-trove-backend-production.up.railway.app",
+      "http://localhost:3000",
+      "http://localhost:5000",
+    ],
+    credentials: true,
+  })
+);
 app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
