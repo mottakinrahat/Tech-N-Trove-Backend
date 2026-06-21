@@ -1,4 +1,4 @@
-import express, {  Request, Response } from "express";
+import express, { Request, Response } from "express";
 import cors from "cors";
 
 import router from "./app/routes";
@@ -13,8 +13,9 @@ app.use(
   cors({
     origin: [
       "https://tech-n-trove-backend-production.up.railway.app",
+      "http://localhost:3001",
       "http://localhost:3000",
-      "http://localhost:5000",
+      "http://localhost:5000"
     ],
     credentials: true,
   })
@@ -22,11 +23,11 @@ app.use(
 app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
-app.get("/", (req:Request, res:Response) => {
+app.get("/", (req: Request, res: Response) => {
   res.send("Hello World!");
 });
 
-app.use('/api/v1',router)
+app.use('/api/v1', router)
 
 
 

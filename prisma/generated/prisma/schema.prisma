@@ -230,11 +230,9 @@ model Order {
 }
 
 model ShippingAddress {
-  id     String @id @default(uuid())
-  userId String
-  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
-  order  Order?
-
+  id             String  @id @default(uuid())
+  userId         String
+  user           User    @relation(fields: [userId], references: [id], onDelete: Cascade)
   houseStreet    String?
   village        String?
   postOffice     String
@@ -247,6 +245,7 @@ model ShippingAddress {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  order     Order?
 
   @@index([userId])
   @@map("shipping_addresses")
