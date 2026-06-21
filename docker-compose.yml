@@ -6,12 +6,12 @@ services:
       - "3000:3000"
     environment:
       DATABASE_URL: ${DATABASE_URL}
-      JWT_SECRET: ${jwt_secret}
-      REFRESH_TOKEN_SECRET: ${refresh_token_secret}
-      EXPIRES_IN: ${expires_in}
-      REFRESH_TOKEN_EXPIRES_IN: ${refresh_token_expires_in}
-      RESET_PASS_TOKEN: ${reset_pass_token}
-      RESET_PASS_TOKEN_EXPIRES_IN: ${reset_pass_token_expires_in}
+      JWT_SECRET: ${JWT_SECRET}
+      REFRESH_TOKEN_SECRET: ${REFRESH_TOKEN_SECRET}
+      EXPIRES_IN: ${EXPIRES_IN}
+      REFRESH_TOKEN_EXPIRES_IN: ${REFRESH_TOKEN_EXPIRES_IN}
+      RESET_PASS_TOKEN: ${RESET_PASS_TOKEN}
+      RESET_PASS_TOKEN_EXPIRES_IN: ${RESET_PASS_TOKEN_EXPIRES_IN}
       RESET_PASS_LINK: ${RESET_PASS_LINK}
       EMAIL: ${EMAIL}
       APP_PASSWORD: ${APP_PASSWORD}
