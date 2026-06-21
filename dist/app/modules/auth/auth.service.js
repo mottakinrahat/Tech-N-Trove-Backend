@@ -113,7 +113,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = (0, jwtHelpers_1.default)({
         email: userData === null || userData === void 0 ? void 0 : userData.email,
         role: userData === null || userData === void 0 ? void 0 : userData.role,
-    }, process.env.jwt_secret, process.env.expires_in);
+    }, config_1.default.jwt.jwt_secret, config_1.default.jwt.expires_in);
     return {
         accessToken,
         needPasswordChange: userData === null || userData === void 0 ? void 0 : userData.needPasswordChange,
@@ -158,7 +158,7 @@ const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* 
     if (!userData) {
         throw new apiError_1.default(http_status_1.default.NOT_FOUND, "User not found with this email");
     }
-    const resetPassToken = (0, jwtHelpers_1.default)({ email: userData.email, role: userData.role }, process.env.reset_pass_token, process.env.expires_in);
+    const resetPassToken = (0, jwtHelpers_1.default)({ email: userData.email, role: userData.role }, process.env.RESET_PASS_TOKEN, config_1.default.jwt.expires_in);
     const resetPassLink = process.env.RESET_PASS_LINK +
         `?userId=${userData.id}&token=${resetPassToken}`;
     yield (0, emailSender_1.default)(userData === null || userData === void 0 ? void 0 : userData.email, `<div>
@@ -168,7 +168,7 @@ const forgotPassword = (payload) => __awaiter(void 0, void 0, void 0, function* 
     //http://localhost:3000/reset-pass?email=ancsddf@gmail.com&token=dhfsdfidshf
 });
 const resetPassword = (token, payload) => __awaiter(void 0, void 0, void 0, function* () {
-    const isValidToken = yield (0, jwtHelpers_1.verifyToken)(token, process.env.reset_pass_token);
+    const isValidToken = yield (0, jwtHelpers_1.verifyToken)(token, process.env.RESET_PASS_TOKEN);
     if (!isValidToken) {
         throw new apiError_1.default(http_status_1.default.BAD_REQUEST, "Invalid or expired token");
     }

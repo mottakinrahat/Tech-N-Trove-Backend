@@ -5,7 +5,14 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 const dotenv_1 = __importDefault(require("dotenv"));
 const path_1 = __importDefault(require("path"));
-dotenv_1.default.config({ path: path_1.default.join(process.cwd(), ".env") });
+const result = dotenv_1.default.config({ path: path_1.default.join(process.cwd(), ".env") });
+if (result.parsed) {
+    Object.entries(result.parsed).forEach(([key, value]) => {
+        if (!process.env[key]) {
+            process.env[key] = value;
+        }
+    });
+}
 exports.default = {
     env: process.env.NODE_ENV,
     port: process.env.PORT,
