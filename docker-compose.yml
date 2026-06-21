@@ -4,28 +4,22 @@ services:
     container_name: node_app
     ports:
       - "3000:3000"
-    depends_on:
-      - db
     environment:
-      DATABASE_URL: postgresql://postgres:123456@db:5432/techntrove?schema=public
+      DATABASE_URL: ${DATABASE_URL}
       JWT_SECRET: ${jwt_secret}
-    command: sh -c "npx prisma migrate deploy && npm run dev"
+      REFRESH_TOKEN_SECRET: ${refresh_token_secret}
+      EXPIRES_IN: ${expires_in}
+      REFRESH_TOKEN_EXPIRES_IN: ${refresh_token_expires_in}
+      RESET_PASS_TOKEN: ${reset_pass_token}
+      RESET_PASS_TOKEN_EXPIRES_IN: ${reset_pass_token_expires_in}
+      RESET_PASS_LINK: ${RESET_PASS_LINK}
+      EMAIL: ${EMAIL}
+      APP_PASSWORD: ${APP_PASSWORD}
+      CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      STORE_ID: ${STORE_ID}
+      STORE_PASS: ${STORE_PASS}
+      IS_LIVE: ${IS_LIVE}
+    command: sh -c "npx prisma migrate deploy && npm run start"
     volumes:
       - .:/app
       - /app/node_modules
-
-  db:
-    image: postgres:15
-    container_name: postgres_db_2
-    restart: always
-    environment:
-      POSTGRES_USER: postgres
-      POSTGRES_PASSWORD: 123456
-      POSTGRES_DB: techntrove
-    ports:
-      - "5432:5432"
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-
-volumes:
-  pgdata:
