@@ -15,7 +15,7 @@ app.use((0, cors_1.default)({
         "https://tech-n-trove-backend-production.up.railway.app",
         "http://localhost:3001",
         "http://localhost:3000",
-        "https://tech-n-trove-frontend-p2jhi2hzi-mottakinrahats-projects.vercel.app",
+        "https://techntrovefrontend.vercel.app",
         "http://localhost:5000"
     ],
     credentials: true,
