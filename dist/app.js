@@ -16,6 +16,7 @@ app.use((0, cors_1.default)({
         "http://localhost:3001",
         "http://localhost:3000",
         "https://techntrovefrontend.vercel.app",
+        "https://techntrovefrontend-nt5mvmf2d-mottakinrahats-projects.vercel.app",
         "http://localhost:5000"
     ],
     credentials: true,
