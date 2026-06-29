@@ -17,7 +17,8 @@ app.use(
       "https://techntrovefrontend.vercel.app",
       "https://techntrovefrontend-nt5mvmf2d-mottakinrahats-projects.vercel.app",
       "http://localhost:5000",
-      "https://techntrovefrontend-87hvyesjp-mottakinrahats-projects.vercel.app"
+      "https://techntrovefrontend-87hvyesjp-mottakinrahats-projects.vercel.app",
+      "https://techntrovefrontend-7c9snxmhy-mottakinrahats-projects.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
