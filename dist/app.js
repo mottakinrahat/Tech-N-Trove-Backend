@@ -12,12 +12,12 @@ const cookie_parser_1 = __importDefault(require("cookie-parser"));
 const app = (0, express_1.default)();
 app.use((0, cors_1.default)({
     origin: [
-        "https://tech-n-trove-backend-production.up.railway.app",
         "http://localhost:3001",
         "http://localhost:3000",
         "https://techntrovefrontend.vercel.app",
         "https://techntrovefrontend-nt5mvmf2d-mottakinrahats-projects.vercel.app",
-        "http://localhost:5000"
+        "http://localhost:5000",
+        "https://techntrovefrontend-87hvyesjp-mottakinrahats-projects.vercel.app"
     ],
     credentials: true,
     methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
