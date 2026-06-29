@@ -20,8 +20,11 @@ app.use(
       "http://localhost:5000"
     ],
     credentials: true,
+    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
   })
 );
+app.options("/{*splat}", cors());
 app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
