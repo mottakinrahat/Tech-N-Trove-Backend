@@ -8,25 +8,30 @@ import notFound from "./app/middleWares/notFound";
 import cookieParser from "cookie-parser";
 
 
-const app = express();
-app.use(
-  cors({
-    origin: [
-      "http://localhost:3001",
+const corsOptions = {
+  origin: (origin: string | undefined, callback: (err: Error | null, allow?: boolean) => void) => {
+    const allowedOrigins = [
       "http://localhost:3000",
-      "https://techntrovefrontend.vercel.app",
-      "https://techntrovefrontend-nt5mvmf2d-mottakinrahats-projects.vercel.app",
+      "http://localhost:3001",
       "http://localhost:5000",
-      "https://techntrovefrontend-87hvyesjp-mottakinrahats-projects.vercel.app",
-      "https://techntrovefrontend-7c9snxmhy-mottakinrahats-projects.vercel.app",
-      "https://techntrovefrontend-mottakinrahat-mottakinrahats-projects.vercel.app"
-    ],
-    credentials: true,
-    methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
-    allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
-  })
-);
-app.options("/{*splat}", cors());
+    ];
+    // Allow all vercel.app deployments (production + preview)
+    const vercelPattern = /^https:\/\/techntrovefrontend.*\.vercel\.app$/;
+
+    if (!origin || allowedOrigins.includes(origin) || vercelPattern.test(origin)) {
+      callback(null, true);
+    } else {
+      callback(new Error(`CORS blocked: ${origin}`));
+    }
+  },
+  credentials: true,
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH", "OPTIONS"],
+  allowedHeaders: ["Content-Type", "Authorization", "Cookie"],
+};
+
+const app = express();
+app.use(cors(corsOptions));
+app.options("/{*splat}", cors(corsOptions));
 app.use(cookieParser())
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));

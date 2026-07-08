@@ -16,6 +16,7 @@ exports.OrderServices = void 0;
 const prisma_1 = require("../../../../prisma/generated/prisma");
 const prisma_2 = __importDefault(require("../../../shared/prisma"));
 const createOrder = (email, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    var _a, _b, _c, _d;
     const user = yield prisma_2.default.user.findUnique({ where: { email } });
     if (!user) {
         throw new Error("User not found");
@@ -101,7 +102,9 @@ const createOrder = (email, payload) => __awaiter(void 0, void 0, void 0, functi
         discountAmount = Number(payload.discountAmount) || 0;
     }
     // ─────────────────────────────────────────────────────────────────────────
-    const totalAmount = Math.max(0, subtotal - discountAmount);
+    const isDhaka = ((_b = (_a = payload.shippingAddress) === null || _a === void 0 ? void 0 : _a.district) === null || _b === void 0 ? void 0 : _b.toLowerCase()) === 'dhaka' || ((_d = (_c = payload.shippingAddress) === null || _c === void 0 ? void 0 : _c.division) === null || _d === void 0 ? void 0 : _d.toLowerCase()) === 'dhaka';
+    const shipping = subtotal > 999 ? 0 : (isDhaka ? 60 : 120);
+    const totalAmount = Math.max(0, subtotal - discountAmount + shipping);
     const result = yield prisma_2.default.$transaction((tx) => __awaiter(void 0, void 0, void 0, function* () {
         // determine payment method and initial payment status
         const pmRaw = (payload.paymentMethod || "").toString().toUpperCase();

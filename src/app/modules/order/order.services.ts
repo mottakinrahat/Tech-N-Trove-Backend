@@ -103,8 +103,9 @@ const createOrder = async (email: string, payload: any) => {
     discountAmount = Number(payload.discountAmount) || 0;
   }
   // ─────────────────────────────────────────────────────────────────────────
-
-  const totalAmount = Math.max(0, subtotal - discountAmount);
+  const isDhaka = payload.shippingAddress?.district?.toLowerCase() === 'dhaka' || payload.shippingAddress?.division?.toLowerCase() === 'dhaka';
+  const shipping = subtotal > 999 ? 0 : (isDhaka ? 60 : 120);
+  const totalAmount = Math.max(0, subtotal - discountAmount + shipping);
 
   const result = await prisma.$transaction(async (tx) => {
                       // determine payment method and initial payment status
