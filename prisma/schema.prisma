@@ -16,6 +16,7 @@ datasource db {
 // ─────────────────────────────────────────────────────────────────────────────
 model User {
   id                 String            @id @default(uuid())
+  customId           String?           @unique
   name               String?
   email              String            @unique
   contactNumber      String?

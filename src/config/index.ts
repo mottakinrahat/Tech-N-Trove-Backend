@@ -1,13 +1,7 @@
 import dotenv from "dotenv";
 import path from "path";
-const result = dotenv.config({ path: path.join(process.cwd(), ".env") });
-if (result.parsed) {
-  Object.entries(result.parsed).forEach(([key, value]) => {
-    if (!process.env[key]) {
-      process.env[key] = value;
-    }
-  });
-}
+
+dotenv.config({ path: path.join(process.cwd(), ".env"), override: true });
 export default {
   env: process.env.NODE_ENV,
   port: process.env.PORT,

@@ -1,5 +1,4 @@
 import * as bcrypt from "bcrypt";
-import { triggerN8NWebhook } from "../../middleWares/n8n.services";
 import { fileUploader } from "../../../helpers/fileUploader";
 import { IPaginationOptions } from "../../interfaces/pagination";
 import { userSearchableFields } from "./user.constant";
@@ -16,6 +15,31 @@ const ensureEmailIsAvailable = async (email: string) => {
   }
 };
 
+const generateCustomId = async (role: UserRole, providedCustomId?: string, nameOrShop?: string) => {
+  if (providedCustomId && providedCustomId.trim()) {
+    return providedCustomId.trim();
+  }
+
+  const roleCount = await prisma.user.count({ where: { role } });
+  const paddedNumber = String(roleCount + 1).padStart(2, "0");
+
+  const cleanSlug = nameOrShop
+    ? nameOrShop.toLowerCase().trim().replace(/\s+/g, "").replace(/[^a-z0-9]/g, "")
+    : "";
+
+  let roleLabel = "user";
+  if (role === UserRole.BUYER) roleLabel = "buyer";
+  else if (role === UserRole.ADMIN) roleLabel = "admin";
+  else if (role === UserRole.MANAGER) roleLabel = "manager";
+  else if (role === UserRole.SUPER_ADMIN) roleLabel = "superadmin";
+
+  if (cleanSlug) {
+    return `${cleanSlug}-${roleLabel}${paddedNumber}`;
+  } else {
+    return `${roleLabel}${paddedNumber}`;
+  }
+};
+
 const createUserWithRole = async (req: any, role: UserRole) => {
   const file = req.file;
   let profilePhotoUrl = req.body.profilePhoto || req.body.userInfo?.profilePhoto;
@@ -24,13 +48,28 @@ const createUserWithRole = async (req: any, role: UserRole) => {
     profilePhotoUrl = uploaded?.url;
   }
 
-  const { email, password, name, contactNumber, userInfo } = req.body;
+  const payload = req.body.buyer || req.body.admin || req.body.manager || req.body;
+  const email = payload.email || req.body.email;
+  const password = req.body.password || payload.password;
+  const name = payload.name || req.body.name;
+  const contactNumber = payload.contactNumber || req.body.contactNumber;
+  const userInfo = payload.userInfo || req.body.userInfo;
+  const shopName = payload.shopName || req.body.shopName;
+  const providedCustomId = payload.customId || req.body.customId;
+
+  if (!email || !password) {
+    throw new ApiError(status.BAD_REQUEST, "Email and password are required");
+  }
+
   await ensureEmailIsAvailable(email);
 
   const hashedPassword = await bcrypt.hash(password, 12);
 
+  const generatedId = await generateCustomId(role, providedCustomId, shopName || name);
+
   const result = await prisma.user.create({
     data: {
+      customId: generatedId,
       email,
       password: hashedPassword,
       role,
@@ -57,6 +96,7 @@ const createUserWithRole = async (req: any, role: UserRole) => {
     },
     select: {
       id: true,
+      customId: true,
       email: true,
       role: true,
       name: true,
@@ -67,11 +107,10 @@ const createUserWithRole = async (req: any, role: UserRole) => {
     },
   });
 
-  triggerN8NWebhook("user-registered", { name: result.name, email, role });
-
   return result;
 };
 
+const createSuperAdmin = (req: any) => createUserWithRole(req, UserRole.SUPER_ADMIN);
 const createAdmin = (req: any) => createUserWithRole(req, UserRole.ADMIN);
 const createManagerIntoDB = (req: any) => createUserWithRole(req, UserRole.MANAGER);
 const createBuyerIntoDB = (req: any) => createUserWithRole(req, UserRole.BUYER);
@@ -107,6 +146,7 @@ const getAllUserFromDB = async (params: any, options: IPaginationOptions) => {
       orderBy: sortBy && sortOrder ? [{ [sortBy]: sortOrder }] : [{ createdAt: "asc" }],
       select: {
         id: true,
+        customId: true,
         email: true,
         role: true,
         name: true,
@@ -125,6 +165,26 @@ const getAllUserFromDB = async (params: any, options: IPaginationOptions) => {
   return { meta: { page, limit, total }, data: result };
 };
 
+const getSingleUserFromDB = async (id: string) => {
+  return prisma.user.findUniqueOrThrow({
+    where: { id, isDeleted: false },
+    select: {
+      id: true,
+      customId: true,
+      email: true,
+      role: true,
+      name: true,
+      contactNumber: true,
+      status: true,
+      needPasswordChange: true,
+      isDeleted: true,
+      createdAt: true,
+      updatedAt: true,
+      userInfo: true,
+    },
+  });
+};
+
 const changeProfileStatus = async (id: string, newStatus: UserStatus) => {
   await prisma.user.findUniqueOrThrow({ where: { id } });
   return prisma.user.update({ where: { id }, data: { status: newStatus } });
@@ -135,6 +195,7 @@ const getMyProfile = async (user: any) => {
     where: { email: user.email },
     select: {
       id: true,
+      customId: true,
       email: true,
       role: true,
       name: true,
@@ -207,10 +268,12 @@ const updateMyProfile = async (user: any, req: any) => {
 };
 
 export const UserServices = {
+  createSuperAdmin,
   createAdmin,
   createManagerIntoDB,
   createBuyerIntoDB,
   getAllUserFromDB,
+  getSingleUserFromDB,
   changeProfileStatus,
   getMyProfile,
   updateMyProfile,

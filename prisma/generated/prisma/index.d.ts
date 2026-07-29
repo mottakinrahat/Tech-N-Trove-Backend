@@ -3195,6 +3195,7 @@ export namespace Prisma {
 
   export type UserMinAggregateOutputType = {
     id: string | null
+    customId: string | null
     name: string | null
     email: string | null
     contactNumber: string | null
@@ -3209,6 +3210,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateOutputType = {
     id: string | null
+    customId: string | null
     name: string | null
     email: string | null
     contactNumber: string | null
@@ -3223,6 +3225,7 @@ export namespace Prisma {
 
   export type UserCountAggregateOutputType = {
     id: number
+    customId: number
     name: number
     email: number
     contactNumber: number
@@ -3239,6 +3242,7 @@ export namespace Prisma {
 
   export type UserMinAggregateInputType = {
     id?: true
+    customId?: true
     name?: true
     email?: true
     contactNumber?: true
@@ -3253,6 +3257,7 @@ export namespace Prisma {
 
   export type UserMaxAggregateInputType = {
     id?: true
+    customId?: true
     name?: true
     email?: true
     contactNumber?: true
@@ -3267,6 +3272,7 @@ export namespace Prisma {
 
   export type UserCountAggregateInputType = {
     id?: true
+    customId?: true
     name?: true
     email?: true
     contactNumber?: true
@@ -3354,6 +3360,7 @@ export namespace Prisma {
 
   export type UserGroupByOutputType = {
     id: string
+    customId: string | null
     name: string | null
     email: string
     contactNumber: string | null
@@ -3385,6 +3392,7 @@ export namespace Prisma {
 
   export type UserSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    customId?: boolean
     name?: boolean
     email?: boolean
     contactNumber?: boolean
@@ -3407,6 +3415,7 @@ export namespace Prisma {
 
   export type UserSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    customId?: boolean
     name?: boolean
     email?: boolean
     contactNumber?: boolean
@@ -3421,6 +3430,7 @@ export namespace Prisma {
 
   export type UserSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
     id?: boolean
+    customId?: boolean
     name?: boolean
     email?: boolean
     contactNumber?: boolean
@@ -3435,6 +3445,7 @@ export namespace Prisma {
 
   export type UserSelectScalar = {
     id?: boolean
+    customId?: boolean
     name?: boolean
     email?: boolean
     contactNumber?: boolean
@@ -3447,7 +3458,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "contactNumber" | "password" | "role" | "needPasswordChange" | "status" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "customId" | "name" | "email" | "contactNumber" | "password" | "role" | "needPasswordChange" | "status" | "isDeleted" | "createdAt" | "updatedAt", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     userInfo?: boolean | User$userInfoArgs<ExtArgs>
     cart?: boolean | User$cartArgs<ExtArgs>
@@ -3474,6 +3485,7 @@ export namespace Prisma {
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
+      customId: string | null
       name: string | null
       email: string
       contactNumber: string | null
@@ -3915,6 +3927,7 @@ export namespace Prisma {
    */
   interface UserFieldRefs {
     readonly id: FieldRef<"User", 'String'>
+    readonly customId: FieldRef<"User", 'String'>
     readonly name: FieldRef<"User", 'String'>
     readonly email: FieldRef<"User", 'String'>
     readonly contactNumber: FieldRef<"User", 'String'>
@@ -27466,6 +27479,7 @@ export namespace Prisma {
 
   export const UserScalarFieldEnum: {
     id: 'id',
+    customId: 'customId',
     name: 'name',
     email: 'email',
     contactNumber: 'contactNumber',
@@ -28022,6 +28036,7 @@ export namespace Prisma {
     OR?: UserWhereInput[]
     NOT?: UserWhereInput | UserWhereInput[]
     id?: StringFilter<"User"> | string
+    customId?: StringNullableFilter<"User"> | string | null
     name?: StringNullableFilter<"User"> | string | null
     email?: StringFilter<"User"> | string
     contactNumber?: StringNullableFilter<"User"> | string | null
@@ -28043,6 +28058,7 @@ export namespace Prisma {
 
   export type UserOrderByWithRelationInput = {
     id?: SortOrder
+    customId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     contactNumber?: SortOrderInput | SortOrder
@@ -28064,6 +28080,7 @@ export namespace Prisma {
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
     id?: string
+    customId?: string
     email?: string
     AND?: UserWhereInput | UserWhereInput[]
     OR?: UserWhereInput[]
@@ -28084,10 +28101,11 @@ export namespace Prisma {
     reviews?: ReviewListRelationFilter
     shippingAddresses?: ShippingAddressListRelationFilter
     wishlists?: WishlistListRelationFilter
-  }, "id" | "email">
+  }, "id" | "customId" | "email">
 
   export type UserOrderByWithAggregationInput = {
     id?: SortOrder
+    customId?: SortOrderInput | SortOrder
     name?: SortOrderInput | SortOrder
     email?: SortOrder
     contactNumber?: SortOrderInput | SortOrder
@@ -28108,6 +28126,7 @@ export namespace Prisma {
     OR?: UserScalarWhereWithAggregatesInput[]
     NOT?: UserScalarWhereWithAggregatesInput | UserScalarWhereWithAggregatesInput[]
     id?: StringWithAggregatesFilter<"User"> | string
+    customId?: StringNullableWithAggregatesFilter<"User"> | string | null
     name?: StringNullableWithAggregatesFilter<"User"> | string | null
     email?: StringWithAggregatesFilter<"User"> | string
     contactNumber?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -29680,6 +29699,7 @@ export namespace Prisma {
 
   export type UserCreateInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -29701,6 +29721,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -29722,6 +29743,7 @@ export namespace Prisma {
 
   export type UserUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29743,6 +29765,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29764,6 +29787,7 @@ export namespace Prisma {
 
   export type UserCreateManyInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -29778,6 +29802,7 @@ export namespace Prisma {
 
   export type UserUpdateManyMutationInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29792,6 +29817,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateManyInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -31601,6 +31627,7 @@ export namespace Prisma {
 
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
+    customId?: SortOrder
     name?: SortOrder
     email?: SortOrder
     contactNumber?: SortOrder
@@ -31615,6 +31642,7 @@ export namespace Prisma {
 
   export type UserMaxOrderByAggregateInput = {
     id?: SortOrder
+    customId?: SortOrder
     name?: SortOrder
     email?: SortOrder
     contactNumber?: SortOrder
@@ -31629,6 +31657,7 @@ export namespace Prisma {
 
   export type UserMinOrderByAggregateInput = {
     id?: SortOrder
+    customId?: SortOrder
     name?: SortOrder
     email?: SortOrder
     contactNumber?: SortOrder
@@ -35391,6 +35420,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutUserInfoInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -35411,6 +35441,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutUserInfoInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -35447,6 +35478,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutUserInfoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35467,6 +35499,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutUserInfoInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -35786,6 +35819,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutProductsInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -35806,6 +35840,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutProductsInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -36106,6 +36141,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutProductsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36126,6 +36162,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutProductsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36781,6 +36818,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutOrdersInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -36801,6 +36839,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutOrdersInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -36965,6 +37004,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -36985,6 +37025,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutOrdersInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37103,6 +37144,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutShippingAddressesInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -37123,6 +37165,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutShippingAddressesInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -37200,6 +37243,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutShippingAddressesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37220,6 +37264,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutShippingAddressesInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37604,6 +37649,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutCartInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -37624,6 +37670,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutCartInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -37686,6 +37733,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -37706,6 +37754,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutCartInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38084,6 +38133,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutReviewsInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -38104,6 +38154,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutReviewsInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -38242,6 +38293,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38262,6 +38314,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutReviewsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38337,6 +38390,7 @@ export namespace Prisma {
 
   export type UserCreateWithoutWishlistsInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -38357,6 +38411,7 @@ export namespace Prisma {
 
   export type UserUncheckedCreateWithoutWishlistsInput = {
     id?: string
+    customId?: string | null
     name?: string | null
     email: string
     contactNumber?: string | null
@@ -38454,6 +38509,7 @@ export namespace Prisma {
 
   export type UserUpdateWithoutWishlistsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null
@@ -38474,6 +38530,7 @@ export namespace Prisma {
 
   export type UserUncheckedUpdateWithoutWishlistsInput = {
     id?: StringFieldUpdateOperationsInput | string
+    customId?: NullableStringFieldUpdateOperationsInput | string | null
     name?: NullableStringFieldUpdateOperationsInput | string | null
     email?: StringFieldUpdateOperationsInput | string
     contactNumber?: NullableStringFieldUpdateOperationsInput | string | null

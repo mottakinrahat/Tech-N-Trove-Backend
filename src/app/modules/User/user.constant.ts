@@ -1,8 +1,9 @@
-export const userSearchableFields: string[] = ["email", "role"];
+export const userSearchableFields: string[] = ["email", "role", "customId", "name"];
 
-export const userFilterableFields = [ //this is admin searchable field
+export const userFilterableFields = [
   "name",
   "email",
+  "customId",
   "searchTerm",
   "contactNumber",
   "role",

@@ -8,6 +8,16 @@ import status from "http-status";
 
 type AuthenticatedRequest = Request & { user?: any };
 
+const createSuperAdmin = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.createSuperAdmin(req);
+  sendResponse(res, {
+    statusCode: status.CREATED,
+    success: true,
+    message: "Super Admin user created successfully",
+    data: result,
+  });
+});
+
 const createAdminUser = catchAsync(async (req: Request, res: Response) => {
   const result = await UserServices.createAdmin(req);
   sendResponse(res, {
@@ -91,11 +101,24 @@ const updateMyProfile = catchAsync(async (req: AuthenticatedRequest, res: Respon
   });
 });
 
+const getSingleUser = catchAsync(async (req: Request, res: Response) => {
+  const result = await UserServices.getSingleUserFromDB(req.params.id as string);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "User retrieved successfully",
+    data: result,
+  });
+});
+
 export const UserController = {
+  createSuperAdmin,
   createAdminUser,
   createManager,
   createBuyer,
   getAllUser,
+  getSingleUser,
   changeProfileStatus,
   getMyProfile,
   updateMyProfile,
