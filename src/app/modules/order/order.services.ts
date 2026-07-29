@@ -209,7 +209,7 @@ const getOrderById = async (orderId: string) => {
     include: {
       items: { include: { product: true, variant: true } },
       payment: true,
-      user: { include: { buyer: true } },
+      user: true,
       shippingAddress: true,
     },
   });
@@ -219,7 +219,7 @@ const getAllOrders = async () => {
   return await prisma.order.findMany({
     include: {
       items: { include: { product: true, variant: true } },
-      user: { include: { buyer: true } },
+      user: true,
       shippingAddress: true,
     },
     orderBy: { createdAt: "desc" },

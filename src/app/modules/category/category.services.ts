@@ -4,8 +4,10 @@ import prisma from "../../../shared/prisma";
 
 const createCategoryIntoDB = async (payload: {
   categoryName: string;
-  description: string;
+  description?: string;
   image: string;
+  slug?: string;
+  attributeSchema?: object[];
 }) => {
   const existing = await prisma.category.findFirst({
     where: {
@@ -23,7 +25,15 @@ const createCategoryIntoDB = async (payload: {
     );
   }
 
-  return prisma.category.create({ data: payload });
+  return prisma.category.create({
+    data: {
+      categoryName: payload.categoryName,
+      description: payload.description,
+      image: payload.image,
+      slug: payload.slug,
+      attributeSchema: payload.attributeSchema ?? [],
+    },
+  });
 };
 
 const getCategoriesFromDB = async () => {
@@ -52,7 +62,12 @@ const getSingleCategoryFromDB = async (categoryId: string) => {
 
 const updateCategoryIntoDB = async (
   categoryId: string,
-  payload: { categoryName?: string; description?: string },
+  payload: {
+    categoryName?: string;
+    description?: string;
+    slug?: string;
+    attributeSchema?: object[];
+  },
 ) => {
   await getSingleCategoryFromDB(categoryId);
 

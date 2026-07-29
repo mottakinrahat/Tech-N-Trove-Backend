@@ -122,55 +122,23 @@ exports.Prisma.TransactionIsolationLevel = makeStrictEnum({
 
 exports.Prisma.UserScalarFieldEnum = {
   id: 'id',
+  name: 'name',
   email: 'email',
+  contactNumber: 'contactNumber',
   password: 'password',
   role: 'role',
   needPasswordChange: 'needPasswordChange',
   status: 'status',
+  isDeleted: 'isDeleted',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
 
-exports.Prisma.AdminScalarFieldEnum = {
+exports.Prisma.UserInfoScalarFieldEnum = {
   id: 'id',
-  name: 'name',
+  userId: 'userId',
   profilePhoto: 'profilePhoto',
-  contactNumber: 'contactNumber',
-  isDeleted: 'isDeleted',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  email: 'email'
-};
-
-exports.Prisma.BuyerScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  profilePhoto: 'profilePhoto',
-  contactNumber: 'contactNumber',
-  isDeleted: 'isDeleted',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  email: 'email'
-};
-
-exports.Prisma.ManagerScalarFieldEnum = {
-  id: 'id',
-  name: 'name',
-  profilePhoto: 'profilePhoto',
-  contactNumber: 'contactNumber',
-  isDeleted: 'isDeleted',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  email: 'email'
-};
-
-exports.Prisma.AddressScalarFieldEnum = {
-  id: 'id',
-  label: 'label',
-  addressType: 'addressType',
-  recipientName: 'recipientName',
-  recipientPhone: 'recipientPhone',
-  alternatePhone: 'alternatePhone',
+  bio: 'bio',
   line1: 'line1',
   line2: 'line2',
   landmark: 'landmark',
@@ -178,15 +146,19 @@ exports.Prisma.AddressScalarFieldEnum = {
   state: 'state',
   postalCode: 'postalCode',
   country: 'country',
-  latitude: 'latitude',
-  longitude: 'longitude',
-  deliveryInstructions: 'deliveryInstructions',
-  isDefault: 'isDefault',
   createdAt: 'createdAt',
-  updatedAt: 'updatedAt',
-  adminId: 'adminId',
-  buyerId: 'buyerId',
-  managerId: 'managerId'
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.CategoryScalarFieldEnum = {
+  id: 'id',
+  categoryName: 'categoryName',
+  slug: 'slug',
+  description: 'description',
+  image: 'image',
+  attributeSchema: 'attributeSchema',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
 };
 
 exports.Prisma.ProductScalarFieldEnum = {
@@ -201,8 +173,19 @@ exports.Prisma.ProductScalarFieldEnum = {
   isPublished: 'isPublished',
   isFeatured: 'isFeatured',
   status: 'status',
+  attributes: 'attributes',
   metaTitle: 'metaTitle',
   metaDescription: 'metaDescription',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.ProductDetailScalarFieldEnum = {
+  id: 'id',
+  productId: 'productId',
+  topic: 'topic',
+  description: 'description',
+  sortOrder: 'sortOrder',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -212,15 +195,6 @@ exports.Prisma.BrandScalarFieldEnum = {
   brandName: 'brandName',
   description: 'description',
   logoUrl: 'logoUrl',
-  createdAt: 'createdAt',
-  updatedAt: 'updatedAt'
-};
-
-exports.Prisma.CategoryScalarFieldEnum = {
-  id: 'id',
-  categoryName: 'categoryName',
-  description: 'description',
-  image: 'image',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 };
@@ -235,9 +209,7 @@ exports.Prisma.ProductVariantScalarFieldEnum = {
   costPrice: 'costPrice',
   stock: 'stock',
   lowStockThreshold: 'lowStockThreshold',
-  color: 'color',
-  size: 'size',
-  material: 'material',
+  optionValues: 'optionValues',
   weight: 'weight',
   barcode: 'barcode',
   isActive: 'isActive',
@@ -376,9 +348,30 @@ exports.Prisma.DiscountCategoryScalarFieldEnum = {
   categoryId: 'categoryId'
 };
 
+exports.Prisma.StoreSettingsScalarFieldEnum = {
+  id: 'id',
+  storeName: 'storeName',
+  logoUrl: 'logoUrl',
+  faviconUrl: 'faviconUrl',
+  primaryColor: 'primaryColor',
+  secondaryColor: 'secondaryColor',
+  accentColor: 'accentColor',
+  supportEmail: 'supportEmail',
+  supportPhone: 'supportPhone',
+  address: 'address',
+  currency: 'currency',
+  currencySymbol: 'currencySymbol',
+  socialLinks: 'socialLinks',
+  updatedAt: 'updatedAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
+};
+
+exports.Prisma.JsonNullValueInput = {
+  JsonNull: Prisma.JsonNull
 };
 
 exports.Prisma.NullableJsonNullValueInput = {
@@ -412,12 +405,6 @@ exports.UserStatus = exports.$Enums.UserStatus = {
   ACTIVE: 'ACTIVE',
   BLOCKED: 'BLOCKED',
   DELETED: 'DELETED'
-};
-
-exports.AddressType = exports.$Enums.AddressType = {
-  HOME: 'HOME',
-  OFFICE: 'OFFICE',
-  OTHER: 'OTHER'
 };
 
 exports.ProductStatus = exports.$Enums.ProductStatus = {
@@ -460,13 +447,11 @@ exports.DiscountType = exports.$Enums.DiscountType = {
 
 exports.Prisma.ModelName = {
   User: 'User',
-  Admin: 'Admin',
-  Buyer: 'Buyer',
-  Manager: 'Manager',
-  Address: 'Address',
-  Product: 'Product',
-  Brand: 'Brand',
+  UserInfo: 'UserInfo',
   Category: 'Category',
+  Product: 'Product',
+  ProductDetail: 'ProductDetail',
+  Brand: 'Brand',
   ProductVariant: 'ProductVariant',
   ProductImage: 'ProductImage',
   Order: 'Order',
@@ -480,7 +465,8 @@ exports.Prisma.ModelName = {
   Banner: 'Banner',
   Discount: 'Discount',
   DiscountProduct: 'DiscountProduct',
-  DiscountCategory: 'DiscountCategory'
+  DiscountCategory: 'DiscountCategory',
+  StoreSettings: 'StoreSettings'
 };
 
 /**

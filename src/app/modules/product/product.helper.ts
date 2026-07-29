@@ -1,13 +1,23 @@
-import { Prisma } from "../../../../prisma/generated/prisma";
+﻿import { Prisma } from "../../../../prisma/generated/prisma";
 import { productSearchableFields } from "./product.constant";
 import { IProductFilterRequest } from "./product.interface";
 
 const productIncludeDefault = {
-    brand: true,
+    category: true,
+    brand: {
+        select: {
+            id: true,
+            brandName: true,
+            logoUrl: true,
+        },
+    },
     variants: {
         include: {
             variantImages: true,
         },
+    },
+    details: {
+        orderBy: { sortOrder: "asc" as const },
     },
 } satisfies Prisma.ProductInclude;
 
@@ -30,7 +40,6 @@ const buildProductFilterConditions = (
 ) => {
     const { searchTerm, ...filterData } = params;
     const andConditions: Prisma.ProductWhereInput[] = [];
-    console.log(searchTerm);
 
     if (searchTerm) {
         andConditions.push({
@@ -42,7 +51,6 @@ const buildProductFilterConditions = (
             })),
         });
     }
-    
 
     if (filterData?.categoryId) {
         andConditions.push({ categoryId: filterData.categoryId });
@@ -88,7 +96,6 @@ const buildProductFilterConditions = (
 
     return andConditions;
 };
-
 
 export const productHelpers = {
     productIncludeDefault, identifierWhere, parseBooleanParam, buildProductFilterConditions

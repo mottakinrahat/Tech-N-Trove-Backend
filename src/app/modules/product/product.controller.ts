@@ -157,10 +157,22 @@ const getVariantById = catchAsync(async (req: any, res: any) => {
   });
 });
 
+const getProductAttributeSchema = catchAsync(async (req: any, res: any) => {
+  const { productId } = req.params;
+  const result = await ProductServices.getProductAttributeSchema(productId);
+
+  sendResponse(res, {
+    success: true,
+    statusCode: status.OK,
+    message: "Product attribute schema retrieved successfully",
+    data: result,
+  });
+});
+
 const updateVariant = catchAsync(async (req: any, res: any) => {
   const { productId, variantId } = req.params;
   const body = req.body;
-  const data: Prisma.ProductVariantUpdateInput = {
+  const data: any = {
     sku: body.sku,
     title: body.title,
     price: body.price,
@@ -168,9 +180,8 @@ const updateVariant = catchAsync(async (req: any, res: any) => {
     costPrice: body.costPrice,
     stock: body.stock,
     lowStockThreshold: body.lowStockThreshold,
-    color: body.color,
-    size: body.size,
-    material: body.material,
+    /// Dynamic variant options e.g. { color: "Red", size: "M" }
+    optionValues: body.optionValues,
     weight: body.weight,
     barcode: body.barcode,
     isActive: body.isActive,
@@ -178,7 +189,7 @@ const updateVariant = catchAsync(async (req: any, res: any) => {
 
   const filtered = Object.fromEntries(
     Object.entries(data).filter(([, value]) => value !== undefined),
-  ) as Prisma.ProductVariantUpdateInput;
+  );
 
   const result = await ProductServices.updateVariantIntoDB(
     productId,
@@ -244,6 +255,7 @@ export const ProductController = {
   getProductByIdAdmin,
   updateProduct,
   deleteProduct,
+  getProductAttributeSchema,
   createVariant,
   getVariantsByProduct,
   getVariantById,

@@ -1,4 +1,4 @@
-import z from "zod";
+﻿import z from "zod";
 
 const createProduct = z.object({
   body: z.object({
@@ -12,6 +12,7 @@ const createProduct = z.object({
     isFeatured: z.boolean().optional(),
     metaTitle: z.string().optional(),
     metaDescription: z.string().optional(),
+    attributes: z.record(z.string(), z.unknown()).optional(),
   }),
 });
 
@@ -28,6 +29,7 @@ const updateProduct = z.object({
       isFeatured: z.boolean().optional(),
       metaTitle: z.string().optional().nullable(),
       metaDescription: z.string().optional().nullable(),
+      attributes: z.record(z.string(), z.unknown()).optional(),
     })
     .refine((value) => Object.keys(value).length > 0, {
       message: "At least one field is required for update",
@@ -43,9 +45,7 @@ const createVariant = z.object({
     costPrice: z.number().nonnegative().optional(),
     stock: z.number().int().nonnegative(),
     lowStockThreshold: z.number().int().nonnegative().optional(),
-    color: z.string().optional(),
-    size: z.string().optional(),
-    material: z.string().optional(),
+    optionValues: z.record(z.string(), z.unknown()).optional(),
     weight: z.number().nonnegative().optional(),
     barcode: z.string().optional(),
     isActive: z.boolean().optional(),
@@ -62,9 +62,7 @@ const updateVariant = z.object({
       costPrice: z.number().nonnegative().optional().nullable(),
       stock: z.number().int().nonnegative().optional(),
       lowStockThreshold: z.number().int().nonnegative().optional().nullable(),
-      color: z.string().optional().nullable(),
-      size: z.string().optional().nullable(),
-      material: z.string().optional().nullable(),
+      optionValues: z.record(z.string(), z.unknown()).optional(),
       weight: z.number().nonnegative().optional().nullable(),
       barcode: z.string().optional().nullable(),
       isActive: z.boolean().optional(),

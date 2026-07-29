@@ -1,0 +1,10 @@
+{
+  "recommendations": [
+    "prisma.prisma",
+    "dbaeumer.vscode-eslint",
+    "esbenp.prettier-vscode",
+    "mikestead.dotenv",
+    "ms-azuretools.vscode-docker",
+    "humao.rest-client"
+  ]
+}

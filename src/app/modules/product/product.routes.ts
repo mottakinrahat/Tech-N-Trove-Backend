@@ -5,6 +5,7 @@ import validateRequest from "../../middleWares/validateRequest";
 import { ProductController } from "./product.controller";
 import { ProductValidation } from "./product.validation";
 import { fileUploader } from "../../../helpers/fileUploader";
+import { productDetailRoutes } from "../productDetail/productDetail.routes";
 
 const router = express.Router();
 
@@ -30,6 +31,9 @@ router.get(
   adminAuth,
   ProductController.getProductByIdAdmin,
 );
+
+// Returns category.attributeSchema for a product — used by frontend to render dynamic attribute form
+router.get("/:productId/attribute-schema", ProductController.getProductAttributeSchema);
 
 router.post(
   "/:productId/variants/:variantId/images",
@@ -85,5 +89,8 @@ router.delete("/:productId", adminAuth, ProductController.deleteProduct);
 router.get("/", ProductController.getPublishedProducts);
 
 router.get("/:productId", ProductController.getPublishedProductById);
+
+// Nested product detail routes: /products/:productId/details
+router.use("/:productId/details", productDetailRoutes);
 
 export const productRoutes = router;

@@ -16,6 +16,7 @@ import { reviewRoutes } from "../modules/review/review.routes";
 import { wishlistRoutes } from "../modules/wishlist/wishlist.routes";
 import { bannerRoutes } from "../modules/banner/banner.routes";
 import { discountRoutes } from "../modules/discount/discount.routes";
+import { storeSettingsRoutes } from "../modules/storeSettings/storeSettings.routes";
 
 const router = express.Router();
 
@@ -87,6 +88,10 @@ const moduleRouter = [
   {
     path: "/discounts",
     route: discountRoutes,
+  },
+  {
+    path: "/store-settings",
+    route: storeSettingsRoutes,
   },
 ];
 

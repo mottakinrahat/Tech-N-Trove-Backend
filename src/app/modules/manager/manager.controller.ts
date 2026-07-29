@@ -2,7 +2,7 @@ import { NextFunction, Request, RequestHandler, Response } from 'express';
 import { catchAsync } from '../../../helpers/trycatch';
 import { managerFilterableFields } from './manager.constants';
 import { pick } from '../../../shared/pick';
-import { ManagerService } from './manager.services';
+import { ManagerServices } from './manager.services';
 import { sendResponse } from '../../../helpers/sendResponse';
 import status from "http-status";
 
@@ -11,7 +11,7 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
     const options = pick(req.query, ['limit', 'page', 'sortBy', 'sortOrder']);
 
-    const result = await ManagerService.getAllFromDB(filters, options);
+    const result = await ManagerServices.getAllFromDB(filters, options);
 
     sendResponse(res, {
         statusCode: status.OK,
@@ -24,7 +24,7 @@ const getAllFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params as any;
-    const result = await ManagerService.getByIdFromDB(id);
+    const result = await ManagerServices.getByIdFromDB(id);
     sendResponse(res, {
         statusCode: status.OK,
         success: true,
@@ -36,7 +36,7 @@ const getByIdFromDB = catchAsync(async (req: Request, res: Response) => {
 const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
 
     const { id } = req.params as any;
-    const result = await ManagerService.updateIntoDB(id, req.body);
+    const result = await ManagerServices.updateIntoDB(id, req.body);
 
     sendResponse(res, {
         statusCode: status.OK,
@@ -48,7 +48,7 @@ const updateIntoDB = catchAsync(async (req: Request, res: Response) => {
 
 const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params as any;
-    const result = await ManagerService.deleteFromDB(id);
+    const result = await ManagerServices.deleteFromDB(id);
     sendResponse(res, {
         statusCode: status.OK,
         success: true,
@@ -60,7 +60,7 @@ const deleteFromDB = catchAsync(async (req: Request, res: Response) => {
 
 const softDelete = catchAsync(async (req: Request, res: Response) => {
     const { id } = req.params as any;
-    const result = await ManagerService.softDelete(id);
+    const result = await ManagerServices.softDeleteFromDB(id);
     sendResponse(res, {
         statusCode: status.OK,
         success: true,

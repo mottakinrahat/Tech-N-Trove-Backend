@@ -33,6 +33,7 @@ const loginUser = async (payload: TLogInUser) => {
   // Create JWT token
   const accessToken = generateToken(
     {
+      id: userData.id,
       email: userData.email,
       role: userData.role,
     },
@@ -41,14 +42,13 @@ const loginUser = async (payload: TLogInUser) => {
   );
   const refreshToken = generateToken(
     {
+      id: userData.id,
       email: userData.email,
       role: userData.role,
     },
     config.jwt.refresh_token_secret as Secret,
     config.jwt.refresh_token_expires_in as string,
   );
-
-  // Fixed logging
 
   return {
     accessToken,
@@ -87,6 +87,7 @@ const refreshToken = async (token: string) => {
   }
   const accessToken = generateToken(
     {
+      id: userData?.id,
       email: userData?.email,
       role: userData?.role,
     },

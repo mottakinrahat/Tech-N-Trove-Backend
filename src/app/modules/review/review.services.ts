@@ -42,7 +42,7 @@ const createReview = async (
       rating: payload.rating,
       comment: payload.comment,
     },
-    include: { user: { select: { email: true, buyer: true } } },
+    include: { user: { select: { email: true, name: true, userInfo: { select: { profilePhoto: true } } } } },
   });
 };
 
@@ -61,7 +61,7 @@ const updateReview = async (
   return prisma.review.update({
     where: { id: reviewId },
     data: { ...payload },
-    include: { user: { select: { email: true, buyer: true } } },
+    include: { user: { select: { email: true, name: true, userInfo: { select: { profilePhoto: true } } } } },
   });
 };
 
@@ -97,7 +97,8 @@ const getReviewsByProduct = async (
         user: {
           select: {
             email: true,
-            buyer: { select: { name: true, profilePhoto: true } },
+            name: true,
+            userInfo: { select: { profilePhoto: true } },
           },
         },
       },
@@ -160,7 +161,8 @@ const getAllReviews = async (query: { page?: number; limit?: number }) => {
         user: {
           select: {
             email: true,
-            buyer: { select: { name: true, profilePhoto: true } },
+            name: true,
+            userInfo: { select: { profilePhoto: true } },
           },
         },
         product: { select: { id: true, name: true } },

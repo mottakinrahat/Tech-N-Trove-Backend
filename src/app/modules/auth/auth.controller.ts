@@ -1,9 +1,9 @@
 import { Request, Response } from "express";
 import { catchAsync } from "../../../helpers/trycatch";
-
 import { sendResponse } from "../../../helpers/sendResponse";
 import status from "http-status";
 import { authServices } from "./auth.service";
+import ApiError from "../../errors/apiError";
 
 const loginUser = catchAsync(async (req: Request, res: Response) => {
   const result = await authServices.loginUser(req.body);
@@ -23,19 +23,17 @@ const loginUser = catchAsync(async (req: Request, res: Response) => {
   });
 });
 const refreshToken = catchAsync(async (req: Request, res: Response) => {
-  const { refreshToken } = req.cookies;
-  const result = await authServices.refreshToken(refreshToken);
+  const token = req.cookies?.refreshToken || req.body?.refreshToken;
+  if (!token) {
+    throw new ApiError(status.BAD_REQUEST, "Refresh token is required");
+  }
+  const result = await authServices.refreshToken(token);
 
   sendResponse(res, {
     statusCode: status.OK,
     success: true,
     message: "Access token generated successfully",
     data: result,
-    // data:{
-    //     accessToken:result.accessToken,
-    //     needPasswordChange:result.needPasswordChange,
-
-    // }
   });
 });
 const changePassword = catchAsync(
